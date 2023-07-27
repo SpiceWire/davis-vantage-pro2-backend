@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="spicewire.davisinterface.View.ComsPanes">
+  <grid id="27dc6" binding="mainJPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="865" height="938"/>
+    </constraints>
+    <properties>
+      <minimumSize width="700" height="600"/>
+      <preferredSize width="700" height="600"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <tabbedpane id="3e657" binding="mainPane">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="700" height="600"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="c8807" layout-manager="GridLayoutManager" row-count="10" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="30" left="30" bottom="30" right="30"/>
+            <constraints>
+              <tabbedpane title="Com Settings"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="52505" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="106" height="16"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value="Com Port"/>
+                </properties>
+              </component>
+              <component id="5538f" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="106" height="16"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value="Baud Rate"/>
+                </properties>
+              </component>
+              <component id="bf431" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="106" height="16"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value="Stop Bits"/>
+                </properties>
+              </component>
+              <component id="81811" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="106" height="16"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value="Data Bits"/>
+                </properties>
+              </component>
+              <component id="ce87e" class="javax.swing.JComboBox" binding="cmbComPort">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <editable value="true"/>
+                </properties>
+              </component>
+              <component id="fd1ed" class="javax.swing.JComboBox" binding="cmbBaud">
+                <constraints>
+                  <grid row="1" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="1200"/>
+                    <item value="2400"/>
+                    <item value="4800"/>
+                    <item value="9600"/>
+                    <item value="19200"/>
+                    <item value="38400"/>
+                    <item value="57600"/>
+                    <item value="115200"/>
+                  </model>
+                  <selectedIndex value="4"/>
+                </properties>
+              </component>
+              <component id="a218a" class="javax.swing.JComboBox" binding="cmbStopBits">
+                <constraints>
+                  <grid row="2" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="0"/>
+                    <item value="1"/>
+                    <item value="1.5"/>
+                    <item value="2"/>
+                  </model>
+                  <selectedIndex value="1"/>
+                </properties>
+              </component>
+              <component id="50d50" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="106" height="16"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value="Read Timeout"/>
+                </properties>
+              </component>
+              <component id="97c84" class="javax.swing.JComboBox" binding="cmbReadTimeout">
+                <constraints>
+                  <grid row="5" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="0"/>
+                    <item value="10"/>
+                    <item value="100"/>
+                    <item value="1000"/>
+                    <item value="1500"/>
+                    <item value="2000"/>
+                    <item value="2500"/>
+                    <item value="3000"/>
+                  </model>
+                </properties>
+              </component>
+              <component id="4ad68" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="106" height="16"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value="Write Timeout"/>
+                  <toolTipText value="Note that time-based write timeouts are only available on Windows systems. There is no functionality to set a write timeout on other operating systems."/>
+                </properties>
+              </component>
+              <component id="94ae2" class="javax.swing.JComboBox" binding="cmbWriteTimeout">
+                <constraints>
+                  <grid row="6" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="0"/>
+                    <item value="10"/>
+                    <item value="100"/>
+                    <item value="1000"/>
+                    <item value="1500"/>
+                    <item value="2000"/>
+                    <item value="2500"/>
+                    <item value="3000"/>
+                  </model>
+                </properties>
+              </component>
+              <component id="f4604" class="javax.swing.JRadioButton" binding="rdo7DataBits">
+                <constraints>
+                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="7"/>
+                </properties>
+              </component>
+              <component id="32ba3" class="javax.swing.JButton" binding="applyButton" default-binding="true">
+                <constraints>
+                  <grid row="9" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Apply"/>
+                </properties>
+              </component>
+              <component id="55bf6" class="javax.swing.JButton" binding="refreshButton" default-binding="true">
+                <constraints>
+                  <grid row="9" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Refresh"/>
+                  <toolTipText value="Populates the Com Port dropdown list with available com ports."/>
+                </properties>
+              </component>
+              <component id="e1e06" class="javax.swing.JComboBox" binding="cmbParity">
+                <constraints>
+                  <grid row="4" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="No"/>
+                    <item value="Odd"/>
+                    <item value="Even"/>
+                    <item value="Mark"/>
+                    <item value="Space"/>
+                  </model>
+                </properties>
+              </component>
+              <vspacer id="f98a4">
+                <constraints>
+                  <grid row="8" column="2" row-span="1" col-span="2" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <component id="c19f4" class="javax.swing.JRadioButton" binding="rdo8DataBits">
+                <constraints>
+                  <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <selected value="true"/>
+                  <text value="8"/>
+                </properties>
+              </component>
+              <component id="ba01f" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Parity"/>
+                </properties>
+              </component>
+              <component id="6fe4b" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Timeout Mode"/>
+                  <toolTipText value="Time-based write timeouts are only available on Windows systems. There is no functionality to set a write timeout on other operating systems. Non-Windows operating systems only allow decisecond (1/10th of a second) granularity for all serial port timeouts."/>
+                </properties>
+              </component>
+              <component id="44c99" class="javax.swing.JComboBox" binding="cmbTimeoutMode">
+                <constraints>
+                  <grid row="7" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="Non-blocking"/>
+                    <item value="Write Blocking"/>
+                    <item value="Read Semi-blocking"/>
+                    <item value="Read Full-blocking"/>
+                    <item value="Scanner"/>
+                  </model>
+                  <selectedIndex value="2"/>
+                  <toolTipText value="The non-blocking mode specifies that corresponding readBytes(byte[],long) and writeBytes(byte[],long) calls will return immediately with any available data.&#10;&#10;The write-blocking mode specifies that a corresponding write call will block until all data bytes have been successfully written to the output serial device.&#10;&#10;The read semi-blocking mode specifies that a corresponding read call will block until either newReadTimeout milliseconds of inactivity have elapsed or at least 1 byte of data can be read.&#10;&#10;The full read-blocking mode specifies that a corresponding read call will block until either newReadTimeout milliseconds have elapsed since the start of the call or the total number of requested bytes can be returned.&#10;&#10;The Scanner mode is intended for use with the Java Scanner class for reading from the serial port. In this mode, manually specified timeouts are ignored to ensure compatibility with the Java specification."/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="9e606" layout-manager="GridLayoutManager" row-count="9" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Current Data"/>
+            </constraints>
+            <properties>
+              <visible value="false"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <hspacer id="435f">
+                <constraints>
+                  <grid row="7" column="0" row-span="1" col-span="2" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+              <component id="8607" class="javax.swing.JButton" binding="loopButton" default-binding="true">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="7" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Loop"/>
+                  <toolTipText value="Sends the specified number of LOOP packets, 1 every 2 seconds. Console sleeps between packets."/>
+                </properties>
+              </component>
+              <component id="b338b" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Console reply"/>
+                </properties>
+              </component>
+              <component id="73112" class="javax.swing.JTextField" binding="tfLoop">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value="1"/>
+                  <toolTipText value="Parameter is a decimal number. &lt;number of LOOP packets to send-decimal&gt;  Example: For the console to send 4 LOOP packets, enter 4."/>
+                </properties>
+              </component>
+              <component id="3bf1b" class="javax.swing.JTextField" binding="tfLPS">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <toolTipText value="Parameter is two decimals separated by a space. &lt;loop packet type bit mask-decimal&gt; &lt;number of packets to send-decimal&gt;  e.g. 3 4 will result in a request for 2 LOOP and 2 LOOP2 packets."/>
+                </properties>
+              </component>
+              <component id="99a86" class="javax.swing.JTextField" binding="tfPutRain">
+                <constraints>
+                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <toolTipText value="Parameter is a whole number. Sets the Yearly rainfall amount on the console. Example: to set the Yearly rain to 24.83 inches, enter 2483."/>
+                </properties>
+              </component>
+              <component id="8d44e" class="javax.swing.JTextField" binding="tfPutET">
+                <constraints>
+                  <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <toolTipText value="Parameter is a whole number. Sets the Yearly ET (Evapotranspiration) amount on the console. Example: to set the Yearly ET to 24.83 inches, enter 2483 here. "/>
+                </properties>
+              </component>
+              <component id="fc363" class="javax.swing.JButton" binding="LPSButton" default-binding="true">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="7" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="LPS"/>
+                  <toolTipText value="Sends the specified number of the different type LOOP packets, 1 every 2.5 seconds. It supports up to 8 different types of loop packets, with each bit maps to one type. So far only two types are supported, bit 0 for LOOP packet, bit 1 for LOOP2 packet. If both bits are set&#10;to 1's, the LOOP and the LOOP2 packet will be sent one after another. "/>
+                </properties>
+              </component>
+              <component id="81c9b" class="javax.swing.JButton" binding="hiLowsButton" default-binding="true">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="7" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="HiLows"/>
+                  <toolTipText value="Console sends all the current high/low data in a single 436 byte data block, plus 2 CRC bytes. No parameter info needed."/>
+                </properties>
+              </component>
+              <component id="8e5ed" class="javax.swing.JButton" binding="putRainButton" default-binding="true">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="7" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Put Rain"/>
+                  <toolTipText value="Sets the Yearly rainfall amount on the Vantage Console."/>
+                </properties>
+              </component>
+              <component id="2023d" class="javax.swing.JButton" binding="putETButton" default-binding="true">
+                <constraints>
+                  <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="7" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Put ET"/>
+                  <toolTipText value="Set the Yearly ET amount on the Vantage Console. &quot;ET&quot; means evapotranspiration.   Needs solar radiation sensor."/>
+                </properties>
+              </component>
+              <component id="ae7fe" class="javax.swing.JButton" binding="haltDataWakeUpButton" default-binding="true">
+                <constraints>
+                  <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Halt Data / Wake Up"/>
+                  <toolTipText value="Sends a carriage return to the console.  This will stop the console from sending more data if it is in a sending loop."/>
+                </properties>
+              </component>
+              <hspacer id="4f8fc">
+                <constraints>
+                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+              <component id="4b960" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="the parameter to the console."/>
+                </properties>
+              </component>
+              <component id="cc64b" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Click to send..."/>
+                </properties>
+              </component>
+              <component id="915d7" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Eval:"/>
+                </properties>
+              </component>
+              <component id="77376" class="javax.swing.JTextField" binding="tfEval">
+                <constraints>
+                  <grid row="8" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <dragEnabled value="false"/>
+                  <editable value="true"/>
+                  <text value=""/>
+                  <toolTipText value="Any error messages or success messages appear here. Blank is OK. "/>
+                </properties>
+              </component>
+              <hspacer id="92556">
+                <constraints>
+                  <grid row="8" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+              <component id="c25e9" class="javax.swing.JTextField" binding="tfNoParametersNeededTextField">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <editable value="false"/>
+                  <focusable value="false"/>
+                  <text value="0"/>
+                  <visible value="false"/>
+                </properties>
+              </component>
+              <component id="98a4b" class="javax.swing.JTextArea" binding="currentDataTextArea">
+                <constraints>
+                  <grid row="1" column="2" row-span="5" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="50"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <dragEnabled value="true"/>
+                  <editable value="false"/>
+                  <lineWrap value="true"/>
+                  <margin top="5" left="5" bottom="5" right="5"/>
+                  <text value=""/>
+                  <toolTipText value="Information from the console appears here."/>
+                  <wrapStyleWord value="true"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="4d977" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Console Tests"/>
+            </constraints>
+            <properties>
+              <minimumSize width="200" height="200"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <grid id="a8d7e" binding="pnlTestTextPanel" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="f8ea8" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Console Raw Reply"/>
+                    </properties>
+                  </component>
+                  <component id="63c24" class="javax.swing.JTextArea" binding="consoleRawTextArea">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="3ed08" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Console Friendly Reply"/>
+                    </properties>
+                  </component>
+                  <component id="2712f" class="javax.swing.JTextArea" binding="consoleFriendlyTextArea">
+                    <constraints>
+                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                </children>
+              </grid>
+              <grid id="558a0" binding="testButtonPanel" layout-manager="GridLayoutManager" row-count="9" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="20" left="20" bottom="20" right="20"/>
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="1" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="59d19" class="javax.swing.JButton" binding="testButton" default-binding="true">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Test"/>
+                    </properties>
+                  </component>
+                  <component id="d0a9c" class="javax.swing.JButton" binding="rxCheckButton" default-binding="true">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Rx Check"/>
+                    </properties>
+                  </component>
+                  <component id="52f2a" class="javax.swing.JButton" binding="rxTestButton" default-binding="true">
+                    <constraints>
+                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Rx Test"/>
+                    </properties>
+                  </component>
+                  <component id="17971" class="javax.swing.JButton" binding="versionButton" default-binding="true">
+                    <constraints>
+                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Version"/>
+                    </properties>
+                  </component>
+                  <component id="bb340" class="javax.swing.JButton" binding="receiversButton" default-binding="true">
+                    <constraints>
+                      <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Receivers"/>
+                    </properties>
+                  </component>
+                  <component id="a14dc" class="javax.swing.JButton" binding="nverButton" default-binding="true">
+                    <constraints>
+                      <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Nver"/>
+                    </properties>
+                  </component>
+                  <component id="2da4e" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Test Name"/>
+                    </properties>
+                  </component>
+                  <component id="65db2" class="javax.swing.JTextArea" binding="testDescriptionTextArea">
+                    <constraints>
+                      <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="0" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <editable value="false"/>
+                      <lineWrap value="true"/>
+                      <wrapStyleWord value="true"/>
+                    </properties>
+                  </component>
+                  <component id="d1c2e" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Test Description"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </grid>
+        </children>
+      </tabbedpane>
+    </children>
+  </grid>
+  <buttonGroups>
+    <group name="btnGpDataBits">
+      <member id="f4604"/>
+      <member id="c19f4"/>
+    </group>
+  </buttonGroups>
+</form>
