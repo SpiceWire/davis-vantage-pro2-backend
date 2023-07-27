@@ -1,7 +1,7 @@
 
 
 BEGIN TRANSACTION;
-DROP TABLE IF EXISTS station, record, alarms;
+DROP TABLE IF EXISTS station, record, alarm;
 
 CREATE TABLE station(
     station_id serial NOT NULL ,

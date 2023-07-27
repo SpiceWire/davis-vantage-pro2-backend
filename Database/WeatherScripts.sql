@@ -1,6 +1,6 @@
 
 BEGIN TRANSACTION;
-DROP TABLE IF EXISTS station, record, alarms;
+DROP TABLE IF EXISTS station, record, alarm;
 --ALTER TABLE record ADD COLUMN IF NOT EXISTS ten_min_wind_gust NUMERIC (5,2);
 SELECT outside_temperature, outside_humidity, wind_speed, wind_direction,
                 bar_trend, barometer, inside_temperature,inside_humidity,
