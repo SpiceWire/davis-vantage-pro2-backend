@@ -1,6 +1,8 @@
 package spicewire.davisinterface.Controller;
 
 import com.fazecast.jSerialComm.SerialPort;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import spicewire.davisinterface.Dao.JdbcWeatherRecord;
@@ -67,12 +69,13 @@ public class ConsoleController {
     private final char CARRIAGE_RETURN = (char) 13; //HEX D.
     private final char CANCEL = (char) 24; // HEX 18. Davis uses this with a bad CRC code
 
-
+    @Autowired
     public ConsoleController(Seriall serialModel, ComsPanes view, JdbcWeatherRecord jdbcWeatherRecord) {
         this.serialModel = serialModel;
         this.view = view;
         this.jdbcWeatherRecord = jdbcWeatherRecord;
         populateComPorts();
+        setComPortParameters();
         System.out.println("Console controller started.");
 //        runCurrentData(command.getLoop());
 //        runCurrentData(command.getLps());
@@ -80,12 +83,13 @@ public class ConsoleController {
 
     public void getCurrentWeather(){
         runCurrentData(command.getLoop());
-        try {
-            Thread.sleep(2000);
-        }
-         catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(2000);
+//            System.out.println("Console controller: sleeping for 2 seconds");
+//        }
+//         catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         runCurrentData(command.getLps());
     }
 

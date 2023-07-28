@@ -1,6 +1,8 @@
 package spicewire.davisinterface.Controller;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +15,7 @@ import spicewire.davisinterface.Model.DavisVP2;
 public class DavisVP2Controller {
     private static DavisVP2 davisVP2;
     private static BasicDataSource datasource;
+    @Autowired
     private ConsoleController consoleController;
 
     //    private RestTemplate restTemplate = new RestTemplate(); //This throws an error on run;
