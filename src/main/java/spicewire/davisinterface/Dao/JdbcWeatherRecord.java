@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-
+@Component
 public class JdbcWeatherRecord implements WeatherRecord {
     private LocalDate datestamp;
     private LocalTime timestamp;

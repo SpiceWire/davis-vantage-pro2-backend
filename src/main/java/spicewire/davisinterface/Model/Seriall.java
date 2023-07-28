@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-
+@Component
 public class Seriall {
  /*    Note:resetting the serial port settings forces a readSerial event.
      The SerialPort object has no constructors in the Fazecast.jSerialComm.SerialPort model.
@@ -21,16 +21,16 @@ public class Seriall {
 
     private StringBuilder rawData = new StringBuilder(); // raw data before CRC
     private static Integer delayTime = 1000; //delay between requests to the console in the event of a failed CRC
-    @Autowired
-    static SerialPort port;
+
+    static SerialPort port = selectSerialPort("COM6");
 
     //assigns serial port path from view selection passed from controller
     public String getComPortPath(int index) {
         return SerialPort.getCommPorts()[index].getSystemPortPath();
     }
-
-    public SerialPort selectSerialPort(String serialPortSystemPath) {
+    public static SerialPort selectSerialPort(String serialPortSystemPath) {
         return SerialPort.getCommPort("COM6"); //sets the SerialPort object
+
     }
 
     public static String getPortSettings(){

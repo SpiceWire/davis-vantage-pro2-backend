@@ -2,6 +2,7 @@ package spicewire.davisinterface.Controller;
 
 import com.fazecast.jSerialComm.SerialPort;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import spicewire.davisinterface.Dao.JdbcWeatherRecord;
 import spicewire.davisinterface.Model.Command;
 import spicewire.davisinterface.Model.Loop1Reading;
@@ -50,7 +51,7 @@ Live weather Data:
     numbers use 2's complement notation. CRC values are sent and received most significant byte
     first."
 */
-
+@Controller
 public class ConsoleController {
 
     private Seriall serialModel;
@@ -73,8 +74,8 @@ public class ConsoleController {
         this.jdbcWeatherRecord = jdbcWeatherRecord;
         populateComPorts();
         System.out.println("Console controller started.");
-        runCurrentData(command.getLoop());
-        runCurrentData(command.getLps());
+//        runCurrentData(command.getLoop());
+//        runCurrentData(command.getLps());
     }
 
     public void getCurrentWeather(){
