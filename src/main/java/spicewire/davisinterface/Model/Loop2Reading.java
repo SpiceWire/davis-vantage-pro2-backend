@@ -90,7 +90,7 @@ public class Loop2Reading implements LoopReading {
         this.barometricCalibrationNumber = setBarometricCalibrationNumber();
         this.barometricSensorRawReading = setBarometricSensorRawReading();
         jdbcWeatherRecord.createRecord(this);
-        System.out.println("Loop2 Reading object created. Inside temp is: " + getInsideTemperature());
+        System.out.println("Loop2Reading: Loop2 Reading object created. Inside temp is: " + getInsideTemperature());
         //todo additional parameters to be added later
 
     }
