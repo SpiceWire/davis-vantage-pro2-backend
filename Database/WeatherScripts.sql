@@ -6,8 +6,19 @@ SELECT outside_temperature, outside_humidity, wind_speed, wind_direction,
                 bar_trend, barometer, inside_temperature,inside_humidity,
                  forecast_icon, day_rain, storm_rain, rain_rate,
                  heat_index FROM record
-                WHERE for_export = 'TRUE' AND source = 'DavisVP2'
+                WHERE for_export = 'TRUE' AND data_source = 'DavisVP2L1'
                 ORDER BY entry DESC LIMIT 1
+
+SELECT
+    wind_chill, heat_index
+FROM
+    record
+WHERE
+    (for_export = 'TRUE' AND packet_type = 1)
+ORDER BY
+    entry DESC
+LIMIT
+    1
 
 
  INSERT INTO record (entry_date, entry_time, for_export, data_source, bar_trend,

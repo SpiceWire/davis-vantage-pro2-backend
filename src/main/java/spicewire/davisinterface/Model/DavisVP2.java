@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * It also contains the firmware number and firmware date.
  * It is planned that this class will also contain alarms.
  */
-
+@Component
 public class DavisVP2 {
     private static String versionNumber;
     private static String versionDate;

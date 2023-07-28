@@ -77,6 +77,16 @@ public class ConsoleController {
         runCurrentData(command.getLps());
     }
 
+    public void getCurrentWeather(){
+        runCurrentData(command.getLoop());
+        try {
+            Thread.sleep(2000);
+        }
+         catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        runCurrentData(command.getLps());
+    }
 
     public void listenerFromController() {  //adds listeners to objects in the view
         view.getApplyButton().addActionListener(new ActionListener() {

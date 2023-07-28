@@ -8,7 +8,7 @@ import spicewire.davisinterface.Dao.JdbcWeatherRecord;
 import spicewire.davisinterface.Model.DavisVP2;
 
 
-
+@RestController
 @RequestMapping("/davisvp2")//base path for handlers
 public class DavisVP2Controller {
     private static DavisVP2 davisVP2;
@@ -26,10 +26,12 @@ public class DavisVP2Controller {
 
     @RequestMapping(path = "", method = RequestMethod.GET)
     public DavisVP2.DisplayWeather getLastReadings(){
+        consoleController.getCurrentWeather();
         return new JdbcWeatherRecord(datasource).getDavisConsoleWeather();
     }
 
-    @RequestMapping(path = "/comportsettings", method = RequestMethod.GET)
+
+    @RequestMapping(path = "/portSettings", method = RequestMethod.GET)
     public String getComPortSettings(){
         return ConsoleController.getComPortSettings();
     }

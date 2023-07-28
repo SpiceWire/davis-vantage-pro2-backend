@@ -18,7 +18,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
     private LocalTime timestamp;
 
     private final JdbcTemplate jdbcTemplate;
-
+    DavisVP2.DisplayWeather showWeather = new DavisVP2.DisplayWeather();
     public JdbcWeatherRecord(DataSource datasource) {
         jdbcTemplate = new JdbcTemplate(datasource);
     }
@@ -28,15 +28,21 @@ public class JdbcWeatherRecord implements WeatherRecord {
     public DavisVP2.DisplayWeather getDavisConsoleWeather(){
         String consoleSqlLoop1 = "SELECT outside_temperature, outside_humidity, wind_speed, wind_direction, " +
                 "bar_trend, barometer, inside_temperature,inside_humidity," +
-                " forecast_icon, day_rain, storm_rain, rain_rate " +
+                " forecast_icon, day_rain, storm_rain, rain_rate, entry_date " +
                 " FROM record " +
-                "WHERE for_export = 'TRUE'  AND source = 'DavisVP2' " +
-                "ORDER DESC BY entry_serial LIMIT 1";
+                "WHERE for_export = 'TRUE'  AND data_source = 'DavisVP2L1' " +
+                "ORDER BY entry DESC LIMIT 1";
         String consoleSqlLoop2 = "SELECT wind_chill, heat_index from record WHERE (for_export = 'TRUE' AND " +
                 "packet_type = 1) ORDER BY entry DESC LIMIT 1 " ;
         SqlRowSet loop1Srs = jdbcTemplate.queryForRowSet(consoleSqlLoop1);
         SqlRowSet loop2Srs = jdbcTemplate.queryForRowSet(consoleSqlLoop2);
-        return mapRowToDavis(loop1Srs, loop2Srs);
+        while (loop1Srs.next()){
+            mapL1RowToDavis(loop1Srs);
+        }
+        while (loop2Srs.next()){
+            mapL2RowToDavis(loop2Srs);
+        }
+        return showWeather;
     }
 
     @Override
@@ -134,25 +140,27 @@ public class JdbcWeatherRecord implements WeatherRecord {
     }
 
 
-    private DavisVP2.DisplayWeather mapRowToDavis(SqlRowSet l1srs, SqlRowSet l2srs){
-        DavisVP2.DisplayWeather showWeather = new DavisVP2.DisplayWeather();
-        showWeather.setBarometer(l1srs.getInt("barometer"));
+    private void mapL1RowToDavis(SqlRowSet l1srs){
+        showWeather.setBarometer(l1srs.getDouble("barometer"));
         showWeather.setBarTrend(l1srs.getInt("bar_trend"));
         showWeather.setDayRain(l1srs.getDouble("day_rain"));
         showWeather.setForecastIcon(l1srs.getInt("forecast_icon"));
-        showWeather.setHeatIndex(l2srs.getInt("heat_index"));
         showWeather.setInsideHumidity(l1srs.getInt("inside_humidity"));
         showWeather.setInsideTemperature(l1srs.getDouble( "inside_temperature"));
         showWeather.setOutsideHumidity(l1srs.getInt("outside_humidity"));
         showWeather.setOutsideTemperature(l1srs.getDouble("outside_temperature"));
         showWeather.setRainRate(l1srs.getDouble("rain_rate"));
         showWeather.setStormRain(l1srs.getDouble("storm_rain"));
-        showWeather.setWindChill(l2srs.getInt("wind_chill"));
         showWeather.setWindSpeed(l1srs.getInt("wind_speed"));
         showWeather.setWindDirection(l1srs.getInt("wind_direction"));
-        return showWeather;
+        System.out.println("date: " + l1srs.getDate("entry_date"));
+
     }
 
+    private void mapL2RowToDavis(SqlRowSet l2srs){
+        showWeather.setHeatIndex(l2srs.getInt("heat_index"));
+        showWeather.setWindChill(l2srs.getInt("wind_chill"));
+    }
 /*    Vars:
 
     entry_date,
