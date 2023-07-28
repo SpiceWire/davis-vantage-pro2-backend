@@ -25,6 +25,7 @@ public class DavisinterfaceApplication extends JFrame {
 	public BasicDataSource dataSource() {
 		return new BasicDataSource();}
 
+
 //	@Configuration
 //			public class databaseConfig {
 //
@@ -58,7 +59,8 @@ public class DavisinterfaceApplication extends JFrame {
 //	DavisVP2Controller davisVP2Controller = new DavisVP2Controller(davisVP2, dataSource);
         //consoleController.listenerFromController();
 
-	private void createFrame (){
+	private void createFrame() {
+		System.out.println("frame called on start");
 		JFrame frame= new JFrame("Settings");
 		frame.setContentPane(view.getPanelMainJPanel());
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

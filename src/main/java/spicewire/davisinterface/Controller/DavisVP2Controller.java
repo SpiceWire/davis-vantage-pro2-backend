@@ -23,6 +23,7 @@ public class DavisVP2Controller {
 
     }
 
+
     @RequestMapping(path = "", method = RequestMethod.GET)
     public DavisVP2.DisplayWeather getLastReadings(){
         return new JdbcWeatherRecord(datasource).getDavisConsoleWeather();
