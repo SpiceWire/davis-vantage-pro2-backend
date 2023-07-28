@@ -8,7 +8,7 @@ import spicewire.davisinterface.Dao.JdbcWeatherRecord;
 import spicewire.davisinterface.Model.DavisVP2;
 
 
-@RestController
+
 @RequestMapping("/davisvp2")//base path for handlers
 public class DavisVP2Controller {
     private static DavisVP2 davisVP2;

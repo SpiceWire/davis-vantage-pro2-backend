@@ -2,6 +2,7 @@ package spicewire.davisinterface.Dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 import spicewire.davisinterface.Model.DavisVP2;
 import spicewire.davisinterface.Model.Loop1Reading;
 import spicewire.davisinterface.Model.Loop2Reading;

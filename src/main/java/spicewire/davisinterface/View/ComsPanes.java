@@ -1,5 +1,7 @@
 package spicewire.davisinterface.View;
 
+import org.springframework.stereotype.Component;
+
 import javax.swing.*;
 
 

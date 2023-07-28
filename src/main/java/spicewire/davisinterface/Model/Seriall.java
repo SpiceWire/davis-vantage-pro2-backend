@@ -2,6 +2,9 @@ package spicewire.davisinterface.Model;
 
 
 import com.fazecast.jSerialComm.SerialPort;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import spicewire.davisinterface.Services.DataProcessor;
 
 import java.io.IOException;
@@ -18,7 +21,7 @@ public class Seriall {
 
     private StringBuilder rawData = new StringBuilder(); // raw data before CRC
     private static Integer delayTime = 1000; //delay between requests to the console in the event of a failed CRC
-
+    @Autowired
     static SerialPort port;
 
     //assigns serial port path from view selection passed from controller
