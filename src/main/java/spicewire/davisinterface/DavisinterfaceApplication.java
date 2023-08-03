@@ -1,13 +1,17 @@
 package spicewire.davisinterface;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import spicewire.davisinterface.View.ComsPanes;
-
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import javax.swing.*;
 
 
@@ -25,6 +29,11 @@ public class DavisinterfaceApplication extends JFrame {
 	public BasicDataSource dataSource() {
 		return new BasicDataSource();}
 
+//	@Configuration
+//	public void addCorsMappings(CorsRegistry registry) {
+//				registry.addMapping("/davisvp2").allowedOrigins("http://localhost:9000/");
+//
+//	}
 
 //	@Configuration
 //			public class databaseConfig {
