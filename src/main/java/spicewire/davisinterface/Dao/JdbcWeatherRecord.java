@@ -29,8 +29,8 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "bar_trend, barometer, inside_temperature,inside_humidity," +
                 " forecast_icon, day_rain, storm_rain, rain_rate " +
                 " FROM record " +
-                "WHERE for_export = 'TRUE'  AND source = 'DavisVP2' " +
-                "ORDER DESC BY entry_serial LIMIT 1";
+                "WHERE for_export = 'TRUE'  AND data_source = 'DavisVP2' " +
+                "ORDER BY entry DESC LIMIT 1";
         String consoleSqlLoop2 = "SELECT wind_chill, heat_index from record WHERE (for_export = 'TRUE' AND " +
                 "packet_type = 1) ORDER BY entry DESC LIMIT 1 " ;
         SqlRowSet loop1Srs = jdbcTemplate.queryForRowSet(consoleSqlLoop1);
