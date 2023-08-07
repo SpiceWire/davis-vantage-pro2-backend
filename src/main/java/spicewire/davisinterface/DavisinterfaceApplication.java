@@ -8,11 +8,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import spicewire.davisinterface.View.ComsPanes;
 
+import javax.sql.DataSource;
 import javax.swing.*;
 
 
 @SpringBootApplication
-@ComponentScan
+
 public class DavisinterfaceApplication extends JFrame {
 
 	public static void main(String[] args) {
@@ -20,10 +21,9 @@ public class DavisinterfaceApplication extends JFrame {
 	}
 
 
-	@Bean
+
 	@ConfigurationProperties(prefix="spring.datasource")
-	public BasicDataSource dataSource() {
-		return new BasicDataSource();}
+	public DataSource dataSource() { return dataSource();}
 
 //	@Configuration
 //			public class databaseConfig {
