@@ -1,5 +1,6 @@
 package spicewire.davisinterface.Dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
@@ -20,6 +21,8 @@ public class JdbcWeatherRecord implements WeatherRecord {
 
     private final JdbcTemplate jdbcTemplate;
     DavisVP2.DisplayWeather showWeather = new DavisVP2.DisplayWeather();
+
+    @Autowired
     public JdbcWeatherRecord(DataSource datasource) {
         jdbcTemplate = new JdbcTemplate(datasource);
     }

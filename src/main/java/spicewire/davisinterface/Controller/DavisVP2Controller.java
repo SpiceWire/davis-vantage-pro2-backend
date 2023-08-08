@@ -14,6 +14,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import spicewire.davisinterface.Dao.JdbcWeatherRecord;
 import spicewire.davisinterface.Model.DavisVP2;
 
+import javax.sql.DataSource;
+
 @RestController
 @CrossOrigin( maxAge = 3600, origins = "*", allowedHeaders = "*")
 @RequestMapping("/davisvp2")//base path for handlers
@@ -23,12 +25,12 @@ public class DavisVP2Controller implements WebMvcConfigurer {
 //        registry.addMapping("/**");
 //    }
     private static DavisVP2 davisVP2;
-    private static BasicDataSource datasource;
+    private static DataSource datasource;
     @Autowired
     private ConsoleController consoleController;
 
 
-    public DavisVP2Controller(DavisVP2 davisVP2, BasicDataSource dataSource) {
+    public DavisVP2Controller(DavisVP2 davisVP2, DataSource dataSource) {
         DavisVP2Controller.davisVP2 = davisVP2;
         DavisVP2Controller.datasource = dataSource;
     }

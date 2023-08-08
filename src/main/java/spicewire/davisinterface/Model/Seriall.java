@@ -29,7 +29,7 @@ public class Seriall {
         return SerialPort.getCommPorts()[index].getSystemPortPath();
     }
     public static SerialPort selectSerialPort(String serialPortSystemPath) {
-        return SerialPort.getCommPort("COM6"); //sets the SerialPort object
+        return SerialPort.getCommPort("COM4"); //sets the SerialPort object
 
     }
 
