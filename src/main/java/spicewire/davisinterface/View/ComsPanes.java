@@ -1,11 +1,12 @@
 package spicewire.davisinterface.View;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 
 
-
+@Component
 public class ComsPanes {
 
     private JPanel mainJPanel;

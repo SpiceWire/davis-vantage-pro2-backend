@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import javax.sql.DataSource;
+
+import org.springframework.stereotype.Component;
 import spicewire.davisinterface.View.ComsPanes;
 
 import javax.swing.*;
@@ -23,9 +25,9 @@ public class DavisinterfaceApplication extends JFrame {
 	}
 
 
-
+	@Bean
 	@ConfigurationProperties(prefix="spring.datasource")
-	public DataSource dataSource(){
+	public BasicDataSource dataSource(){
 		return new BasicDataSource();
 		}
 
@@ -58,6 +60,7 @@ public class DavisinterfaceApplication extends JFrame {
 
 
 //	Seriall serialModel = new Seriall();
+	@Autowired
 	ComsPanes view = new spicewire.davisinterface.View.ComsPanes();
 /*	BasicDataSource dataSource = new BasicDataSource();
 
