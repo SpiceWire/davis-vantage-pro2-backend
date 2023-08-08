@@ -69,7 +69,7 @@ public class ConsoleController {
     private final char CARRIAGE_RETURN = (char) 13; //HEX D.
     private final char CANCEL = (char) 24; // HEX 18. Davis uses this with a bad CRC code
 
-    @Autowired
+
     public ConsoleController(Seriall serialModel, ComsPanes view, JdbcWeatherRecord jdbcWeatherRecord) {
         this.serialModel = serialModel;
         this.view = view;

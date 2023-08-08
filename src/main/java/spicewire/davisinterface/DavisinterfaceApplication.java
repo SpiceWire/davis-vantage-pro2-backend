@@ -7,16 +7,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.sql.DataSource;
 import spicewire.davisinterface.View.ComsPanes;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
 import javax.swing.*;
 
 
 @SpringBootApplication
-@ComponentScan
+
 public class DavisinterfaceApplication extends JFrame {
 
 	public static void main(String[] args) {
@@ -24,10 +23,14 @@ public class DavisinterfaceApplication extends JFrame {
 	}
 
 
-	@Bean
+
 	@ConfigurationProperties(prefix="spring.datasource")
-	public BasicDataSource dataSource() {
-		return new BasicDataSource();}
+	public DataSource dataSource(){
+		return new BasicDataSource();
+		}
+
+//	public BasicDataSource dataSource() {
+//		return new BasicDataSource();}
 
 //	@Configuration
 //	public void addCorsMappings(CorsRegistry registry) {
@@ -55,7 +58,7 @@ public class DavisinterfaceApplication extends JFrame {
 
 
 //	Seriall serialModel = new Seriall();
-	ComsPanes view = new ComsPanes();
+	ComsPanes view = new spicewire.davisinterface.View.ComsPanes();
 /*	BasicDataSource dataSource = new BasicDataSource();
 
             datasource.setUrl("jdbc:postgresql://localhost:5432/WeatherRecordsDB");
