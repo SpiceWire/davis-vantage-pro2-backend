@@ -134,6 +134,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
 
 
     private DavisVP2.DisplayWeather mapRowToDavis(SqlRowSet l1srs, SqlRowSet l2srs){
+        System.out.println("JDBC: map row to davis called");
         DavisVP2.DisplayWeather showWeather = new DavisVP2.DisplayWeather();
         showWeather.setBarometer(l1srs.getInt("barometer"));
         showWeather.setBarTrend(l1srs.getInt("bar_trend"));

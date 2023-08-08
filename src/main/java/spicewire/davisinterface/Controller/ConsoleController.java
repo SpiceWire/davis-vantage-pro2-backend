@@ -224,7 +224,7 @@ public class ConsoleController {
             stopbits = view.getStopBits();
             databits = view.getDataBits();
             comPortIndex = view.getComPortIndex();
-            comPortName = "COM6";
+            comPortName = "COM4";
 
             if (comPortName.equalsIgnoreCase(NO_COM_PORTS_FOUND)) {
                 //System.out.println("No port is selected.");

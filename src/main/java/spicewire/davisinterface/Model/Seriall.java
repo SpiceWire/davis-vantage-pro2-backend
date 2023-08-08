@@ -27,7 +27,8 @@ public class Seriall {
     }
 
     public SerialPort selectSerialPort(String serialPortSystemPath) {
-        return SerialPort.getCommPort("COM6"); //sets the SerialPort object
+        System.out.println("Seriall: serial port set");
+        return SerialPort.getCommPort("COM4"); //sets the SerialPort object
     }
 
     public static String getPortSettings(){

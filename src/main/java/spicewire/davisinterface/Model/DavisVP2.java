@@ -29,9 +29,9 @@ public class DavisVP2 {
         DavisVP2.versionDate = versionDate;
     }
 
-    public static DavisVP2 davisVP2(){
+    /*public static DavisVP2 davisVP2(){
         return null;
-    }
+    }*/
 
     /**
      * This subclass contains variables necessary to emulate the display of the Vantage Pro 2 console.
