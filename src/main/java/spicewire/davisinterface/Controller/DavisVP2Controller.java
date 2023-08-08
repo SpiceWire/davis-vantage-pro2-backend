@@ -26,7 +26,7 @@ public class DavisVP2Controller implements WebMvcConfigurer {
 //    }
     private static DavisVP2 davisVP2;
     private static DataSource datasource;
-    @Autowired
+
     private ConsoleController consoleController;
 
 

@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-@Component
+
 public class Seriall {
  /*    Note:resetting the serial port settings forces a readSerial event.
      The SerialPort object has no constructors in the Fazecast.jSerialComm.SerialPort model.

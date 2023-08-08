@@ -53,7 +53,7 @@ Live weather Data:
     numbers use 2's complement notation. CRC values are sent and received most significant byte
     first."
 */
-@Controller
+
 public class ConsoleController {
 
     private Seriall serialModel;

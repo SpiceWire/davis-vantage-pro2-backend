@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Component
+
 public class JdbcWeatherRecord implements WeatherRecord {
     private LocalDate datestamp;
     private LocalTime timestamp;
@@ -22,7 +22,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
     private final JdbcTemplate jdbcTemplate;
     DavisVP2.DisplayWeather showWeather = new DavisVP2.DisplayWeather();
 
-    @Autowired
+
     public JdbcWeatherRecord(DataSource datasource) {
         jdbcTemplate = new JdbcTemplate(datasource);
     }
