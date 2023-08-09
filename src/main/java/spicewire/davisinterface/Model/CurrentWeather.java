@@ -27,7 +27,7 @@ public class CurrentWeather {
     private Integer twoMinAvgWindSpeed;
     private Double tenMinuteWindGust;
     private Integer windDirectionForTheTenMinuteWindGust;
-    private Integer dewPoInteger;
+    private Integer dewPoint;
     private Integer thswIndex;
     private Double extraTemperature1;
     private Double extraTemperature2;
@@ -60,10 +60,16 @@ public class CurrentWeather {
     private Double soilMoisture2;
     private Double soilMoisture3;
     private Double soilMoisture4;
-    private Double leafWetness1;
-    private Double leafWetness2;
-    private Double leafWetness3;
-    private Double leafWetness4;
+    private Integer leafWetness1;
+    private Integer leafWetness2;
+    private Integer leafWetness3;
+    private Integer leafWetness4;
+    private Double dayET;
+    private Double monthET;
+    private Double yearET;
+    private Double lastFifteenMinRain;
+    private Double lastHourRain;
+    private Double last24HourRain;
 
 
 
@@ -92,6 +98,54 @@ public class CurrentWeather {
         this.tenMinuteWindGust = tenMinuteWindGust;
     }
 
+    public Double getDayET() {
+        return dayET;
+    }
+
+    public void setDayET(Double dayET) {
+        this.dayET = dayET;
+    }
+
+    public Double getMonthET() {
+        return monthET;
+    }
+
+    public void setMonthET(Double monthET) {
+        this.monthET = monthET;
+    }
+
+    public Double getYearET() {
+        return yearET;
+    }
+
+    public void setYearET(Double yearET) {
+        this.yearET = yearET;
+    }
+
+    public Double getLastFifteenMinRain() {
+        return lastFifteenMinRain;
+    }
+
+    public void setLastFifteenMinRain(Double lastFifteenMinRain) {
+        this.lastFifteenMinRain = lastFifteenMinRain;
+    }
+
+    public Double getLastHourRain() {
+        return lastHourRain;
+    }
+
+    public void setLastHourRain(Double lastHourRain) {
+        this.lastHourRain = lastHourRain;
+    }
+
+    public Double getLast24HourRain() {
+        return last24HourRain;
+    }
+
+    public void setLast24HourRain(Double last24HourRain) {
+        this.last24HourRain = last24HourRain;
+    }
+
     public Integer getTenMinAvgWindSpeed() {
         return tenMinAvgWindSpeed;
     }
@@ -116,12 +170,12 @@ public class CurrentWeather {
         this.windDirectionForTheTenMinuteWindGust = windDirectionForTheTenMinuteWindGust;
     }
 
-    public Integer getDewPoInteger() {
-        return dewPoInteger;
+    public Integer getDewPoint() {
+        return dewPoint;
     }
 
-    public void setDewPoInteger(Integer dewPoInteger) {
-        this.dewPoInteger = dewPoInteger;
+    public void setDewPoint(Integer dewPoint) {
+        this.dewPoint = dewPoint;
     }
 
     public Integer getThswIndex() {
@@ -380,35 +434,35 @@ public class CurrentWeather {
         this.soilMoisture4 = soilMoisture4;
     }
 
-    public Double getLeafWetness1() {
+    public Integer getLeafWetness1() {
         return leafWetness1;
     }
 
-    public void setLeafWetness1(Double leafWetness1) {
+    public void setLeafWetness1(Integer leafWetness1) {
         this.leafWetness1 = leafWetness1;
     }
 
-    public Double getLeafWetness2() {
+    public Integer getLeafWetness2() {
         return leafWetness2;
     }
 
-    public void setLeafWetness2(Double leafWetness2) {
+    public void setLeafWetness2(Integer leafWetness2) {
         this.leafWetness2 = leafWetness2;
     }
 
-    public Double getLeafWetness3() {
+    public Integer getLeafWetness3() {
         return leafWetness3;
     }
 
-    public void setLeafWetness3(Double leafWetness3) {
+    public void setLeafWetness3(Integer leafWetness3) {
         this.leafWetness3 = leafWetness3;
     }
 
-    public Double getLeafWetness4() {
+    public Integer getLeafWetness4() {
         return leafWetness4;
     }
 
-    public void setLeafWetness4(Double leafWetness4) {
+    public void setLeafWetness4(Integer leafWetness4) {
         this.leafWetness4 = leafWetness4;
     }
 

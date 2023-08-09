@@ -68,10 +68,21 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "WHERE for_export = 'TRUE'  AND data_source = 'DavisVP2L1' " +
                 "ORDER BY entry DESC LIMIT 1";
         String consoleSqlLoop2 = "SELECT  " +
-                "wind_direction, ten_min_avg_wind_speed, two_min_avg_wind_speed, ten_min_wind_gust, wind_direction_for_the_ten_minute_wind_gust, " +
+                "two_min_avg_wind_speed, ten_min_wind_gust, wind_direction_for_the_ten_minute_wind_gust, " +
                 "dew_point, heat_index, wind_chill, thsw_index, " +
-                "last_fifteen_min_rain, last_hour_rain, day_ET, last_24_hour_rain";
-
+                "last_fifteen_min_rain, last_hour_rain, last_24_hour_rain " +
+                "FROM record " +
+                "WHERE for_export = 'TRUE'  AND data_source = 'DavisVP2L2' " +
+                "ORDER BY entry DESC LIMIT 1";
+        SqlRowSet loop1Srs = jdbcTemplate.queryForRowSet(consoleSqlLoop1);
+        SqlRowSet loop2Srs = jdbcTemplate.queryForRowSet(consoleSqlLoop2);
+        while (loop1Srs.next()){
+            mapL1RowToDavis(loop1Srs);
+        }
+        while (loop2Srs.next()){
+            mapL2RowToDavis(loop2Srs);
+        }
+        return currentWeather;
     }
 
 
@@ -171,26 +182,86 @@ public class JdbcWeatherRecord implements WeatherRecord {
 
 
     private void mapL1RowToDavis(SqlRowSet l1srs){
-        currentWeather.setBarometer(l1srs.getDouble("barometer"));
         currentWeather.setBarTrend(l1srs.getInt("bar_trend"));
-        currentWeather.setDayRain(l1srs.getDouble("day_rain"));
-        currentWeather.setForecastIcon(l1srs.getInt("forecast_icon"));
-        currentWeather.setInsideHumidity(l1srs.getInt("inside_humidity"));
+        currentWeather.setBarometer(l1srs.getDouble("barometer"));
         currentWeather.setInsideTemperature(l1srs.getDouble( "inside_temperature"));
-        currentWeather.setOutsideHumidity(l1srs.getInt("outside_humidity"));
-        currentWeather.setOutsideTemperature(l1srs.getDouble("outside_temperature"));
-        currentWeather.setRainRate(l1srs.getDouble("rain_rate"));
-        currentWeather.setStormRain(l1srs.getDouble("storm_rain"));
-        currentWeather.setWindSpeed(l1srs.getInt("wind_speed"));
-        currentWeather.setWindDirection(l1srs.getInt("wind_direction"));
-        System.out.println("date: " + l1srs.getDate("entry_date"));
+        currentWeather.setInsideHumidity(l1srs.getInt("inside_humidity"));
 
+        currentWeather.setOutsideTemperature(l1srs.getDouble("outside_temperature"));
+        currentWeather.setWindSpeed(l1srs.getInt("wind_speed"));
+        currentWeather.setTenMinAvgWindSpeed(l1srs.getInt("ten_min_avg_wind_speed"));
+        currentWeather.setWindDirection(l1srs.getInt("wind_direction"));
+        currentWeather.setExtraTemperature1(l1srs.getDouble("extra_temperature1"));
+
+        currentWeather.setExtraTemperature2(l1srs.getDouble("extra_temperature2"));
+        currentWeather.setExtraTemperature3(l1srs.getDouble("extra_temperature3"));
+        currentWeather.setExtraTemperature4(l1srs.getDouble("extra_temperature4"));
+        currentWeather.setExtraTemperature5(l1srs.getDouble("extra_temperature5"));
+        currentWeather.setExtraTemperature6(l1srs.getDouble("extra_temperature6"));
+
+        currentWeather.setExtraTemperature7(l1srs.getDouble("extra_temperature7"));
+        currentWeather.setSoilTemperature1(l1srs.getDouble("soil_temperature1"));
+        currentWeather.setSoilTemperature2(l1srs.getDouble("soil_temperature2"));
+        currentWeather.setSoilTemperature3(l1srs.getDouble("soil_temperature3"));
+        currentWeather.setSoilTemperature4(l1srs.getDouble("soil_temperature4"));
+
+        currentWeather.setLeafTemperature1(l1srs.getDouble("leaf_temperature1"));
+        currentWeather.setLeafTemperature2(l1srs.getDouble("leaf_temperature2"));
+        currentWeather.setLeafTemperature3(l1srs.getDouble("leaf_temperature3"));
+        currentWeather.setLeafTemperature4(l1srs.getDouble("leaf_temperature4"));
+        currentWeather.setOutsideHumidity(l1srs.getInt("outside_humidity"));
+
+        currentWeather.setExtraHumidity1(l1srs.getInt("extra_humidity1"));
+        currentWeather.setExtraHumidity2(l1srs.getInt("extra_humidity2"));
+        currentWeather.setExtraHumidity3(l1srs.getInt("extra_humidity3"));
+        currentWeather.setExtraHumidity4(l1srs.getInt("extra_humidity4"));
+        currentWeather.setExtraHumidity5(l1srs.getInt("extra_humidity5"));
+
+        currentWeather.setExtraHumidity6(l1srs.getInt("extra_humidity6"));
+        currentWeather.setExtraHumidity7(l1srs.getInt("extra_humidity7"));
+        currentWeather.setRainRate(l1srs.getDouble("rain_rate"));
+        currentWeather.setUv(l1srs.getInt("uv"));
+        currentWeather.setSolarRadiation(l1srs.getInt("solar_radiation"));
+
+        currentWeather.setStormRain(l1srs.getDouble("storm_rain"));
+        currentWeather.setStartDateOfCurrentStorm(l1srs.getDate("start_date_of_current_storm").toLocalDate());
+        currentWeather.setDayRain(l1srs.getDouble("day_rain"));
+        currentWeather.setMonthRain(l1srs.getDouble("month_rain"));
+        currentWeather.setYearRain(l1srs.getDouble("year_rain"));
+
+        currentWeather.setDayET(l1srs.getDouble("day_ET"));
+        currentWeather.setMonthET(l1srs.getDouble("month_ET"));
+        currentWeather.setYearET(l1srs.getDouble("year_ET"));
+        currentWeather.setSoilMoisture1(l1srs.getDouble("soilMoisture1"));
+        currentWeather.setSoilMoisture2(l1srs.getDouble("soilMoisture2"));
+
+        currentWeather.setSoilMoisture3(l1srs.getDouble("soilMoisture3"));
+        currentWeather.setSoilMoisture4(l1srs.getDouble("soilMoisture4"));
+        currentWeather.setLeafWetness1(l1srs.getInt("leaf_wetness1"));
+        currentWeather.setLeafWetness2(l1srs.getInt("leaf_wetness2"));
+        currentWeather.setLeafWetness3(l1srs.getInt("leaf_wetness3"));
+
+        currentWeather.setLeafWetness4(l1srs.getInt("leaf_wetness4"));
+        currentWeather.setForecastIcon(l1srs.getInt("forecast_icon"));
+
+        System.out.println("l1srs date: " + l1srs.getDate("entry_date"));
     }
 
     private void mapL2RowToDavis(SqlRowSet l2srs){
+        currentWeather.setTwoMinAvgWindSpeed(l2srs.getInt("two_min_avg_wind_speed"));
+        currentWeather.setTenMinuteWindGust(l2srs.getDouble("ten_min_wind_gust"));
+        currentWeather.setWindDirectionForTheTenMinuteWindGust(l2srs.getInt("wind_direction_for_the_ten_minute_wind_gust"));
+
+        currentWeather.setDewPoint(l2srs.getInt("dew_point"));
         currentWeather.setHeatIndex(l2srs.getInt("heat_index"));
         currentWeather.setWindChill(l2srs.getInt("wind_chill"));
+        currentWeather.setThswIndex(l2srs.getInt("thsw_index"));
+
+        currentWeather.setLastFifteenMinRain(l2srs.getDouble("last_fifteen_min_rain"));
+        currentWeather.setLastHourRain(l2srs.getDouble("last_hour_rain"));
+        currentWeather.setLast24HourRain(l2srs.getDouble("last_24_hour_rain"));
     }
+
 /*    Vars:
 
     entry_date,
