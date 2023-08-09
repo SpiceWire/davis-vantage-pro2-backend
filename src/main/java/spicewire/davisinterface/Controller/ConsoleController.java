@@ -2,9 +2,6 @@ package spicewire.davisinterface.Controller;
 
 import com.fazecast.jSerialComm.SerialPort;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import spicewire.davisinterface.Dao.JdbcWeatherRecord;
 import spicewire.davisinterface.Model.Command;
 import spicewire.davisinterface.Model.Loop1Reading;
@@ -82,7 +79,7 @@ public class ConsoleController {
     }
 
     public void getCurrentWeather(){
-        runCurrentData(command.getLoop());
+        getSerialData(command.getLoop());
 //        try {
 //            Thread.sleep(2000);
 //            System.out.println("Console controller: sleeping for 2 seconds");
@@ -90,79 +87,10 @@ public class ConsoleController {
 //         catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
-        runCurrentData(command.getLps());
+        getSerialData(command.getLps());
     }
+        //todo transfer these to the coms view?
 
-    public void listenerFromController() {  //adds listeners to objects in the view
-        view.getApplyButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setComPortParameters();
-            }
-        });
-        view.getRefreshButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                populateComPorts();
-            }
-        });
-        view.getLoopButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                checkIfComPortParametersAreSet();
-                if (comPortParametersAreSet) {
-                    runCurrentData(command.getLoop());
-                }
-            }
-        });
-        view.getLPSButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                checkIfComPortParametersAreSet();
-                if (comPortParametersAreSet) {
-                    runCurrentData(command.getLps());
-                }
-            }
-        });
-        view.getTestButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                runConsoleTest(command.getTest());
-            }
-        });
-        view.getRxCheckButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                runConsoleTest(command.getRxCheck());
-            }
-        });
-        view.getRxTestButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                runConsoleTest(command.getRxTest());
-            }
-        });
-        view.getVersionButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                runConsoleTest(command.getVer());
-            }
-        });
-        view.getNverButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                runConsoleTest(command.getNver());
-            }
-        });
-        view.getReceiversButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                runConsoleTest(command.getReceivers());
-            }
-        });
-
-
-    }
 
     //This method handles all console testing commands: TEST, RXCHECK, RXTEST, VER, RECEIVERS, NVER
     private void runConsoleTest(Command command) {
@@ -174,23 +102,58 @@ public class ConsoleController {
         view.setConsoleRawTextArea(DataProcessor.getSerialData());
     }
 
-    //This method handles current data commands: LOOP, LPS
-    private void runCurrentData(Command command) {
+    /**
+     * Sends a command to the Davis console and returns the sanitized and validated
+     * serial data it generates. It can be used with LOOP and LPS commands before making a LOOP record.
+     *
+     * @param command  that generates serial data
+     * @return String from DataProcessor
+     */
+    private String getSerialData(Command command) {
         sendCommandToConsole(command);
-        view.setCurrentDataTextArea(DataProcessor.getSerialData());
-        if (DataProcessor.getSerialData().length() > 0) {
-            if (command.getWord().equalsIgnoreCase("LOOP")) {
-                new Loop1Reading(DataProcessor.getSerialData(), jdbcWeatherRecord);
-            } else if (command.getWord().equalsIgnoreCase("LPS")) {
-                new Loop2Reading(DataProcessor.getSerialData(), jdbcWeatherRecord);
+        return DataProcessor.getSerialData();
+    }
+
+    /**
+     * Creates a JDBC record of a Current Data command (LOOP or LPS) using
+     * new serial port data from the DataProcessor.
+     *
+     * @param command LOOP or LPS
+     */
+    private void createLoopRecord(Command command) {
+        if (!confirmCommmandClass(command, 2)) {
+            System.out.println("Internal error. Wrong command sent.");
+        } else {
+            getSerialData(command);
+            if (DataProcessor.getSerialData().length() > 0) {
+                if (command.getWord().equalsIgnoreCase("LOOP")) {
+                    new Loop1Reading(DataProcessor.getSerialData(), jdbcWeatherRecord);
+                } else if (command.getWord().equalsIgnoreCase("LPS")) {
+                    new Loop2Reading(DataProcessor.getSerialData(), jdbcWeatherRecord);
+                }
             }
         }
     }
-
+//view.setCurrentDataTextArea(DataProcessor.getSerialData());
     public void sendCommandToConsole(Command command) {
         serialModel.sendCommand(command, true);
     }
 
+    /**
+     * Confirms that a command is the correct type for the method being called.
+     * Command types: 1=Testing  2=Current Data  3=Download  4=EEPROM 5=Calibration 6=Clearing  7= Configuration
+     *  (Categorized in Davis Serial Communication Reference Manual)
+     * @param command
+     * @param commandType
+     * @return
+     */
+    private boolean confirmCommmandClass (Command command, int commandType){
+        return command.getType()==commandType;
+    }
+
+    /**
+     * Sets default timeouts for the serial port read/write.
+     */
     private void setTimeouts() {
         int timeoutMode = 0;
         int writeTimeout = 0;
@@ -274,7 +237,76 @@ public class ConsoleController {
         view.setTfEval(evalMessage);
     }
 
+    public void listenerFromController() {  //adds listeners to objects in the view
+        view.getApplyButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setComPortParameters();
+            }
+        });
+        view.getRefreshButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                populateComPorts();
+            }
+        });
+        view.getLoopButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkIfComPortParametersAreSet();
+                if (comPortParametersAreSet) {
+                    getSerialData(command.getLoop());
+                }
+            }
+        });
+        view.getLPSButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkIfComPortParametersAreSet();
+                if (comPortParametersAreSet) {
+                    getSerialData(command.getLps());
+                }
+            }
+        });
+        view.getTestButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                runConsoleTest(command.getTest());
+            }
+        });
+        view.getRxCheckButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                runConsoleTest(command.getRxCheck());
+            }
+        });
+        view.getRxTestButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                runConsoleTest(command.getRxTest());
+            }
+        });
+        view.getVersionButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                runConsoleTest(command.getVer());
+            }
+        });
+        view.getNverButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                runConsoleTest(command.getNver());
+            }
+        });
+        view.getReceiversButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                runConsoleTest(command.getReceivers());
+            }
+        });
 
+
+    }
 
 
 /*    Lines below are not implemented because Davis console does not follow published specs. Davis manual (p. 12)
