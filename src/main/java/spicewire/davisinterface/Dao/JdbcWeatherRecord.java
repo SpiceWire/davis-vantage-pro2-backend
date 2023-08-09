@@ -10,6 +10,7 @@ import spicewire.davisinterface.Model.DavisVP2;
 import spicewire.davisinterface.Model.Loop1Reading;
 import spicewire.davisinterface.Model.Loop2Reading;
 import spicewire.davisinterface.Model.LoopReading;
+import spicewire.davisinterface.Model.CurrentWeather;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
@@ -21,7 +22,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
     private LocalTime timestamp;
 
     private final JdbcTemplate jdbcTemplate;
-    DavisVP2.DisplayWeather showWeather = new DavisVP2.DisplayWeather();
+    CurrentWeather currentWeather = new CurrentWeather();
 
 
     public JdbcWeatherRecord(DataSource datasource) {
@@ -29,9 +30,8 @@ public class JdbcWeatherRecord implements WeatherRecord {
     }
     private Loop1Reading l1 = new Loop1Reading();
 
-    @Override
-    public DavisVP2.DisplayWeather getBasicWeather(){
-        consoleController.getBasicWeather();
+
+    public CurrentWeather getBasicWeather(){
         String consoleSqlLoop1 = "SELECT outside_temperature, outside_humidity, wind_speed, wind_direction, " +
                 "bar_trend, barometer, inside_temperature,inside_humidity," +
                 " forecast_icon, day_rain, storm_rain, rain_rate, entry_date " +
@@ -48,8 +48,32 @@ public class JdbcWeatherRecord implements WeatherRecord {
         while (loop2Srs.next()){
             mapL2RowToDavis(loop2Srs);
         }
-        return showWeather;
+        return currentWeather;
     }
+
+    public CurrentWeather getAllWeather(){
+        String consoleSqlLoop1 = "SELECT bar_trend, " +
+                "barometer, inside_temperature, inside_humidity," +
+                "outside_temperature, wind_speed, ten_min_avg_wind_speed, wind_direction, extra_temperature1," +
+                "extra_temperature2, extra_temperature3, extra_temperature4, extra_temperature5, extra_temperature6," +
+                "extra_temperature7, soil_temperature1, soil_temperature2, soil_temperature3, soil_temperature4," +
+                "leaf_temperature1, leaf_temperature2, leaf_temperature3, leaf_temperature4, outside_humidity," +
+                "extra_humidity1, extra_humidity2, extra_humidity3, extra_humidity4, extra_humidity5," +
+                "extra_humidity6, extra_humidity7, rain_rate, uv, solar_radiation," +
+                "storm_rain, start_date_of_current_storm, day_rain, month_rain, year_rain," +
+                "day_ET, month_ET, year_ET, soil_moisture1, soil_moisture2," +
+                "soil_moisture3, soil_moisture4, leaf_wetness1, leaf_wetness2, leaf_wetness3," +
+                "leaf_wetness4, forecast_icon " +
+                "FROM record " +
+                "WHERE for_export = 'TRUE'  AND data_source = 'DavisVP2L1' " +
+                "ORDER BY entry DESC LIMIT 1";
+        String consoleSqlLoop2 = "SELECT  " +
+                "wind_direction, ten_min_avg_wind_speed, two_min_avg_wind_speed, ten_min_wind_gust, wind_direction_for_the_ten_minute_wind_gust, " +
+                "dew_point, heat_index, wind_chill, thsw_index, " +
+                "last_fifteen_min_rain, last_hour_rain, day_ET, last_24_hour_rain";
+
+    }
+
 
     @Override
     public void createRecord(LoopReading loopReading){
@@ -147,25 +171,25 @@ public class JdbcWeatherRecord implements WeatherRecord {
 
 
     private void mapL1RowToDavis(SqlRowSet l1srs){
-        showWeather.setBarometer(l1srs.getDouble("barometer"));
-        showWeather.setBarTrend(l1srs.getInt("bar_trend"));
-        showWeather.setDayRain(l1srs.getDouble("day_rain"));
-        showWeather.setForecastIcon(l1srs.getInt("forecast_icon"));
-        showWeather.setInsideHumidity(l1srs.getInt("inside_humidity"));
-        showWeather.setInsideTemperature(l1srs.getDouble( "inside_temperature"));
-        showWeather.setOutsideHumidity(l1srs.getInt("outside_humidity"));
-        showWeather.setOutsideTemperature(l1srs.getDouble("outside_temperature"));
-        showWeather.setRainRate(l1srs.getDouble("rain_rate"));
-        showWeather.setStormRain(l1srs.getDouble("storm_rain"));
-        showWeather.setWindSpeed(l1srs.getInt("wind_speed"));
-        showWeather.setWindDirection(l1srs.getInt("wind_direction"));
+        currentWeather.setBarometer(l1srs.getDouble("barometer"));
+        currentWeather.setBarTrend(l1srs.getInt("bar_trend"));
+        currentWeather.setDayRain(l1srs.getDouble("day_rain"));
+        currentWeather.setForecastIcon(l1srs.getInt("forecast_icon"));
+        currentWeather.setInsideHumidity(l1srs.getInt("inside_humidity"));
+        currentWeather.setInsideTemperature(l1srs.getDouble( "inside_temperature"));
+        currentWeather.setOutsideHumidity(l1srs.getInt("outside_humidity"));
+        currentWeather.setOutsideTemperature(l1srs.getDouble("outside_temperature"));
+        currentWeather.setRainRate(l1srs.getDouble("rain_rate"));
+        currentWeather.setStormRain(l1srs.getDouble("storm_rain"));
+        currentWeather.setWindSpeed(l1srs.getInt("wind_speed"));
+        currentWeather.setWindDirection(l1srs.getInt("wind_direction"));
         System.out.println("date: " + l1srs.getDate("entry_date"));
 
     }
 
     private void mapL2RowToDavis(SqlRowSet l2srs){
-        showWeather.setHeatIndex(l2srs.getInt("heat_index"));
-        showWeather.setWindChill(l2srs.getInt("wind_chill"));
+        currentWeather.setHeatIndex(l2srs.getInt("heat_index"));
+        currentWeather.setWindChill(l2srs.getInt("wind_chill"));
     }
 /*    Vars:
 

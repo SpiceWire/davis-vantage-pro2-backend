@@ -92,6 +92,326 @@ public class CurrentWeather {
         this.tenMinuteWindGust = tenMinuteWindGust;
     }
 
+    public Integer getTenMinAvgWindSpeed() {
+        return tenMinAvgWindSpeed;
+    }
+
+    public void setTenMinAvgWindSpeed(Integer tenMinAvgWindSpeed) {
+        this.tenMinAvgWindSpeed = tenMinAvgWindSpeed;
+    }
+
+    public Integer getTwoMinAvgWindSpeed() {
+        return twoMinAvgWindSpeed;
+    }
+
+    public void setTwoMinAvgWindSpeed(Integer twoMinAvgWindSpeed) {
+        this.twoMinAvgWindSpeed = twoMinAvgWindSpeed;
+    }
+
+    public Integer getWindDirectionForTheTenMinuteWindGust() {
+        return windDirectionForTheTenMinuteWindGust;
+    }
+
+    public void setWindDirectionForTheTenMinuteWindGust(Integer windDirectionForTheTenMinuteWindGust) {
+        this.windDirectionForTheTenMinuteWindGust = windDirectionForTheTenMinuteWindGust;
+    }
+
+    public Integer getDewPoInteger() {
+        return dewPoInteger;
+    }
+
+    public void setDewPoInteger(Integer dewPoInteger) {
+        this.dewPoInteger = dewPoInteger;
+    }
+
+    public Integer getThswIndex() {
+        return thswIndex;
+    }
+
+    public void setThswIndex(Integer thswIndex) {
+        this.thswIndex = thswIndex;
+    }
+
+    public Double getExtraTemperature1() {
+        return extraTemperature1;
+    }
+
+    public void setExtraTemperature1(Double extraTemperature1) {
+        this.extraTemperature1 = extraTemperature1;
+    }
+
+    public Double getExtraTemperature2() {
+        return extraTemperature2;
+    }
+
+    public void setExtraTemperature2(Double extraTemperature2) {
+        this.extraTemperature2 = extraTemperature2;
+    }
+
+    public Double getExtraTemperature3() {
+        return extraTemperature3;
+    }
+
+    public void setExtraTemperature3(Double extraTemperature3) {
+        this.extraTemperature3 = extraTemperature3;
+    }
+
+    public Double getExtraTemperature4() {
+        return extraTemperature4;
+    }
+
+    public void setExtraTemperature4(Double extraTemperature4) {
+        this.extraTemperature4 = extraTemperature4;
+    }
+
+    public Double getExtraTemperature5() {
+        return extraTemperature5;
+    }
+
+    public void setExtraTemperature5(Double extraTemperature5) {
+        this.extraTemperature5 = extraTemperature5;
+    }
+
+    public Double getExtraTemperature6() {
+        return extraTemperature6;
+    }
+
+    public void setExtraTemperature6(Double extraTemperature6) {
+        this.extraTemperature6 = extraTemperature6;
+    }
+
+    public Double getExtraTemperature7() {
+        return extraTemperature7;
+    }
+
+    public void setExtraTemperature7(Double extraTemperature7) {
+        this.extraTemperature7 = extraTemperature7;
+    }
+
+    public Double getSoilTemperature1() {
+        return soilTemperature1;
+    }
+
+    public void setSoilTemperature1(Double soilTemperature1) {
+        this.soilTemperature1 = soilTemperature1;
+    }
+
+    public Double getSoilTemperature2() {
+        return soilTemperature2;
+    }
+
+    public void setSoilTemperature2(Double soilTemperature2) {
+        this.soilTemperature2 = soilTemperature2;
+    }
+
+    public Double getSoilTemperature3() {
+        return soilTemperature3;
+    }
+
+    public void setSoilTemperature3(Double soilTemperature3) {
+        this.soilTemperature3 = soilTemperature3;
+    }
+
+    public Double getSoilTemperature4() {
+        return soilTemperature4;
+    }
+
+    public void setSoilTemperature4(Double soilTemperature4) {
+        this.soilTemperature4 = soilTemperature4;
+    }
+
+    public Double getLeafTemperature1() {
+        return leafTemperature1;
+    }
+
+    public void setLeafTemperature1(Double leafTemperature1) {
+        this.leafTemperature1 = leafTemperature1;
+    }
+
+    public Double getLeafTemperature2() {
+        return leafTemperature2;
+    }
+
+    public void setLeafTemperature2(Double leafTemperature2) {
+        this.leafTemperature2 = leafTemperature2;
+    }
+
+    public Double getLeafTemperature3() {
+        return leafTemperature3;
+    }
+
+    public void setLeafTemperature3(Double leafTemperature3) {
+        this.leafTemperature3 = leafTemperature3;
+    }
+
+    public Double getLeafTemperature4() {
+        return leafTemperature4;
+    }
+
+    public void setLeafTemperature4(Double leafTemperature4) {
+        this.leafTemperature4 = leafTemperature4;
+    }
+
+    public Integer getExtraHumidity1() {
+        return extraHumidity1;
+    }
+
+    public void setExtraHumidity1(Integer extraHumidity1) {
+        this.extraHumidity1 = extraHumidity1;
+    }
+
+    public Integer getExtraHumidity2() {
+        return extraHumidity2;
+    }
+
+    public void setExtraHumidity2(Integer extraHumidity2) {
+        this.extraHumidity2 = extraHumidity2;
+    }
+
+    public Integer getExtraHumidity3() {
+        return extraHumidity3;
+    }
+
+    public void setExtraHumidity3(Integer extraHumidity3) {
+        this.extraHumidity3 = extraHumidity3;
+    }
+
+    public Integer getExtraHumidity4() {
+        return extraHumidity4;
+    }
+
+    public void setExtraHumidity4(Integer extraHumidity4) {
+        this.extraHumidity4 = extraHumidity4;
+    }
+
+    public Integer getExtraHumidity5() {
+        return extraHumidity5;
+    }
+
+    public void setExtraHumidity5(Integer extraHumidity5) {
+        this.extraHumidity5 = extraHumidity5;
+    }
+
+    public Integer getExtraHumidity6() {
+        return extraHumidity6;
+    }
+
+    public void setExtraHumidity6(Integer extraHumidity6) {
+        this.extraHumidity6 = extraHumidity6;
+    }
+
+    public Integer getExtraHumidity7() {
+        return extraHumidity7;
+    }
+
+    public void setExtraHumidity7(Integer extraHumidity7) {
+        this.extraHumidity7 = extraHumidity7;
+    }
+
+    public Integer getUv() {
+        return uv;
+    }
+
+    public void setUv(Integer uv) {
+        this.uv = uv;
+    }
+
+    public Integer getSolarRadiation() {
+        return solarRadiation;
+    }
+
+    public void setSolarRadiation(Integer solarRadiation) {
+        this.solarRadiation = solarRadiation;
+    }
+
+    public LocalDate getStartDateOfCurrentStorm() {
+        return startDateOfCurrentStorm;
+    }
+
+    public void setStartDateOfCurrentStorm(LocalDate startDateOfCurrentStorm) {
+        this.startDateOfCurrentStorm = startDateOfCurrentStorm;
+    }
+
+    public Double getMonthRain() {
+        return monthRain;
+    }
+
+    public void setMonthRain(Double monthRain) {
+        this.monthRain = monthRain;
+    }
+
+    public Double getYearRain() {
+        return yearRain;
+    }
+
+    public void setYearRain(Double yearRain) {
+        this.yearRain = yearRain;
+    }
+
+    public Double getSoilMoisture1() {
+        return soilMoisture1;
+    }
+
+    public void setSoilMoisture1(Double soilMoisture1) {
+        this.soilMoisture1 = soilMoisture1;
+    }
+
+    public Double getSoilMoisture2() {
+        return soilMoisture2;
+    }
+
+    public void setSoilMoisture2(Double soilMoisture2) {
+        this.soilMoisture2 = soilMoisture2;
+    }
+
+    public Double getSoilMoisture3() {
+        return soilMoisture3;
+    }
+
+    public void setSoilMoisture3(Double soilMoisture3) {
+        this.soilMoisture3 = soilMoisture3;
+    }
+
+    public Double getSoilMoisture4() {
+        return soilMoisture4;
+    }
+
+    public void setSoilMoisture4(Double soilMoisture4) {
+        this.soilMoisture4 = soilMoisture4;
+    }
+
+    public Double getLeafWetness1() {
+        return leafWetness1;
+    }
+
+    public void setLeafWetness1(Double leafWetness1) {
+        this.leafWetness1 = leafWetness1;
+    }
+
+    public Double getLeafWetness2() {
+        return leafWetness2;
+    }
+
+    public void setLeafWetness2(Double leafWetness2) {
+        this.leafWetness2 = leafWetness2;
+    }
+
+    public Double getLeafWetness3() {
+        return leafWetness3;
+    }
+
+    public void setLeafWetness3(Double leafWetness3) {
+        this.leafWetness3 = leafWetness3;
+    }
+
+    public Double getLeafWetness4() {
+        return leafWetness4;
+    }
+
+    public void setLeafWetness4(Double leafWetness4) {
+        this.leafWetness4 = leafWetness4;
+    }
+
     public Double getTenMinuteWindGust() {
         return tenMinuteWindGust;
     }
