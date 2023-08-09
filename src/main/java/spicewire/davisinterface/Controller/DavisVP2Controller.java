@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import spicewire.davisinterface.Dao.JdbcWeatherRecord;
@@ -16,9 +13,9 @@ import spicewire.davisinterface.Model.DavisVP2;
 
 import javax.sql.DataSource;
 
+
+//@CrossOrigin( maxAge = 3600, origins = "*", allowedHeaders = "*")
 @RestController
-@CrossOrigin( maxAge = 3600, origins = "*", allowedHeaders = "*")
-@RequestMapping("/davisvp2")//base path for handlers
 public class DavisVP2Controller implements WebMvcConfigurer {
 
 //    public void addCorsMappings(CorsRegistry registry) {
@@ -35,8 +32,8 @@ public class DavisVP2Controller implements WebMvcConfigurer {
         DavisVP2Controller.datasource = dataSource;
     }
 
-    @CrossOrigin( maxAge = 3600)
-    @RequestMapping(path = "", method = RequestMethod.GET)
+//    @CrossOrigin( maxAge = 3600)@RequestMapping("/davisvp2")//base path for handlers
+    @GetMapping(path = "/davisvp2")
     public DavisVP2.DisplayWeather getLastReadings(){
         consoleController.getCurrentWeather();
         System.out.println("Weather record sent from server.");
@@ -44,7 +41,7 @@ public class DavisVP2Controller implements WebMvcConfigurer {
     }
 
 
-    @RequestMapping(path = "/portSettings", method = RequestMethod.GET)
+    @GetMapping(path = "/portSettings")
     public String getComPortSettings(){
         return ConsoleController.getComPortSettings();
     }

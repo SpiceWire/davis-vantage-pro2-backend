@@ -3,8 +3,11 @@ package spicewire.davisinterface;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -23,9 +26,7 @@ import spicewire.davisinterface.Model.Seriall;
 import spicewire.davisinterface.View.ComsPanes;
 
 import javax.swing.*;
-
-
-
+@SpringBootApplication
 public class DavisinterfaceApplication extends JFrame {
 
 	public static void main(String[] args) {
@@ -50,7 +51,14 @@ public class DavisinterfaceApplication extends JFrame {
 			frame.setSize(700, 600);
 			frame.setVisible(true);
 
+		@Configuration
+		 class CustomContainer implements WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
+			public void customize(ConfigurableServletWebServerFactory factory){
+				factory.setPort(8080);
+			}
+		}
 
+			SpringApplication.run(DavisinterfaceApplication.class, args);
 
 	}
 }
