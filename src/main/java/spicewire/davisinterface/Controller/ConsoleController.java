@@ -9,7 +9,9 @@ import spicewire.davisinterface.Model.Loop2Reading;
 import spicewire.davisinterface.Model.Seriall;
 import spicewire.davisinterface.Services.DataProcessor;
 import spicewire.davisinterface.View.ComsPanes;
-
+import java.util.logging.*;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
@@ -65,6 +67,7 @@ public class ConsoleController {
     private final char NOT_ACKNOWLEDGE = (char) 21; //Davis instructions indicate HEX 21 (!).
     private final char CARRIAGE_RETURN = (char) 13; //HEX D.
     private final char CANCEL = (char) 24; // HEX 18. Davis uses this with a bad CRC code
+    private final Logger logger = Logger.getLogger(ConsoleController.class.getName());
 
     @Autowired
     public ConsoleController(Seriall serialModel, ComsPanes view, JdbcWeatherRecord jdbcWeatherRecord) {
@@ -73,13 +76,14 @@ public class ConsoleController {
         this.jdbcWeatherRecord = jdbcWeatherRecord;
         populateComPorts();
         setComPortParameters();
+        logger.info("Console controller started.");
         System.out.println("Console controller started.");
 //        runCurrentData(command.getLoop());
 //        runCurrentData(command.getLps());
     }
 
     public void getCurrentWeather(){
-        getSerialData(command.getLoop());
+        createLoopRecord(command.getLoop());
 //        try {
 //            Thread.sleep(2000);
 //            System.out.println("Console controller: sleeping for 2 seconds");
@@ -87,7 +91,8 @@ public class ConsoleController {
 //         catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
-        getSerialData(command.getLps());
+        createLoopRecord(command.getLps());
+        JdbcWeatherRecord
     }
         //todo transfer these to the coms view?
 
@@ -102,14 +107,16 @@ public class ConsoleController {
     private void runConsoleTest(Command command) {
         //todo refactor so there is a com port params check with any button press
         //todo add a "you just pressed this button" field to the view.
-        sendCommandToConsole(command);
-        view.setTestDescriptionTextArea(command.getDescription());
-        view.setConsoleFriendlyTextArea(DataProcessor.consoleFriendlyText(command));
-        view.setConsoleRawTextArea(DataProcessor.getSerialData());
+        if (confirmCommmandClass(command, 1)) {
+            sendCommandToConsole(command);
+            view.setTestDescriptionTextArea(command.getDescription());
+            view.setConsoleFriendlyTextArea(DataProcessor.consoleFriendlyText(command));
+            view.setConsoleRawTextArea(DataProcessor.getSerialData());
+        }
     }
 
     /**
-     * Sends a command to the Davis console and returns the sanitized and validated
+     * Sends a single command to the Davis console and returns the sanitized and validated
      * serial data it generates. It can be used with LOOP and LPS commands before making a LOOP record.
      *
      * @param command  that generates serial data
@@ -127,9 +134,7 @@ public class ConsoleController {
      * @param command LOOP or LPS
      */
     private void createLoopRecord(Command command) {
-        if (!confirmCommmandClass(command, 2)) {
-            System.out.println("Internal error. Wrong command sent.");
-        } else {
+        if (confirmCommmandClass(command, 2)) {
             getSerialData(command);
             if (DataProcessor.getSerialData().length() > 0) {
                 if (command.getWord().equalsIgnoreCase("LOOP")) {

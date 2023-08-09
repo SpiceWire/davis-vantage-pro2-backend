@@ -36,7 +36,7 @@ public class DavisVP2Controller  {
 
         System.out.println("Weather record sent from server.");
 //        return new JdbcWeatherRecord(datasource).getDavisConsoleWeather();
-        return JdbcWeatherRecord.get
+        return JdbcWeatherRecord.getDavisConsoleWeather;
     }
 
 

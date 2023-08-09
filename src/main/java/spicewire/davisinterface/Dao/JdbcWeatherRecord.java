@@ -30,8 +30,8 @@ public class JdbcWeatherRecord implements WeatherRecord {
     private Loop1Reading l1 = new Loop1Reading();
 
     @Override
-    public DavisVP2.DisplayWeather getDavisConsoleWeather(){
-        consoleController.getCurrentWeather();
+    public DavisVP2.DisplayWeather getBasicWeather(){
+        consoleController.getBasicWeather();
         String consoleSqlLoop1 = "SELECT outside_temperature, outside_humidity, wind_speed, wind_direction, " +
                 "bar_trend, barometer, inside_temperature,inside_humidity," +
                 " forecast_icon, day_rain, storm_rain, rain_rate, entry_date " +

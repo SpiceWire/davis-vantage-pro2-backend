@@ -21,7 +21,7 @@ public interface WeatherRecord {
      */
     void createRecord(LoopReading loopReading);
 
-
+    void
     /**
      * Creates an instance of the DavisVP2.DisplayWeather class, which contains all necessary
      * variables to emulate a Davis Vantage Pro 2 display.
