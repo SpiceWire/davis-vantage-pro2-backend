@@ -13,22 +13,22 @@ public class CurrentWeather {
     private Integer outsideHumidity;
     private Double insideTemperature;
     private Integer insideHumidity;
-    private int windSpeed;
-    private int windDirection;
-    private int barTrend;
+    private Integer windSpeed;
+    private Integer windDirection;
+    private Integer barTrend;
     private Double barometer;
     private Integer forecastIcon;
     private Double dayRain;
     private Double stormRain;
     private Double rainRate;
-    private int heatIndex;
-    private int windChill;
-    private int tenMinAvgWindSpeed;
-    private int twoMinAvgWindSpeed;
+    private Integer heatIndex;
+    private Integer windChill;
+    private Integer tenMinAvgWindSpeed;
+    private Integer twoMinAvgWindSpeed;
     private Double tenMinuteWindGust;
-    private int windDirectionForTheTenMinuteWindGust;
-    private int dewPoint;
-    private int thswIndex;
+    private Integer windDirectionForTheTenMinuteWindGust;
+    private Integer dewPoInteger;
+    private Integer thswIndex;
     private Double extraTemperature1;
     private Double extraTemperature2;
     private Double extraTemperature3;
@@ -72,10 +72,10 @@ public class CurrentWeather {
     public CurrentWeather() {
     }
 
-    public CurrentWeather(Double outsideTemperature, int outsideHumidity, Double insideTemperature,
-                          int insideHumidity, int windSpeed, int windDirection, int barTrend,
-                          Double barometer, int forecastIcon, Double dayRain, Double stormRain,
-                          Double rainRate, int heatIndex, int windChill, Double tenMinuteWindGust) {
+    public CurrentWeather(Double outsideTemperature, Integer outsideHumidity, Double insideTemperature,
+                          Integer insideHumidity, Integer windSpeed, Integer windDirection, Integer barTrend,
+                          Double barometer, Integer forecastIcon, Double dayRain, Double stormRain,
+                          Double rainRate, Integer heatIndex, Integer windChill, Double tenMinuteWindGust) {
         this.outsideTemperature = outsideTemperature;this.outsideHumidity = outsideHumidity;
         this.insideTemperature = insideTemperature;
         this.insideHumidity = insideHumidity;
@@ -92,7 +92,7 @@ public class CurrentWeather {
         this.tenMinuteWindGust = tenMinuteWindGust;
     }
 
-    public double getTenMinuteWindGust() {
+    public Double getTenMinuteWindGust() {
         return tenMinuteWindGust;
     }
 
@@ -100,7 +100,7 @@ public class CurrentWeather {
         this.tenMinuteWindGust = windGust;
     }
 
-    public double getOutsideTemperature() {
+    public Double getOutsideTemperature() {
         return outsideTemperature;
     }
 
@@ -116,7 +116,7 @@ public class CurrentWeather {
         this.outsideHumidity = outsideHumidity;
     }
 
-    public double getInsideTemperature() {
+    public Double getInsideTemperature() {
         return insideTemperature;
     }
 
@@ -132,31 +132,31 @@ public class CurrentWeather {
         this.insideHumidity = insideHumidity;
     }
 
-    public int getWindSpeed() {
+    public Integer getWindSpeed() {
         return windSpeed;
     }
 
-    public void setWindSpeed(int windSpeed) {
+    public void setWindSpeed(Integer windSpeed) {
         this.windSpeed = windSpeed;
     }
 
-    public int getWindDirection() {
+    public Integer getWindDirection() {
         return windDirection;
     }
 
-    public void setWindDirection(int windDirection) {
+    public void setWindDirection(Integer windDirection) {
         this.windDirection = windDirection;
     }
 
-    public int getBarTrend() {
+    public Integer getBarTrend() {
         return barTrend;
     }
 
-    public void setBarTrend(int barTrend) {
+    public void setBarTrend(Integer barTrend) {
         this.barTrend = barTrend;
     }
 
-    public double getBarometer() {
+    public Double getBarometer() {
         return barometer;
     }
 
@@ -164,15 +164,15 @@ public class CurrentWeather {
         this.barometer = barometer;
     }
 
-    public int getForecastIcon() {
+    public Integer getForecastIcon() {
         return forecastIcon;
     }
 
-    public void setForecastIcon(int forecastIcon) {
+    public void setForecastIcon(Integer forecastIcon) {
         this.forecastIcon = forecastIcon;
     }
 
-    public double getDayRain() {
+    public Double getDayRain() {
         return dayRain;
     }
 
@@ -180,7 +180,7 @@ public class CurrentWeather {
         this.dayRain = dayRain;
     }
 
-    public double getStormRain() {
+    public Double getStormRain() {
         return stormRain;
     }
 
@@ -188,7 +188,7 @@ public class CurrentWeather {
         this.stormRain = stormRain;
     }
 
-    public double getRainRate() {
+    public Double getRainRate() {
         return rainRate;
     }
 
@@ -196,19 +196,19 @@ public class CurrentWeather {
         this.rainRate = rainRate;
     }
 
-    public int getHeatIndex() {
+    public Integer getHeatIndex() {
         return heatIndex;
     }
 
-    public void setHeatIndex(int heatIndex) {
+    public void setHeatIndex(Integer heatIndex) {
         this.heatIndex = heatIndex;
     }
 
-    public int getWindChill() {
+    public Integer getWindChill() {
         return windChill;
     }
 
-    public void setWindChill(int windChill) {
+    public void setWindChill(Integer windChill) {
         this.windChill = windChill;
     }
 
