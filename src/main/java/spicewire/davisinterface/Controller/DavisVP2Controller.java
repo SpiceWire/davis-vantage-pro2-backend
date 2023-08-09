@@ -16,11 +16,9 @@ import javax.sql.DataSource;
 
 //@CrossOrigin( maxAge = 3600, origins = "*", allowedHeaders = "*")
 @RestController
-public class DavisVP2Controller implements WebMvcConfigurer {
+public class DavisVP2Controller  {
 
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**");
-//    }
+
     private static DavisVP2 davisVP2;
     private static DataSource datasource;
 
@@ -35,9 +33,10 @@ public class DavisVP2Controller implements WebMvcConfigurer {
 //    @CrossOrigin( maxAge = 3600)@RequestMapping("/davisvp2")//base path for handlers
     @GetMapping(path = "/davisvp2")
     public DavisVP2.DisplayWeather getLastReadings(){
-        consoleController.getCurrentWeather();
+
         System.out.println("Weather record sent from server.");
-        return new JdbcWeatherRecord(datasource).getDavisConsoleWeather();
+//        return new JdbcWeatherRecord(datasource).getDavisConsoleWeather();
+        return JdbcWeatherRecord.get
     }
 
 
