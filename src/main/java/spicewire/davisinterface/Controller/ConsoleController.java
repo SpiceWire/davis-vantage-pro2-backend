@@ -93,6 +93,12 @@ public class ConsoleController {
 
 
     //This method handles all console testing commands: TEST, RXCHECK, RXTEST, VER, RECEIVERS, NVER
+
+    /**
+     * This method handles all console testing commands: TEST, RXCHECK, RXTEST, VER, RECEIVERS, NVER.
+     * Console testing commands are type 1.
+     * @param command
+     */
     private void runConsoleTest(Command command) {
         //todo refactor so there is a com port params check with any button press
         //todo add a "you just pressed this button" field to the view.
@@ -134,7 +140,12 @@ public class ConsoleController {
             }
         }
     }
-//view.setCurrentDataTextArea(DataProcessor.getSerialData());
+
+    /**
+     * Sends an assembled command to the Serial class to forward to the Davis console.
+     * initialSending is default true. The Serial class changes this to "false" if the serial data has errors.
+     * @param command
+     */
     public void sendCommandToConsole(Command command) {
         serialModel.sendCommand(command, true);
     }
@@ -148,7 +159,14 @@ public class ConsoleController {
      * @return
      */
     private boolean confirmCommmandClass (Command command, int commandType){
-        return command.getType()==commandType;
+
+        boolean commandIsCorrectType = (command.getType()==commandType);
+        if (!commandIsCorrectType){
+            System.out.println("Internal error. Command " + command.getWord() +
+                    " of type " + command.getType() + " was sent where only type " +
+                    commandType + "fits.");
+        }
+        return commandIsCorrectType;
     }
 
     /**
