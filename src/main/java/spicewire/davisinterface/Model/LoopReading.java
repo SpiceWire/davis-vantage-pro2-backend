@@ -12,7 +12,7 @@ import java.time.LocalDate;
  */
 
 
-public interface LoopReading {
+public interface LoopReading extends DataRecord{
 
     /**
      * Gets the source of data. E.g. name or location of sensor or

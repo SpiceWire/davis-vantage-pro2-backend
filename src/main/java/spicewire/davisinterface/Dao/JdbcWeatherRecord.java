@@ -59,20 +59,14 @@ public class JdbcWeatherRecord implements WeatherRecord {
         return currentWeather;
     }
 
-
-    @Override
     public void createRecord(DataRecord dataRecord){
         if(dataRecord.getPacketType()==0){
-            createLoop1Record(dataRecord);
-        }
-
-//        System.out.println("loopreading = " + loopReading.toString());
-//        if (loopReading.getClass().getName().equalsIgnoreCase("spicewire.davisinterface.Model.Loop1Reading")){
-//            createLoop1Record((Loop1Reading) loopReading);
-//        } else if (loopReading.getClass().getName().equalsIgnoreCase("spicewire.davisinterface.Model.Loop2Reading")) {
-//            createLoop2Record((Loop2Reading) loopReading);
-//        } else System.out.println("Unknown type tried to create a Loop Record.");
+            createLoop1Record((Loop1Reading) dataRecord);
+        } else if (dataRecord.getPacketType()==1){
+            createLoop2Record((Loop2Reading) dataRecord);
+        } else System.out.println("Unknown type tried to create a weather record.");
     }
+
 
 
     public void createLoop1Record(Loop1Reading l1) {

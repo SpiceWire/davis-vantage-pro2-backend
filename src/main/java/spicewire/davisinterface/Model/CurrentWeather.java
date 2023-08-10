@@ -3,8 +3,9 @@ package spicewire.davisinterface.Model;
 import java.time.LocalDate;
 
 /**
- * This class contains variables necessary to emulate the display of the Vantage Pro 2 console.
- * The values are drawn from the database and serialized.
+ * This is a Data Transfer Object (DTO). It contains most of the variables
+ * related to current weather. It excludes agg
+ *
  */
 
 public class CurrentWeather {
