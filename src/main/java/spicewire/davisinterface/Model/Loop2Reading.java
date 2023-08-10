@@ -429,7 +429,6 @@ public class Loop2Reading implements DataRecord {
         return windDirection;
     }
 
-    @Override
     public double getTenMinAvgWindSpeed() {
         return tenMinAvgWindSpeed;
     }

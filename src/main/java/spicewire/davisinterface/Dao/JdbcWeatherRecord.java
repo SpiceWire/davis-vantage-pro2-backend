@@ -14,8 +14,6 @@ import java.time.LocalTime;
 
 
 public class JdbcWeatherRecord implements WeatherRecord {
-    private LocalDate datestamp;
-    private LocalTime timestamp;
 
     private final JdbcTemplate jdbcTemplate;
     CurrentWeather currentWeather = new CurrentWeather();
@@ -66,7 +64,6 @@ public class JdbcWeatherRecord implements WeatherRecord {
             createLoop2Record((Loop2Reading) dataRecord);
         } else System.out.println("Unknown type tried to create a weather record.");
     }
-
 
 
     public void createLoop1Record(Loop1Reading l1) {

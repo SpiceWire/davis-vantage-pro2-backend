@@ -3,9 +3,16 @@ package spicewire.davisinterface.Model;
 import java.time.LocalDate;
 
 /**
- * This is a Data Transfer Object (DTO). It contains most of the variables
- * related to current weather. It excludes agg
- *
+ * This is a Data Transfer Object (DTO). It contains variables
+ * related to current weather and aggregate data that is
+ *  incidentally collected from a DavisVP2 console as part of
+ *  a Loop or LPS reading (e.g. monthRain).
+ *  It excludes:
+ *    1) aggregated data that must be calculated from the database
+ *         (e.g. average temp this week),
+ *    2) calibration information
+ *    3) alarms
+ *    4) firmware info
  */
 
 public class CurrentWeather {

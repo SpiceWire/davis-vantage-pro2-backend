@@ -1,5 +1,26 @@
 package spicewire.davisinterface.Model;
 
+/**
+ * Class contains commands sent to the DavisVP2 console.
+ *
+ * Davis commands:
+ *     -Do not all have the same terminating character.
+ *     -Can return hex, binary or ASCII data from the Davis console, depending on the command.
+ *     -Sometimes return data with a CRC.
+ *     -Sometimes have parameters that need to be sent with a command.
+ *     -Return serial port data varying in length from 6 to 436 bytes.
+ *     -Are categorized in Davis Serial Communication Reference Manual by:
+ *      1) Testing Commands
+ *      2) Current Data
+ *      3) Download
+ *      4) EEPROM
+ *      5) Calibration
+ *      6) Clearing
+ *      7) Configuration
+ *
+ *      At present, the first two categories are at least partially implemented by this software.
+ */
+
 public class Command {
     private String word; //The string of all-caps chars sent to the console.
     private int numberOfDataParameters;  //How many parameters are sent along with this command word?
@@ -7,7 +28,6 @@ public class Command {
     private String description; //Description of the command and any return data expected
     private boolean binaryReturnData; //commands return binary, hex or ASCII data
     private int type;  //1=Testing  2=Current data  3=Download  4=EEPROM 5=Calibration 6=Clearing  7= Configuration
-    //Categorized in Davis Serial Communication Reference Manual
     private int expectedNumberOfBytesInReply; //specified in Davis Serial Communication Protocol
     private boolean crcInReply; //True if console reply will have a Cyclic Redundancy Check
     private String payload;  //data values (if any) that are part of command.
@@ -70,7 +90,6 @@ public class Command {
 
     private static final Command rxCheck = new Command("RXCHECK", 0, LINE_FEED,
             RX_CHECK_DESCRIPTION, false, 1, 32, false, null);
-
 
     private static final Command rxTest = new Command("RXTEST", 0, LINE_FEED,
             RX_TEST_DESCRIPTION, false, 1, 1, false, null);

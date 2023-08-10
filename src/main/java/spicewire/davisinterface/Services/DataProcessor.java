@@ -6,6 +6,31 @@ import spicewire.davisinterface.Model.Command;
 /**This class processes raw data from the serial port. It removes any ACK messages and performs CRC checks. It also
  * evaluates whether a Davis Testing Command was successful. It does not have a constructor.
  * If data from the serial port passes validation, the data is made available to other classes in String form.
+ *
+ * Davis weather data:
+ *    -Davis uses two data formats for its real-time weather data: Loop1 and Loop2.
+ *    -Both formats are binary.
+ *    -Both formats are 99 bytes including the CRC value.
+ *    -An ACK message is prepended to both formats.
+ *    -The formats have some variables in common, some different.
+ *    -The LOOP command results in Loop1 format data only.
+ *    -The LPS command can return either or both Loop1 and Loop2, in any order, any number of times.
+ *    -Variables common to both formats may or may not share a common index.
+ *    -Variables common to both formats may or may not have the same data type.
+ *    -The number of sensors can change.
+ *    -The types of sensors can change.
+ *    -The index order of sensors can change.
+ *    -The Davis console needs a single line feed or a single carriage return (but not both) after a command string.
+ *      Of note, Windows usually uses a carriage return AND line feed for a new line.
+ *    -Values of two bytes are usually but not always sent LSB (Least Significant Bit) first (i.e. "in the wrong order").
+ *    -Some values are held across nibbles of adjacent bytes.
+ *    -Some bytes are mapped to booleans.
+ *    -Some bits within bytes are mapped to booleans.
+ *    -Per Davis: "Please note that in some strings numeric values are in decimal, while in others are in hexadecimal.
+ *     Multi-byte binary values are generally stored and sent least significant byte first. Negative
+ *     numbers use 2's complement notation. CRC values are sent and received most significant byte
+ *     first."
+ *
  * **/
 
 
