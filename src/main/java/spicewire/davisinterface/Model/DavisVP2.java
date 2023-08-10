@@ -33,5 +33,12 @@ public class DavisVP2 {
         return null;
     }
 
+    public static int timeoutMode;
+
+    public static int writeTimeout;
+
+    public static int readTimeout;
+
+
 
 }

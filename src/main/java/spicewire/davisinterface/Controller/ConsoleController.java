@@ -51,7 +51,9 @@ public class ConsoleController {
 
 
     public CurrentWeather getCurrentWeather(){
+        getSerialData(command.getLoop());
         createLoopRecord(command.getLoop());
+        getSerialData(command.getLps());
         createLoopRecord(command.getLps());
         return jdbcWeatherRecord.getWeather();
     }
@@ -90,19 +92,17 @@ public class ConsoleController {
 
     /**
      * Creates a JDBC record of a Current Data command (LOOP or LPS) using
-     * new serial port data from the DataProcessor.
+     * new serial port data from the DataProcessor. Sending
      *
      * @param command LOOP or LPS
      */
     private void createLoopRecord(Command command) {
         if (confirmCommmandClass(command, 2)) {
-            String recordData = getSerialData(command);
             if (DataProcessor.getSerialData().length() > 0) {
-                jdbcWeatherRecord.createRecord();
                 if (command.getWord().equalsIgnoreCase("LOOP")) {
-                    new Loop1Reading(DataProcessor.getSerialData(), jdbcWeatherRecord);
+                    new Loop1Reading(DataProcessor.getSerialData());
                 } else if (command.getWord().equalsIgnoreCase("LPS")) {
-                    new Loop2Reading(DataProcessor.getSerialData(), jdbcWeatherRecord);
+                    new Loop2Reading(DataProcessor.getSerialData());
                 }
             }
         }
