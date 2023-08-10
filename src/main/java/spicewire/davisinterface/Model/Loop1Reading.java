@@ -9,18 +9,18 @@ import java.time.LocalDate;
  * It then sends the data to the JBDCWeatherEvent so that the information can be logged into a table.
  * The parameters in this class are different from those in the Loop2Reading, although there is some overlap.
  * Because its parameter values are set by parsing an incoming string, this class does not have public setters.
- * <p>
+ *
  * The passed LoopData string has already been stripped of the ACK message (binary 110) and confirmed accurate
  * by a Cyclic Redundancy Check.
- * <p>
+ *
  * The LoopData's initial values are always 1001100 1001111 1001111 ("L O O"). "L" is considered index 0.
- * <p>
+ *
  * As implemented by Davis, LoopData packets have two formats, LOOP1 and LOOP2.
  * The Loop Type is encoded in byte offset 4. 0 = LOOP1  1 = LOOP2.
  * Loop1 and Loop2 have different parameters (eg. only Loop1 contains alarms, only Loop 2 contains calibration data)
  * but have some overlap (both have a Ten Minute Average Wind Speed, but Loop1 uses an integer type while
  * Loop2 uses a double). The parameters in common do not necessarily have the same index in the LoopData array.
- * <p>
+ *
  * When Loop1Record is sent a string of LoopData, it populates its object parameters and
  * calls a related method in another class. For example, after receiving a LoopData string, it calls
  * the JdbcWeatherRecord class so a weather event can be constructed from the Loop1Record object.
@@ -98,11 +98,9 @@ public class Loop1Reading implements LoopReading {
     private int timeOfSunset;
     private String dataSource;
 
-    public Loop1Reading(String loopData, JdbcWeatherRecord jdbcWeatherRecord) {
+    public Loop1Reading(String loopData) {
 
         this.loopRecord = makeLoopDataArray(loopData);
-        this.jdbcWeatherRecord = jdbcWeatherRecord;
-
         this.insideHumidity = setInsideHumidity();
         this.packetType = setPacketType();
         this.barTrend = setBarTrend();

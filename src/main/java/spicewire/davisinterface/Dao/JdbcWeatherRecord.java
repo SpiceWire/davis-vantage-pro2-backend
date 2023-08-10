@@ -12,6 +12,13 @@ import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Class uses JDBC to create and retrieve weather records from a database. The createRecord method
+ * accepts a WeatherRecord object and uses the getPacketType method on it to determine how to enter
+ * it into the database.
+ *
+ * Class populates and returns a CurrentWeather DTO.
+ */
 
 public class JdbcWeatherRecord implements WeatherRecord {
 
@@ -21,7 +28,6 @@ public class JdbcWeatherRecord implements WeatherRecord {
     public JdbcWeatherRecord(DataSource datasource) {
         jdbcTemplate = new JdbcTemplate(datasource);
     }
-    private Loop1Reading l1 = new Loop1Reading();
 
     public CurrentWeather getWeather(){
         String consoleSqlLoop1 = "SELECT bar_trend, " +
@@ -66,7 +72,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
     }
 
 
-    public void createLoop1Record(Loop1Reading l1) {
+    private void createLoop1Record(Loop1Reading l1) {
         String loop1Sql = "INSERT INTO record (entry_date, entry_time, for_export, data_source, bar_trend," +
                 "packet_type, next_record, barometer, inside_temperature, inside_humidity," +
                 "outside_temperature, wind_speed, ten_min_avg_wind_speed, wind_direction, extra_temperature1," +
@@ -112,7 +118,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
         System.out.println("Loop1 database entry created. Get outTemp = " + l1.getOutsideTemperature());
     }
 
-    public void createLoop2Record(Loop2Reading l2) {
+    private void createLoop2Record(Loop2Reading l2) {
         String loop2Sql = "INSERT INTO record (entry_date, entry_time, for_export, data_source, bar_trend," +
                 "barometer, inside_temperature, inside_humidity, outside_temperature, wind_speed," +
                 "wind_direction, ten_min_avg_wind_speed, two_min_avg_wind_speed, ten_min_wind_gust, wind_direction_for_the_ten_minute_wind_gust," +
@@ -139,7 +145,6 @@ public class JdbcWeatherRecord implements WeatherRecord {
     }
 
 
-
     @Override
     public LocalDate getDatestamp() {
         return LocalDate.now();
@@ -148,7 +153,6 @@ public class JdbcWeatherRecord implements WeatherRecord {
     public LocalTime getTimestamp() {
         return LocalTime.now();
     }
-
 
     private void mapL1RowToDavis(SqlRowSet l1srs){
         currentWeather.setBarTrend(l1srs.getInt("bar_trend"));

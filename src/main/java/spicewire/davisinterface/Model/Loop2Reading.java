@@ -5,10 +5,14 @@ import spicewire.davisinterface.Dao.WeatherRecord;
 
 import java.time.LocalDate;
 
+/**
+ * Given a binary Loop2 data structure, this class interprets the data, populates
+ * its variables, and automatically exports into the JDBC to be entered into
+ * the database.
+ */
 
 public class Loop2Reading implements DataRecord {
     private JdbcWeatherRecord jdbcWeatherRecord;
-
     private String[] loopRecord;
     private int barTrend;
     private int packetType;
@@ -55,10 +59,9 @@ public class Loop2Reading implements DataRecord {
     private int nextSeasonalRain;
     private String dataSource;
 
-    public Loop2Reading(String loopData, JdbcWeatherRecord jdbcWeatherRecord) {
+    public Loop2Reading(String loopData) {
 
         this.loopRecord = makeLoopDataArray(loopData);
-        this.jdbcWeatherRecord = jdbcWeatherRecord;
         this.barTrend = setBarTrend();
         this.packetType = setPacketType();
         this.barometer = setBarometer();
@@ -73,7 +76,6 @@ public class Loop2Reading implements DataRecord {
         this.windDirectionForTheTenMinuteWindGust = setWindDirectionForTheTenMinuteWindGust();
         this.dewPoint = setDewPoint();
         this.outsideHumidity = setOutsideHumidity();
-
         this.heatIndex = setHeatIndex();
         this.windChill = setWindChill();
         this.thswIndex = setThswIndex();
@@ -100,8 +102,6 @@ public class Loop2Reading implements DataRecord {
 
     public Loop2Reading() {
     }
-
-
 
     private String[] makeLoopDataArray(String loopData) {
         return loopData.split(" ");

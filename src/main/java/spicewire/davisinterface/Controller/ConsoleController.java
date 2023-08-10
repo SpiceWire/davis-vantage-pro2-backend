@@ -3,10 +3,7 @@ package spicewire.davisinterface.Controller;
 import com.fazecast.jSerialComm.SerialPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import spicewire.davisinterface.Dao.JdbcWeatherRecord;
-import spicewire.davisinterface.Model.Command;
-import spicewire.davisinterface.Model.Loop1Reading;
-import spicewire.davisinterface.Model.Loop2Reading;
-import spicewire.davisinterface.Model.Seriall;
+import spicewire.davisinterface.Model.*;
 import spicewire.davisinterface.Services.DataProcessor;
 import spicewire.davisinterface.View.ComsPanes;
 import java.util.logging.*;
@@ -20,8 +17,6 @@ import java.util.Arrays;
 Davis Serial Protocol describes several commands and parameters that can be sent to the Davis console.
 Not all data has a CRC (Cyclic Redundancy Check, for detecting transmission errors
 in data).
-
-
 
 */
 
@@ -54,17 +49,11 @@ public class ConsoleController {
 //        runCurrentData(command.getLps());
     }
 
-    public void getCurrentWeather(){
+
+    public CurrentWeather getCurrentWeather(){
         createLoopRecord(command.getLoop());
-//        try {
-//            Thread.sleep(2000);
-//            System.out.println("Console controller: sleeping for 2 seconds");
-//        }
-//         catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
         createLoopRecord(command.getLps());
-        JdbcWeatherRecord
+        return jdbcWeatherRecord.getWeather();
     }
         //todo transfer these to the coms view?
 
@@ -107,8 +96,9 @@ public class ConsoleController {
      */
     private void createLoopRecord(Command command) {
         if (confirmCommmandClass(command, 2)) {
-            getSerialData(command);
+            String recordData = getSerialData(command);
             if (DataProcessor.getSerialData().length() > 0) {
+                jdbcWeatherRecord.createRecord();
                 if (command.getWord().equalsIgnoreCase("LOOP")) {
                     new Loop1Reading(DataProcessor.getSerialData(), jdbcWeatherRecord);
                 } else if (command.getWord().equalsIgnoreCase("LPS")) {
