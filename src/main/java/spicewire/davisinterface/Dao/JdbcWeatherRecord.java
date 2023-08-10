@@ -6,11 +6,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RestController;
-import spicewire.davisinterface.Model.DavisVP2;
-import spicewire.davisinterface.Model.Loop1Reading;
-import spicewire.davisinterface.Model.Loop2Reading;
-import spicewire.davisinterface.Model.LoopReading;
-import spicewire.davisinterface.Model.CurrentWeather;
+import spicewire.davisinterface.Model.*;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
@@ -24,34 +20,12 @@ public class JdbcWeatherRecord implements WeatherRecord {
     private final JdbcTemplate jdbcTemplate;
     CurrentWeather currentWeather = new CurrentWeather();
 
-
     public JdbcWeatherRecord(DataSource datasource) {
         jdbcTemplate = new JdbcTemplate(datasource);
     }
     private Loop1Reading l1 = new Loop1Reading();
 
-
-    public CurrentWeather getBasicWeather(){
-        String consoleSqlLoop1 = "SELECT outside_temperature, outside_humidity, wind_speed, wind_direction, " +
-                "bar_trend, barometer, inside_temperature,inside_humidity," +
-                " forecast_icon, day_rain, storm_rain, rain_rate, entry_date " +
-                " FROM record " +
-                "WHERE for_export = 'TRUE'  AND data_source = 'DavisVP2L1' " +
-                "ORDER BY entry DESC LIMIT 1";
-        String consoleSqlLoop2 = "SELECT wind_chill, heat_index from record WHERE (for_export = 'TRUE' AND " +
-                "packet_type = 1) ORDER BY entry DESC LIMIT 1 " ;
-        SqlRowSet loop1Srs = jdbcTemplate.queryForRowSet(consoleSqlLoop1);
-        SqlRowSet loop2Srs = jdbcTemplate.queryForRowSet(consoleSqlLoop2);
-        while (loop1Srs.next()){
-            mapL1RowToDavis(loop1Srs);
-        }
-        while (loop2Srs.next()){
-            mapL2RowToDavis(loop2Srs);
-        }
-        return currentWeather;
-    }
-
-    public CurrentWeather getAllWeather(){
+    public CurrentWeather getWeather(){
         String consoleSqlLoop1 = "SELECT bar_trend, " +
                 "barometer, inside_temperature, inside_humidity," +
                 "outside_temperature, wind_speed, ten_min_avg_wind_speed, wind_direction, extra_temperature1," +
@@ -87,13 +61,17 @@ public class JdbcWeatherRecord implements WeatherRecord {
 
 
     @Override
-    public void createRecord(LoopReading loopReading){
-        System.out.println("loopreading = " + loopReading.toString());
-        if (loopReading.getClass().getName().equalsIgnoreCase("spicewire.davisinterface.Model.Loop1Reading")){
-            createLoop1Record((Loop1Reading) loopReading);
-        } else if (loopReading.getClass().getName().equalsIgnoreCase("spicewire.davisinterface.Model.Loop2Reading")) {
-            createLoop2Record((Loop2Reading) loopReading);
-        } else System.out.println("Unknown type tried to create a Loop Record.");
+    public void createRecord(DataRecord dataRecord){
+        if(dataRecord.getPacketType()==0){
+            createLoop1Record(dataRecord);
+        }
+
+//        System.out.println("loopreading = " + loopReading.toString());
+//        if (loopReading.getClass().getName().equalsIgnoreCase("spicewire.davisinterface.Model.Loop1Reading")){
+//            createLoop1Record((Loop1Reading) loopReading);
+//        } else if (loopReading.getClass().getName().equalsIgnoreCase("spicewire.davisinterface.Model.Loop2Reading")) {
+//            createLoop2Record((Loop2Reading) loopReading);
+//        } else System.out.println("Unknown type tried to create a Loop Record.");
     }
 
 

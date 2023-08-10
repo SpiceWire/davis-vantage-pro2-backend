@@ -96,7 +96,7 @@ public class Loop1Reading implements LoopReading {
     private int forecastIcon;
     private int timeOfSunrise;
     private int timeOfSunset;
-
+    private String dataSource;
 
     public Loop1Reading(String loopData, JdbcWeatherRecord jdbcWeatherRecord) {
 
@@ -157,6 +157,7 @@ public class Loop1Reading implements LoopReading {
         this.leafWetness3 = setLeafWetness3();
         this.leafWetness4 = setLeafWetness4();
         this.forecastIcon = setForecastIcon();
+        this.dataSource = "DavisVP2L1";
         System.out.println("Loop1 Reading object created. Inside temp is: " + getInsideTemperature());
         jdbcWeatherRecord.createRecord(this);
     }
@@ -888,5 +889,9 @@ public class Loop1Reading implements LoopReading {
 
     public int getTimeOfSunset() {
         return timeOfSunset;
+    }
+
+    public String getDataSource() {
+        return dataSource;
     }
 }

@@ -1,5 +1,6 @@
 package spicewire.davisinterface.Dao;
 
+import spicewire.davisinterface.Model.CurrentWeather;
 import spicewire.davisinterface.Model.DavisVP2;
 import spicewire.davisinterface.Model.LoopReading;
 
@@ -21,7 +22,7 @@ public interface WeatherRecord {
      */
     void createRecord(LoopReading loopReading);
 
-    void
+    CurrentWeather getWeather();
     /**
      * Creates an instance of the DavisVP2.DisplayWeather class, which contains all necessary
      * variables to emulate a Davis Vantage Pro 2 display.

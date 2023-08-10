@@ -15,17 +15,12 @@ import java.time.LocalDate;
 public interface LoopReading {
 
     /**
-     * Creates a string array from a string validated by CRC and with any ACK values removed. String must
-     * originate from a Davis Weather Instruments Vantage Pro2 Console as a result of using a command of either
-     *
-     * @param loopData String must be formatted as if from a Davis Weather Instruments Vantage Pro2 Console
-     *                 as a result of using a command of either "LOOP 1" or "LPS 2 1".
-     * @return String array used for populating the parameters of the class instance.  For example, the
-     * fourth index value of the array determines the Davis data format.
+     * Gets the source of data. E.g. name or location of sensor or
+     * sensor package. DavisVP2L1 for Loop data, DavisVP2L2 for LPS data,
+     * Used in database for labels.
+     * @return String
      */
-    private String[] makeDataArray(String loopData) {
-        return loopData.split(" ");
-    }
+    String getDataSource();
 
 
     /**Get the packet type associated with the data format.

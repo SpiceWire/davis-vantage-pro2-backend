@@ -1,11 +1,12 @@
 package spicewire.davisinterface.Model;
 
 import spicewire.davisinterface.Dao.JdbcWeatherRecord;
+import spicewire.davisinterface.Dao.WeatherRecord;
 
 import java.time.LocalDate;
 
 
-public class Loop2Reading implements LoopReading {
+public class Loop2Reading implements DataRecord {
     private JdbcWeatherRecord jdbcWeatherRecord;
 
     private String[] loopRecord;
@@ -52,6 +53,7 @@ public class Loop2Reading implements LoopReading {
     private int nextMonthlyRain;
     private int nextYearlyRain;
     private int nextSeasonalRain;
+    private String dataSource;
 
     public Loop2Reading(String loopData, JdbcWeatherRecord jdbcWeatherRecord) {
 
@@ -89,6 +91,7 @@ public class Loop2Reading implements LoopReading {
         this.userEnteredBarometricOffset = setUserEnteredBarometricOffset();
         this.barometricCalibrationNumber = setBarometricCalibrationNumber();
         this.barometricSensorRawReading = setBarometricSensorRawReading();
+        this.dataSource= "DavisVP2L2";
         jdbcWeatherRecord.createRecord(this);
         System.out.println("Loop2Reading: Loop2 Reading object created. Inside temp is: " + getInsideTemperature());
         //todo additional parameters to be added later
@@ -501,5 +504,9 @@ public class Loop2Reading implements LoopReading {
 
     public double getLast24HourRain() {
         return last24HourRain;
+    }
+
+    public String getDataSource() {
+        return dataSource;
     }
 }
