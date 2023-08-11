@@ -38,10 +38,10 @@ public class DavisinterfaceApplication extends JFrame {
 		dataSource.setUsername("postgres");
 		dataSource.setPassword("postgres");
 		JdbcWeatherRecord jdbcWeatherRecord = new JdbcWeatherRecord(dataSource);
-		ConsoleController consoleController = new ConsoleController(serialModel, view, jdbcWeatherRecord);
-		DavisVP2 davisVP2 = new DavisVP2();
-		DavisVP2Controller davisVP2Controller = new DavisVP2Controller(davisVP2, dataSource);
-		consoleController.listenerFromController();
+//		ConsoleController consoleController = new ConsoleController(serialModel, view, jdbcWeatherRecord);
+//		DavisVP2 davisVP2 = new DavisVP2();
+//		DavisVP2Controller davisVP2Controller = new DavisVP2Controller();
+
 
 
 			System.out.println("frame called on start");

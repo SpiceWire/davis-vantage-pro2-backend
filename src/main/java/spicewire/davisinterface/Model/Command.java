@@ -35,9 +35,9 @@ public class Command {
     //Davis console needs a single line feed or a single carriage return (but not both) after a command string.
     //Windows usually uses a carriage return AND line feed for a new line.
     private static final char LINE_FEED = (char) 10; //HEX A
-    private final char NOT_ACKNOWLEDGE = (char) 21; //Davis instructions indicate HEX 21 (!).
-    private final char CARRIAGE_RETURN = (char) 13; //HEX D.
-    private final char CANCEL = (char) 24; // HEX 18. Davis uses this with a bad CRC code
+//    private final char NOT_ACKNOWLEDGE = (char) 21; //Davis instructions indicate HEX 21 (!).
+//    private final char CARRIAGE_RETURN = (char) 13; //HEX D.
+//    private final char CANCEL = (char) 24; // HEX 18. Davis uses this with a bad CRC code
 
     private static final String TEST_DESCRIPTION = "Sends the command TEST to the console. The response TEST is expected.";
 

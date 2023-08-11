@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import spicewire.davisinterface.Dao.JdbcWeatherRecord;
+import spicewire.davisinterface.Model.CurrentWeather;
 import spicewire.davisinterface.Model.DavisVP2;
-
+import spicewire.davisinterface.Controller.ConsoleController;
 import javax.sql.DataSource;
 
 
@@ -19,24 +20,25 @@ import javax.sql.DataSource;
 public class DavisVP2Controller  {
 
 
-    private static DavisVP2 davisVP2;
-    private static DataSource datasource;
-
+    //private static DavisVP2 davisVP2;
+    //private static DataSource datasource;
     private ConsoleController consoleController;
 
 
-    public DavisVP2Controller(DavisVP2 davisVP2, DataSource dataSource) {
-        DavisVP2Controller.davisVP2 = davisVP2;
-        DavisVP2Controller.datasource = dataSource;
-    }
+
+//    public DavisVP2Controller(DavisVP2 davisVP2, DataSource dataSource) {
+//        DavisVP2Controller.davisVP2 = davisVP2;
+//        DavisVP2Controller.datasource = dataSource;
+//    }
 
 //    @CrossOrigin( maxAge = 3600)@RequestMapping("/davisvp2")//base path for handlers
-    @GetMapping(path = "/davisvp2")
-    public DavisVP2.DisplayWeather getLastReadings(){
+    //@GetMapping(path = "/davisvp2")
+    public void get(){
+    //CurrentWeather consoleController.getCurrentWeather();
 
         System.out.println("Weather record sent from server.");
 //        return new JdbcWeatherRecord(datasource).getDavisConsoleWeather();
-        return JdbcWeatherRecord.getDavisConsoleWeather;
+//        return JdbcWeatherRecord.getDavisConsoleWeather;
     }
 
 

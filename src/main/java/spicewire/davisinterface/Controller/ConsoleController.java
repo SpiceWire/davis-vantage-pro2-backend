@@ -8,8 +8,7 @@ import spicewire.davisinterface.View.ComsPanes;
 import spicewire.davisinterface.View.TextAreas;
 
 import java.util.logging.Logger;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.util.Arrays;
 
 /*This class manages interactions between the serialData class, the view, and the records received. The
@@ -25,14 +24,8 @@ public class ConsoleController {
     private ComsPanes view;
     private Command command = new Command();
     private JdbcWeatherRecord jdbcWeatherRecord;
-    private final String NO_COM_PORTS_FOUND = "None found";
-    private boolean comPortParametersAreSet = false;
 
-    private final char LINE_FEED = (char) 10; //HEX A
-    private final char ACKNOWLEDGE = (char) 6; //HEX 6
-    private final char NOT_ACKNOWLEDGE = (char) 21; //Davis instructions indicate HEX 21 (!).
-    private final char CARRIAGE_RETURN = (char) 13; //HEX D.
-    private final char CANCEL = (char) 24; // HEX 18. Davis uses this with a bad CRC code
+    private boolean comPortParametersAreSet = false;
     private final Logger logger = Logger.getLogger(ConsoleController.class.getName());
 
     @Autowired
@@ -52,7 +45,7 @@ public class ConsoleController {
      * Takes a String from the View, converts it into a Command class, sends it to the Davis console.
      * String must be a Command as described in the Davis manual. Currently accepts the following
      * Commands : test, rxCheck, rxTest, ver, nver, receivers, loop, lps
-     * @param commandWord
+     * @param commandWord One of {test, rxCheck, rxTest, ver, nver, receivers, loop, lps}
      */
     public void runCommand(String commandWord){
         Command command = new Command();
@@ -91,12 +84,12 @@ public class ConsoleController {
     /**
      * This method handles all console testing commands: TEST, RXCHECK, RXTEST, VER, RECEIVERS, NVER.
      * Console testing commands are type 1.
-     * @param command
+     * @param command of the Command class
      */
     private void runConsoleTest(Command command) {
         //todo refactor so there is a com port params check with any button press
         //todo add a "you just pressed this button" field to the view.
-        if (confirmCommmandClass(command, 1)) {
+        if (confirmCommandClass(command, 1)) {
             sendCommandToConsole(command);
             view.setTestDescriptionTextArea(command.getDescription());
             view.setConsoleFriendlyTextArea(TextAreas.consoleFriendlyText(command));
@@ -123,7 +116,7 @@ public class ConsoleController {
      * @param command LOOP or LPS
      */
     private void createLoopRecord(Command command) {
-        if (confirmCommmandClass(command, 2)) {
+        if (confirmCommandClass(command, 2)) {
             if (DataProcessor.getSerialData().length() > 0) {
                 if (command.getWord().equalsIgnoreCase("LOOP")) {
                     new Loop1Reading(DataProcessor.getSerialData());
@@ -149,9 +142,9 @@ public class ConsoleController {
      *  (Categorized in Davis Serial Communication Reference Manual)
      * @param command from Command class
      * @param commandType int
-     * @return
+     * @return boolean, true if there is a type match
      */
-    private boolean confirmCommmandClass (Command command, int commandType){
+    private boolean confirmCommandClass (Command command, int commandType){
 
         boolean commandIsCorrectType = (command.getType()==commandType);
         if (!commandIsCorrectType){
@@ -200,7 +193,7 @@ public class ConsoleController {
                 }
             }
             comPortList = friendlySPName.toString().split(" ");
-            //view.addComPortToCmbComPort(friendlySPName.toString()); //adds stripped name to com port list
+            //view.addComPortToCmbComPort(friendlySPName.toString()); //adds stripped name to comm port list
 
         }
         return comPortList;
@@ -269,6 +262,7 @@ public class ConsoleController {
     private void setEvalMessage(String evalMessage) {
         view.setTfEval(evalMessage);
     }
+/*
 
     public void listenerFromController() {  //adds listeners to objects in the view
         view.getApplyButton().addActionListener(new ActionListener() {
@@ -340,6 +334,7 @@ public class ConsoleController {
 
 
     }
+*/
 
 
 /*    Lines below are not implemented because Davis console does not follow published specs. Davis manual (p. 12)

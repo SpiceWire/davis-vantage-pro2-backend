@@ -1,9 +1,6 @@
 package spicewire.davisinterface.View;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import spicewire.davisinterface.Controller.ConsoleController;
-import spicewire.davisinterface.Model.Command;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +10,7 @@ import java.awt.event.ActionListener;
 public class ComsPanes implements ViewDao {
 
     private JPanel mainJPanel;
-    private JComboBox cmbComPort;
+    private static JComboBox cmbComPort;
     private JComboBox cmbBaud;
     private JComboBox cmbStopBits;
     private JComboBox cmbReadTimeout;
@@ -55,6 +52,7 @@ public class ComsPanes implements ViewDao {
 
     public ComsPanes() {
         createComPortList();
+        getComPortParameters();
         testButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -106,7 +104,7 @@ public class ComsPanes implements ViewDao {
         applyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setComPortParameters();
+                getComPortParameters();
             }
         });
     }
@@ -118,10 +116,20 @@ public class ComsPanes implements ViewDao {
     public void runCommand(String command){
         consoleController.runCommand(command);
     }
-    public void setComPortParameters(){
-        consoleController.setComPortParameters(getComPortIndex(), getBaudRate(), getDataBits(),
-                getStopBits(), getParity(), getTimeoutMode(), getWriteTimeout(),
-                getReadTimeout());
+
+    public String getComPortSettings(){
+        return consoleController.getComPortSettings();
+    }
+
+    private void getComPortParameters(){
+       setComPortParameters(getComPortIndex(), getBaudRate(), getDataBits(), getStopBits(),
+               getParity(), getTimeoutMode(), getWriteTimeout(), getReadTimeout());
+    }
+
+    public void setComPortParameters(int comPortIndex, int baud, int dataBits, int stopBits,
+                                     int parity, int timeoutMode, int writeTimeout, int readTimeout){
+        consoleController.setComPortParameters(comPortIndex, baud, dataBits, stopBits, parity,
+                timeoutMode, writeTimeout, readTimeout);
     }
 
     private void createComPortList(){
@@ -141,6 +149,7 @@ public class ComsPanes implements ViewDao {
     public int getComPortIndex() {
         return cmbComPort.getSelectedIndex();
     }
+
     public String getComPortSelection() {
         return cmbComPort.getSelectedItem().toString();
     }

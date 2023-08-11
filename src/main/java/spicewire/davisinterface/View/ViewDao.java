@@ -87,7 +87,7 @@ public interface ViewDao {
      * Sets text area after a Current Data Command (type 2) is sent to the console. Text area contains
      * binary data.
      */
-    void setCurrentDataTextArea();
+    void setCurrentDataTextArea(String currentData);
 
     /**
      * Sets the text area with a description of the Testing Command being used.
@@ -113,7 +113,7 @@ public interface ViewDao {
     /**
      * Requests controller to send the current com port settings.
      */
-    void getComPortSettings();
+    String getComPortSettings();
 
    //CurrentWeather getCurrentWeather();
 }
