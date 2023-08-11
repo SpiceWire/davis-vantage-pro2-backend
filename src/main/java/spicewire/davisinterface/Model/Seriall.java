@@ -2,9 +2,6 @@ package spicewire.davisinterface.Model;
 
 
 import com.fazecast.jSerialComm.SerialPort;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import spicewire.davisinterface.Services.DataProcessor;
 
 import java.io.IOException;
@@ -22,12 +19,13 @@ public class Seriall {
     private StringBuilder rawData = new StringBuilder(); // raw data before CRC
     private static Integer delayTime = 1000; //delay between requests to the console in the event of a failed CRC
 
-    static SerialPort port = selectSerialPort("COM6");
+    static SerialPort port = selectSerialPort("COM4");
 
     //assigns serial port path from view selection passed from controller
     public String getComPortPath(int index) {
         return SerialPort.getCommPorts()[index].getSystemPortPath();
     }
+
     public static SerialPort selectSerialPort(String serialPortSystemPath) {
         return SerialPort.getCommPort("COM4"); //sets the SerialPort object
 
@@ -36,29 +34,38 @@ public class Seriall {
     public static String getPortSettings(){
         StringBuilder settings = new StringBuilder();
         if (port!=null){
-            settings.append("databits:" + port.getNumDataBits());
-            settings.append("|stopbits:" + port.getNumStopBits());
-            settings.append("|parity:" + port.getParity());
-            settings.append("|baudrate:" + port.getBaudRate());
-            settings.append("|path:" + port.getSystemPortPath());
-            settings.append("|descriptive:" + port.getDescriptivePortName());
-            settings.append("|systemname:" + port.getSystemPortName());
+            settings.append("|baud rate: " + port.getBaudRate());
+            settings.append("|data bits: " + port.getNumDataBits());
+            settings.append("|stop bits: " + port.getNumStopBits());
+            settings.append("|parity: " + port.getParity());
+            settings.append("|path: " + port.getSystemPortPath());
+            settings.append("|descriptive: " + port.getDescriptivePortName());
+            settings.append("|system name: " + port.getSystemPortName());
         } else {
             settings.append("Port has not been assigned. No settings to return.");
         }
         return settings.toString();
     }
 
-    public void setComPortParameters(SerialPort selectedPort, String comName, int newBaudRate, int newDataBits, int newStopBits, int newParity, boolean useRS485Mode) {
-        port = selectedPort;
-        port.setComPortParameters(newBaudRate, newDataBits, newStopBits, newParity, useRS485Mode);
-        System.out.println("Com port params set: ");
-        System.out.println("Baud:      " + selectedPort.getBaudRate());
-        System.out.println("Data Bits: " + selectedPort.getNumDataBits());
-        System.out.println("Stop Bits: " + selectedPort.getNumStopBits());
-        System.out.println("Parity:    " + selectedPort.getParity());
-        System.out.println("Com name:  " + comName);
-        System.out.println("Open?      " + selectedPort.isOpen());
+    /**
+     * Accepts and sets parameters for the serial port.
+     * The com port index is translated to the com port path needed by Fazecast Jserialcomm library
+     * The port.setComPortParameters uses the parameter of useRS485Mode, defaulted as false.
+     *
+     * @param comPortIndex  comPortList's index number of the selected com port
+     * @param newBaudRate 1200, 2400, 4800, 9600,  or19200. Davis default:19200.
+     * @param newDataBits 7 or 8. Davis default: 8
+     * @param newStopBits  0, 1, 2, 3 (index from list {0, 1, 1.5, 2}) Davis default: 1
+     * @param newParity  0, 1, 2 (index from list {no, even, odd}  Davis default: 1
+     * @return true if port was set, false if not
+     */
+    public boolean setSerialPortParameters(int comPortIndex, int newBaudRate, int newDataBits, int newStopBits,
+                                           int newParity) {
+        //use the index of the com port to set the com port
+        String comPortPath = getComPortPath(comPortIndex);
+        SerialPort port = selectSerialPort(comPortPath);
+        System.out.println(getPortSettings());
+        return port.setComPortParameters(newBaudRate, newDataBits, newStopBits, newParity, false);
     }
 
     public String[] getSerialPorts() {
