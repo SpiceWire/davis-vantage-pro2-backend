@@ -6,6 +6,7 @@ import spicewire.davisinterface.Dao.JdbcWeatherRecord;
 import spicewire.davisinterface.Model.*;
 import spicewire.davisinterface.Services.DataProcessor;
 import spicewire.davisinterface.View.ComsPanes;
+import spicewire.davisinterface.View.TextAreas;
 
 import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
@@ -101,7 +102,7 @@ public class ConsoleController {
         if (confirmCommmandClass(command, 1)) {
             sendCommandToConsole(command);
             view.setTestDescriptionTextArea(command.getDescription());
-            view.setConsoleFriendlyTextArea(DataProcessor.consoleFriendlyText(command));
+            view.setConsoleFriendlyTextArea(TextAreas.consoleFriendlyText(command));
             view.setConsoleRawTextArea(DataProcessor.getSerialData());
         }
     }
@@ -149,8 +150,8 @@ public class ConsoleController {
      * Confirms that a command is the correct type for the method being called.
      * Command types: 1=Testing  2=Current Data  3=Download  4=EEPROM 5=Calibration 6=Clearing  7= Configuration
      *  (Categorized in Davis Serial Communication Reference Manual)
-     * @param command
-     * @param commandType
+     * @param command from Command class
+     * @param commandType int
      * @return
      */
     private boolean confirmCommmandClass (Command command, int commandType){
@@ -168,8 +169,6 @@ public class ConsoleController {
      * Sets default timeouts for the serial port read/write.
      */
     private void setTimeouts(int timeoutMode, int writeTimeout, int readTimeout) {
-
-
         try {
 //            timeoutMode = view.getTimeoutMode();
 //            writeTimeout = view.getWriteTimeout();
@@ -218,15 +217,14 @@ public class ConsoleController {
         return Seriall.getPortSettings();
     }
 
-
     /**
      * View sends com port parameters to be set. The com port index number is sent to the
-     * serial model and the
+     * serial model, which generates the com port path.
+     * @param comPortIndex index number of user-selected com port from com port list.
      * @param baud 1200, 2400, 4800, 9600, or 19200 Davis default=19200
      * @param dataBits 7 0r 8. Default 8
-     * @param stopBits index 0, 1, 2, 3 corresponding to options are 0, 1, 1.5, 2. Default 1
-     * @param parity
-     * @param comPortIndex
+     * @param stopBits index 0, 1, 2, 3 corresponding to options are {0, 1, 1.5, 2}. Default 1
+     * @param parity index 0, 1, or 2 corresponding to options  {no, even, odd}
      * @param timeoutMode 0 or 1. 0= nonblocking, 1=semiBlocking. Default 0
      * @param writeTimeout In milliseconds. Default 0
      * @param readTimeout In milliseconds. Default 0
@@ -235,14 +233,8 @@ public class ConsoleController {
                                      int parity, int timeoutMode, int writeTimeout, int readTimeout) {
 //        int baud, databits, stopbits, parity, comPortIndex;
 //        String comPortPath, comPortName;
+        boolean comPortParamsAreSet = false;
         try {
-//            baud = view.getBaudRate();
-//            parity = view.getParity();
-//            stopBits = view.getStopBits();
-//            dataBits = view.getDataBits();
-//            comPortIndex = view.getComPortIndex();
-
-
             if (serialModel.getSerialPorts().length==0) {
                 //System.out.println("No port is selected.");
                 setEvalMessage("No port is selected.");
@@ -250,18 +242,16 @@ public class ConsoleController {
             }
 
             System.out.println(" Ports: " + Arrays.toString(serialModel.getSerialPorts()));
-//            comPortPath = serialModel.getComPortPath(comPortIndex);
-//            SerialPort newPort = serialModel.selectSerialPort(comPortPath);
-            serialModel.setSerialPortParameters(comPortIndex, baud, dataBits, stopBits, parity);
-            System.out.println("controller says baud is " + baud);
-            setTimeouts();
+            comPortParametersAreSet = serialModel.setSerialPortParameters(comPortIndex, baud, dataBits, stopBits, parity);
+
+
         } catch (Exception exception) {
             //System.out.println("Com port parameters not set.");
             setEvalMessage("Com port parameters not set.");
         }
-        comPortParametersAreSet = true;
         setEvalMessage("Com port parameters are set.");
-        return true
+        setTimeouts(timeoutMode, writeTimeout, readTimeout);
+        return comPortParametersAreSet;
     }
 
     private void checkIfComPortParametersAreSet() { //called from some GUI button action listeners, before trying to get console data

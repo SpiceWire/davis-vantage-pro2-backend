@@ -20,8 +20,6 @@ public interface ViewDao {
      */
     int getComPortIndex();
 
-    int getComPort();
-
     /**
      * Returns the baud rate selected by the user. Options are:
      * 1200, 2400, 4800, 9600, 19200. Davis default:19200.
@@ -57,25 +55,49 @@ public interface ViewDao {
      */
     void clearComPortList();
 
+    /**
+     * View accepts a boolean to show if com port parameters have been set.
+     * @param paramsSet
+     */
+    void comPortParametersAreSet(boolean paramsSet);
+
 
     /**
      * Sends user-selected parameters to the controller so serial port can be set.
      *
-     * @param comPortIndex
-     * @param baud
-     * @param dataBits
-     * @param stopBits
-     * @param parity
+     * @param comPortIndex index number of user-selected com port from com port list.
+     * @param baud 1200, 2400, 4800, 9600, or 19200 Davis default=19200
+     * @param dataBits 7 0r 8. Default 8
+     * @param stopBits index 0, 1, 2, 3 corresponding to options are {0, 1, 1.5, 2}. Default 1
+     * @param parity index 0, 1, or 2 corresponding to options  {no, even, odd}
      * @param timeoutMode 0 or 1. 0= nonblocking, 1=semiBlocking. Default 0
      * @param writeTimeout In milliseconds. Default 0
      * @param readTimeout In milliseconds. Default 0
      */
     void setComPortParameters(int comPortIndex, int baud, int dataBits, int stopBits,
                               int parity, int timeoutMode, int writeTimeout, int readTimeout);
-    void setConsoleFriendlyTextArea(String friendlyText);
-    void setCurrentDataTextArea();
-    void parseDiagnosticsReport(String diagnosticReport);
 
+    /**
+     * Sets text area after a Testing Commands (type 1) is sent to the console. Text area contains
+     * the results of the test.
+     * @param friendlyText String
+     */
+    void setConsoleFriendlyTextArea(String friendlyText);
+
+    /**
+     * Sets text area after a Current Data Command (type 2) is sent to the console. Text area contains
+     * binary data.
+     */
+    void setCurrentDataTextArea();
+
+
+    /**
+     * Sets the description of the Command
+     * @param description
+     */
+
+    void setTestDescriptionTextArea(String description);
+    void setConsoleRawTextArea(String rawData);
 
     /**
      * View sends these params to the controller, which sends them to the console.
@@ -85,8 +107,7 @@ public interface ViewDao {
     void setTimeouts(int timeoutMode, int writeTimeout, int readTimeout)
 
 
-    void setTestDescriptionTextArea(String description);
-    void setConsoleRawTextArea(String rawData);
+
 
     /**
      * Sends a String from the View to the Controller, converts String to Command class, sends it to the Davis console.
@@ -95,6 +116,11 @@ public interface ViewDao {
      * @param commandWord
      */
     void runCommand(String commandWord);
+
+    /**
+     * Requests controller to send the current com port settings.
+     */
+    void getComPortSettings();
 
    //CurrentWeather getCurrentWeather();
 }

@@ -131,17 +131,6 @@ public class ComsPanes {
     }
     public void setCurrentDataTextArea(String currentData){currentDataTextArea.setText(currentData);}
 
-    public void parseDiagnosticsReport(String diagnosticsReport){
-        StringBuilder displayText = new StringBuilder();
-        String diagnosticData = diagnosticsReport.substring(5);
-        String[] drAry = diagnosticData.split(" ");
-        displayText.append("Total packets received: " + drAry[0] + LINE_SEPARATOR);
-        displayText.append("Total packets missed: " + drAry[1] + LINE_SEPARATOR);
-        displayText.append("Number of resynchronizations: " + drAry[2] + LINE_SEPARATOR);
-        displayText.append("Largest number of packets received in a row: " + drAry[3] + LINE_SEPARATOR);
-        displayText.append("Number of CRC errors detected: " + drAry[4]);
-        setConsoleFriendlyTextArea(displayText.toString());
-    }
 
     public int getWriteTimeout(){
         return Integer.parseInt((String) cmbWriteTimeout.getSelectedItem());
