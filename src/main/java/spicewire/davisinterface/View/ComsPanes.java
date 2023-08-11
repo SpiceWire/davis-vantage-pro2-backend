@@ -131,7 +131,6 @@ public class ComsPanes {
     }
     public void setCurrentDataTextArea(String currentData){currentDataTextArea.setText(currentData);}
 
-
     public int getWriteTimeout(){
         return Integer.parseInt((String) cmbWriteTimeout.getSelectedItem());
     }

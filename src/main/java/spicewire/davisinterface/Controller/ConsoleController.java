@@ -42,7 +42,7 @@ public class ConsoleController {
         this.view = view;
         this.jdbcWeatherRecord = jdbcWeatherRecord;
         populateComPortList();
-        setComPortParameters();
+        setComPortParameters(2,9600, 8, 1, 1, 0, 0, 0);
         logger.info("Console controller started.");
         System.out.println("Console controller started.");
 //        runCurrentData(command.getLoop());
@@ -87,8 +87,6 @@ public class ConsoleController {
         return jdbcWeatherRecord.getWeather();
     }
         //todo transfer these to the coms view?
-
-
 
 
     /**
@@ -188,6 +186,7 @@ public class ConsoleController {
      */
     public String[] populateComPortList() {
         String[] serialPortArr = serialModel.getSerialPorts();
+        String[] comPortList = new String[serialPortArr.length];
         if (serialPortArr.length == 0) {
             return new String[]{"NO_COM_PORTS_FOUND"};
         }
@@ -201,11 +200,11 @@ public class ConsoleController {
                     friendlySPName.append(c);
                 }
             }
-            String[] comPortList = friendlySPName.toString().split(" ");
-            return comPortList;
+            comPortList = friendlySPName.toString().split(" ");
             //view.addComPortToCmbComPort(friendlySPName.toString()); //adds stripped name to com port list
 
         }
+        return comPortList;
     }
 
     /**

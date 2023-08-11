@@ -90,23 +90,17 @@ public interface ViewDao {
      */
     void setCurrentDataTextArea();
 
-
     /**
-     * Sets the description of the Command
+     * Sets the text area with a description of the Testing Command being used.
      * @param description
      */
-
     void setTestDescriptionTextArea(String description);
-    void setConsoleRawTextArea(String rawData);
 
     /**
-     * View sends these params to the controller, which sends them to the console.
-     * TimeoutMode
-
+     * Sets the text area with the raw data generated from Testing Command.
+     * @param rawData
      */
-    void setTimeouts(int timeoutMode, int writeTimeout, int readTimeout)
-
-
+    void setConsoleRawTextArea(String rawData);
 
 
     /**
