@@ -56,10 +56,9 @@ public interface ViewDao {
     void clearComPortList();
 
     /**
-     * View accepts a boolean to show if com port parameters have been set.
-     * @param paramsSet
+     * View sets a boolean to show if com port parameters have been set.
      */
-    void comPortParametersAreSet(boolean paramsSet);
+    boolean comPortParametersAreSet();
 
 
     /**
