@@ -1,12 +1,15 @@
 package spicewire.davisinterface.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import spicewire.davisinterface.Dao.JdbcWeatherRecord;
 import spicewire.davisinterface.Model.*;
 import spicewire.davisinterface.Services.DataProcessor;
 import spicewire.davisinterface.View.ComsPanes;
 import spicewire.davisinterface.View.TextAreas;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 
 import java.util.Arrays;
@@ -28,19 +31,19 @@ public class ConsoleController {
     private boolean comPortParametersAreSet = false;
     private final Logger logger = Logger.getLogger(ConsoleController.class.getName());
 
-    @Autowired
+
     public ConsoleController(Seriall serialModel, ComsPanes view, JdbcWeatherRecord jdbcWeatherRecord) {
         this.serialModel = serialModel;
         this.view = view;
         this.jdbcWeatherRecord = jdbcWeatherRecord;
-        getComPortList();
+        view.populateComPortList(getComPortList());
         setComPortParameters(2,9600, 8, 1, 1, 0, 0, 0);
         logger.info("Console controller started.");
         System.out.println("Console controller started.");
 //        runCurrentData(command.getLoop());
 //        runCurrentData(command.getLps());
     }
-
+    public ConsoleController(){};
     /**
      * Takes a String from the View, converts it into a Command class, sends it to the Davis console.
      * String must be a Command as described in the Davis manual. Currently accepts the following
@@ -262,13 +265,15 @@ public class ConsoleController {
     private void setEvalMessage(String evalMessage) {
         view.setTfEval(evalMessage);
     }
-/*
 
     public void listenerFromController() {  //adds listeners to objects in the view
         view.getApplyButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setComPortParameters();
+                setComPortParameters(view.getComPortIndex(),view.getBaudRate(),
+                        view.getDataBits(), view.getStopBits(), view.getParity(),
+                        view.getTimeoutMode(), view.getWriteTimeout(),
+                        view.getReadTimeout());
             }
         });
         view.getRefreshButton().addActionListener(new ActionListener() {
@@ -334,7 +339,6 @@ public class ConsoleController {
 
 
     }
-*/
 
 
 /*    Lines below are not implemented because Davis console does not follow published specs. Davis manual (p. 12)

@@ -38,7 +38,7 @@ public class DavisinterfaceApplication extends JFrame {
 		dataSource.setUsername("postgres");
 		dataSource.setPassword("postgres");
 		JdbcWeatherRecord jdbcWeatherRecord = new JdbcWeatherRecord(dataSource);
-//		ConsoleController consoleController = new ConsoleController(serialModel, view, jdbcWeatherRecord);
+		ConsoleController consoleController = new ConsoleController(serialModel, view, jdbcWeatherRecord);
 //		DavisVP2 davisVP2 = new DavisVP2();
 //		DavisVP2Controller davisVP2Controller = new DavisVP2Controller();
 
@@ -51,12 +51,12 @@ public class DavisinterfaceApplication extends JFrame {
 			frame.setSize(700, 600);
 			frame.setVisible(true);
 
-		@Configuration
-		 class CustomContainer implements WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
-			public void customize(ConfigurableServletWebServerFactory factory){
-				factory.setPort(8080);
-			}
-		}
+//		@Configuration
+//		 class CustomContainer implements WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
+//			public void customize(ConfigurableServletWebServerFactory factory){
+//				factory.setPort(8080);
+//			}
+//		}
 
 			SpringApplication.run(DavisinterfaceApplication.class, args);
 

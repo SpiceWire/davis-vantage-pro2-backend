@@ -1,16 +1,24 @@
 package spicewire.davisinterface.View;
 
+import org.springframework.stereotype.Component;
 import spicewire.davisinterface.Controller.ConsoleController;
+import spicewire.davisinterface.Dao.JdbcWeatherRecord;
+import spicewire.davisinterface.Model.CommPortModel;
+import spicewire.davisinterface.Model.DavisVP2;
+import spicewire.davisinterface.Model.Seriall;
 
+import javax.sql.DataSource;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static spicewire.davisinterface.Model.DavisVP2.commPortModel;
 
 
 public class ComsPanes implements ViewDao {
 
     private JPanel mainJPanel;
-    private static JComboBox cmbComPort;
+    private JComboBox cmbComPort;
     private JComboBox cmbBaud;
     private JComboBox cmbStopBits;
     private JComboBox cmbReadTimeout;
@@ -46,13 +54,17 @@ public class ComsPanes implements ViewDao {
     private JButton nverButton;
     private JTextArea testDescriptionTextArea;
     private JTabbedPane mainPane;
-    private JButton wakeUpButton;
     private ConsoleController consoleController;
+    private JButton wakeUpButton;
+    private CommPortModel commPortModel ;
     public final String LINE_SEPARATOR = System.getProperty("line.separator");
 
+
     public ComsPanes() {
-        createComPortList();
-        getComPortParameters();
+        System.out.println("Comm panes being created.");
+        this.commPortModel= new CommPortModel();
+        consoleController= new ConsoleController();
+
         testButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -101,12 +113,12 @@ public class ComsPanes implements ViewDao {
                 runCommand("lps");
             }
         });
-        applyButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getComPortParameters();
-            }
-        });
+//        applyButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                getComPortParameters();
+//            }
+//        });
     }
 
     public boolean comPortParametersAreSet(){
@@ -119,22 +131,31 @@ public class ComsPanes implements ViewDao {
 
     public String getComPortSettings(){
         return consoleController.getComPortSettings();
+
     }
 
-    private void getComPortParameters(){
+/*    private void getComPortParameters(){
        setComPortParameters(getComPortIndex(), getBaudRate(), getDataBits(), getStopBits(),
                getParity(), getTimeoutMode(), getWriteTimeout(), getReadTimeout());
-    }
+    }*/
+    public CommPortModel setComPortParameters(){
 
-    public void setComPortParameters(int comPortIndex, int baud, int dataBits, int stopBits,
+        CommPortModel.setCommPort(getComPortSelection());
+        CommPortModel.setComPortIndex(getComPortIndex());
+        CommPortModel.setBaudRate(getBaudRate());
+        CommPortModel.setDataBits(getDataBits());
+        CommPortModel.setStopBits(getStopBits());
+        CommPortModel.setParity(getParity());
+
+        return new CommPortModel();
+
+    }
+  /*  public void setComPortParameters(int comPortIndex, int baud, int dataBits, int stopBits,
                                      int parity, int timeoutMode, int writeTimeout, int readTimeout){
         consoleController.setComPortParameters(comPortIndex, baud, dataBits, stopBits, parity,
                 timeoutMode, writeTimeout, readTimeout);
-    }
+    }*/
 
-    private void createComPortList(){
-        populateComPortList(consoleController.getComPortList());
-    }
 
     public void populateComPortList(String[] comPortList){
         for (String str: comPortList){

@@ -1,5 +1,6 @@
 package spicewire.davisinterface.View;
 
+import spicewire.davisinterface.Model.CommPortModel;
 import spicewire.davisinterface.Model.CurrentWeather;
 
 /**
@@ -62,19 +63,19 @@ public interface ViewDao {
 
 
     /**
-     * Sends user-selected parameters to the controller so serial port can be set.
+     * Sets CommPortModel parameters so serial port can be set.
      *
-     * @param comPortIndex index number of user-selected com port from com port list.
-     * @param baud 1200, 2400, 4800, 9600, or 19200 Davis default=19200
-     * @param dataBits 7 0r 8. Default 8
-     * @param stopBits index 0, 1, 2, 3 corresponding to options are {0, 1, 1.5, 2}. Default 1
-     * @param parity index 0, 1, or 2 corresponding to options  {no, even, odd}
-     * @param timeoutMode 0 or 1. 0= nonblocking, 1=semiBlocking. Default 0
-     * @param writeTimeout In milliseconds. Default 0
-     * @param readTimeout In milliseconds. Default 0
+     *comPortIndex index number of user-selected com port from com port list.
+     * baud 1200, 2400, 4800, 9600, or 19200 Davis default=19200
+     * dataBits 7 0r 8. Default 8
+     * stopBits index 0, 1, 2, 3 corresponding to options are {0, 1, 1.5, 2}. Default 1
+     *  parity index 0, 1, or 2 corresponding to options  {no, even, odd}
+     *  timeoutMode 0 or 1. 0= nonblocking, 1=semiBlocking. Default 0
+     *  writeTimeout In milliseconds. Default 0
+     * @ readTimeout In milliseconds. Default 0
      */
-    void setComPortParameters(int comPortIndex, int baud, int dataBits, int stopBits,
-                              int parity, int timeoutMode, int writeTimeout, int readTimeout);
+     CommPortModel setComPortParameters();
+
 
     /**
      * Sets text area after a Testing Commands (type 1) is sent to the console. Text area contains
