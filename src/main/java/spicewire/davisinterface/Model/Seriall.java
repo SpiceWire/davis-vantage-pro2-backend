@@ -28,8 +28,11 @@ public class Seriall {
     }
 
     public static SerialPort selectSerialPort(String serialPortSystemPath) {
-        System.out.println("Seriall : SelectSeralPort called");
+        System.out.println("Seriall : SelectSeralPort called with " + serialPortSystemPath);
         //return SerialPort.getCommPort("COM4"); //sets the SerialPort object
+        if (SerialPort.getCommPort(serialPortSystemPath)!=null) {
+            CommPortModel.setComPortSet(true);
+        }
         return SerialPort.getCommPort(serialPortSystemPath);
     }
 
@@ -45,7 +48,7 @@ public class Seriall {
         return portSettingsSet;
 
     }
-    public static CommPortModel getPortSettings(){
+    public static String getPortSettings(){
         CommPortModel.setCommPortList(Arrays.toString(SerialPort.getCommPorts()).split(" "));
         CommPortModel.setCommPort(port.getDescriptivePortName());
         CommPortModel.setCommPortDescription(port.getDescriptivePortName());
@@ -57,7 +60,7 @@ public class Seriall {
         CommPortModel.setCommParamsSet(serialPortSettingsSet());
         CommPortModel.setUpdatedBy("Serial Port");
 
-        return new CommPortModel();
+        return new CommPortModel().toString();
     }
 
     /**
@@ -72,13 +75,14 @@ public class Seriall {
      * @param newParity  0, 1, 2 (index from list {no, even, odd}  Davis default: 1
      * @return true if port was set, false if not
      */
-    public boolean setSerialPortParameters(int comPortIndex, int newBaudRate, int newDataBits, int newStopBits,
-                                           int newParity) {
-        //use the index of the com port to set the com port
+    public boolean setSerialPortParameters(int comPortIndex) {
         String comPortPath = getComPortPath(comPortIndex);
+        CommPortModel.setCommPortPath(comPortPath);
+        CommPortModel.setComPortIndex(comPortIndex);
         SerialPort port = selectSerialPort(comPortPath);
         System.out.println(getPortSettings());
-        return port.setComPortParameters(newBaudRate, newDataBits, newStopBits, newParity, false);
+        return port.setComPortParameters(CommPortModel.getBaudRate(), CommPortModel.getBaudRate(),
+        CommPortModel.getStopBits(), CommPortModel.getParity(), false);
     }
 
     public String[] getSerialPorts() {
