@@ -1,18 +1,18 @@
 package spicewire.davisinterface.View;
 
 import spicewire.davisinterface.Model.CommPortModel;
-import spicewire.davisinterface.Model.CurrentWeather;
+
 
 /**
  * Minimal methods needed in the View to interact with the controller.
  */
 public interface ViewDao {
+
     /**
-     * View accepts a String array of available com ports. Array must be displayed
+     * View uses ComPortModel for items in com port list. Array must be displayed
      * in order received.
-     * @return none
      */
-    void populateComPortList(String[] comPortList);
+    void populateComPortList();
 
     /**
      * The View returns the index number of the user-selected com port
@@ -103,17 +103,17 @@ public interface ViewDao {
     void setConsoleRawTextArea(String rawData);
 
 
-    /**
-     * Sends a String from the View to the Controller, converts String to Command class, sends it to the Davis console.
-     * String must be a Command as described in the Davis manual. Currently accepts the following
-     * Commands : test, rxCheck, rxTest, ver, nver, receivers, loop, lps
-     * @param commandWord
-     */
-    void runCommand(String commandWord);
-
-    /**
-     * Requests controller to send the current com port settings.
-     */
+//    /**
+//     * Sends a String from the View to the Controller, converts String to Command class, sends it to the Davis console.
+//     * String must be a Command as described in the Davis manual. Currently accepts the following
+//     * Commands : test, rxCheck, rxTest, ver, nver, receivers, loop, lps
+//     * @param commandWord
+//     */
+//    void runCommand(String commandWord);
+//
+//    /**
+//     * Requests controller to send the current com port settings.
+//     */
     CommPortModel getComPortSettings();
 
    //CurrentWeather getCurrentWeather();
