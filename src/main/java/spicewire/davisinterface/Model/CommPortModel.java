@@ -15,12 +15,18 @@ public class CommPortModel {
         cpmString.append("commPort:" + getCommPort());
         cpmString.append("commPortDescription:" + getCommPortDescription());
         cpmString.append("commPortPath:" + getCommPortPath());
-        cpmString.append("baudRate:" + getBaudRate());
+        cpmString.append("baudRate:" + getBaudRate();
         cpmString.append("dataBits:" + getDataBits());
         cpmString.append("stopBits:" + getStopBits());
         cpmString.append("parity:" + getParity());
         cpmString.append("commParamsSet" + isCommParamsSet());
         cpmString.append("last updated by: " + getUpdatedBy());
+
+        cpmString.append("Baud set?      " + isBaudSet() );
+        cpmString.append("Data Bits set? " + isDataBitsSet());
+        cpmString.append("Stop Bits set? " + isStopBitsSet());
+        cpmString.append("Parity set?    " + isParitySet());
+        cpmString.append("Com Port set?  " + isComPortSet());
         return cpmString.toString();
     }
 

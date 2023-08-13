@@ -45,7 +45,7 @@ public class Seriall {
         return portSettingsSet;
 
     }
-    public static String getPortSettings(){
+    public static CommPortModel getPortSettings(){
         CommPortModel.setCommPortList(Arrays.toString(SerialPort.getCommPorts()).split(" "));
         CommPortModel.setCommPort(port.getDescriptivePortName());
         CommPortModel.setCommPortDescription(port.getDescriptivePortName());
@@ -55,21 +55,9 @@ public class Seriall {
         CommPortModel.setStopBits(port.getNumStopBits());
         CommPortModel.setParity(port.getParity());
         CommPortModel.setCommParamsSet(serialPortSettingsSet());
+        CommPortModel.setUpdatedBy("Serial Port");
 
-        StringBuilder settings = new StringBuilder();
-
-        if (port!=null){
-            settings.append("|baud rate: " + port.getBaudRate());
-            settings.append("|data bits: " + port.getNumDataBits());
-            settings.append("|stop bits: " + port.getNumStopBits());
-            settings.append("|parity: " + port.getParity());
-            settings.append("|path: " + port.getSystemPortPath());
-            settings.append("|descriptive: " + port.getDescriptivePortName());
-            settings.append("|system name: " + port.getSystemPortName());
-        } else {
-            settings.append("Port has not been assigned. No settings to return.");
-        }
-        return settings.toString();
+        return new CommPortModel();
     }
 
     /**
