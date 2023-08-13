@@ -183,7 +183,6 @@ public class ConsoleController {
      */
     public void updateComPortList() {
         String[] serialPortArr = serialModel.getSerialPorts();
-
         String[] comPortList = new String[serialPortArr.length];
         System.out.println("Console com port list: " +  Arrays.toString(serialModel.getSerialPorts()));
         if (serialPortArr.length == 0) {
@@ -203,7 +202,6 @@ public class ConsoleController {
             comPortList = friendlySPName.toString().split(" ");
 
             //view.addComPortToCmbComPort(friendlySPName.toString()); //adds stripped name to comm port list
-
         }
         CommPortModel.setCommPortList(comPortList);
     }
@@ -214,7 +212,8 @@ public class ConsoleController {
      * @return String
      */
     public static String getComPortSettings() {
-        return Seriall.getPortSettings();
+        Seriall.getPortSettings();
+        return ;
     }
 
     /**

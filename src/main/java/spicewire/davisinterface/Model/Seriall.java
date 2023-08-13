@@ -33,8 +33,22 @@ public class Seriall {
         return SerialPort.getCommPort(serialPortSystemPath);
     }
 
+    private static boolean serialPortSettingsSet(){
+
+    }
     public static String getPortSettings(){
+        CommPortModel.setCommPortList(Arrays.toString(SerialPort.getCommPorts()).split(" "));
+        CommPortModel.setCommPort(port.getDescriptivePortName());
+        CommPortModel.setCommPortDescription(port.getDescriptivePortName());
+        CommPortModel.setCommPortPath(port.getSystemPortPath());
+        CommPortModel.setBaudRate(port.getBaudRate());
+        CommPortModel.setDataBits(port.getNumDataBits());
+        CommPortModel.setStopBits(port.getNumStopBits());
+        CommPortModel.setParity(port.getParity());
+        CommPortModel.isCommParamsSet()
+
         StringBuilder settings = new StringBuilder();
+
         if (port!=null){
             settings.append("|baud rate: " + port.getBaudRate());
             settings.append("|data bits: " + port.getNumDataBits());
