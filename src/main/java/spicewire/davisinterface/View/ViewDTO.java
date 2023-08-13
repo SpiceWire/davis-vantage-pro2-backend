@@ -11,30 +11,30 @@ public class ViewDTO {
      * Holds binary results from Davis Loop and LPS commands.
      * Davis Command category: Current Data
      */
-    private static String currentDavisDataTextArea;
+    private static String currentDataText;
 
     /**
      * Holds Controller's response to Loop and LPS commands.
      * Davis Command category: Current Data
      */
-    private static String tfEval;
+    private static String evalText;
 
     /**
      * Holds raw Davis Console results from testing commands: Test, RxCheck, RxTest, Ver, Nver, Receivers
      * Davis Command category: Testing
      */
-    private static String consoleRawTextArea;
+    private static String testingRawText;
 
     /**
      * Holds Controller-interpreted Davis Console results from testing commands: Test,
      * RxCheck, RxTest, Ver, Nver, Receivers
      * Davis Command category: Testing
      */
-    private static String consoleFriendlyTextArea;
+    private static String testingFriendlyText;
 
     /**
      * Holds description of the current Davis Testing command.
      * Davis Command category: Testing
      */
-    private static String testDescriptionTextArea;
+    private static String testingDescription;
 }
