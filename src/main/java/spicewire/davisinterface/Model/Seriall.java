@@ -122,10 +122,13 @@ public class Seriall {
 
     /**
      * Builds and sends a Command class object to the console. The Fazecast Serial Port write method requires a buffer.
-     * @param command an object of the Command class with
-     * @param initialSending
+     * If this method results in any data transmission errors, it increases the time between
+     * attempts, stopping after a total of 4 attempts.
+     * @param command an object of the Command class with payloads or parameters set
+     * @param initialSending default true by ConsoleController. Reset by Serial Model if
+     *                       there are data errors in transmission.
      */
-    //This method builds and sends a command to the console. The Fazecast writeMethod requires a buffer.
+
     public void sendCommand(Command command, boolean initialSending) {
         if (initialSending==true) {delayTime = 1000;}
         StringBuilder cmdSB = new StringBuilder(); //todo name it better
@@ -155,7 +158,11 @@ public class Seriall {
         listenForData(command);
     }
 
-
+    /**
+     * Serial port listens for data. An InputStream receives the data, translates it to a binary
+     * string if necessary, sends it to another method for validation
+     * @param command an object of the Command class with payloads or parameters set
+     */
     public void listenForData(Command command) {
         if (!port.isOpen()) {  //port is not auto-closable, can not be used in "try-with-resources"
             port.openPort();

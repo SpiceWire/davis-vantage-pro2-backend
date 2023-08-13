@@ -10,23 +10,23 @@ public class CommPortModel {
     @Override
     public String toString(){
         StringBuilder cpmString = new StringBuilder();
-        cpmString.append("commPortList: " + getCommPortList());
-        cpmString.append("comPortIndex: " + getComPortIndex());
-        cpmString.append("commPort:" + getCommPort());
-        cpmString.append("commPortDescription:" + getCommPortDescription());
-        cpmString.append("commPortPath:" + getCommPortPath());
-        cpmString.append("baudRate:" + getBaudRate();
-        cpmString.append("dataBits:" + getDataBits());
-        cpmString.append("stopBits:" + getStopBits());
-        cpmString.append("parity:" + getParity());
-        cpmString.append("commParamsSet" + isCommParamsSet());
-        cpmString.append("last updated by: " + getUpdatedBy());
+        cpmString.append("commPortList: ").append(getCommPortList());
+        cpmString.append("comPortIndex: ").append(getComPortIndex());
+        cpmString.append("commPort: ").append(getCommPort());
+        cpmString.append("commPortDescription: ").append(getCommPortDescription());
+        cpmString.append("commPortPath: ").append(getCommPortPath());
+        cpmString.append("baudRate: ").append(getBaudRate());
+        cpmString.append("dataBits: ").append(getDataBits());
+        cpmString.append("stopBits: ").append(getStopBits());
+        cpmString.append("parity: ").append(getParity());
+        cpmString.append("commParamsSet: ").append(isCommParamsSet());
+        cpmString.append("last updated by: ").append(getUpdatedBy());
 
-        cpmString.append("Baud set?      " + isBaudSet() );
-        cpmString.append("Data Bits set? " + isDataBitsSet());
-        cpmString.append("Stop Bits set? " + isStopBitsSet());
-        cpmString.append("Parity set?    " + isParitySet());
-        cpmString.append("Com Port set?  " + isComPortSet());
+        cpmString.append("Baud set?      ").append(isBaudSet());
+        cpmString.append("Data Bits set? ").append(isDataBitsSet());
+        cpmString.append("Stop Bits set? ").append(isStopBitsSet());
+        cpmString.append("Parity set?    ").append(isParitySet());
+        cpmString.append("Com Port set?  ").append(isComPortSet());
         return cpmString.toString();
     }
 
