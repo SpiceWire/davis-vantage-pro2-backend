@@ -33,13 +33,15 @@ public class ConsoleController {
 
 
     public ConsoleController(Seriall serialModel, ComsPanes view, JdbcWeatherRecord jdbcWeatherRecord) {
+        System.out.println("Console controller started.");
         this.serialModel = serialModel;
         this.view = view;
         this.jdbcWeatherRecord = jdbcWeatherRecord;
         view.populateComPortList(getComPortList());
-        setComPortParameters(2,9600, 8, 1, 1, 0, 0, 0);
+        setComPortParameters(1,9600, 8, 1, 1, 0, 0, 0);
+        getComPortList();
         logger.info("Console controller started.");
-        System.out.println("Console controller started.");
+
 //        runCurrentData(command.getLoop());
 //        runCurrentData(command.getLps());
     }
@@ -181,7 +183,9 @@ public class ConsoleController {
      */
     public String[] getComPortList() {
         String[] serialPortArr = serialModel.getSerialPorts();
+
         String[] comPortList = new String[serialPortArr.length];
+        System.out.println("Console com port list: " +  Arrays.toString(serialModel.getSerialPorts()));
         if (serialPortArr.length == 0) {
             return new String[]{"NO_COM_PORTS_FOUND"};
         }
@@ -196,6 +200,7 @@ public class ConsoleController {
                 }
             }
             comPortList = friendlySPName.toString().split(" ");
+
             //view.addComPortToCmbComPort(friendlySPName.toString()); //adds stripped name to comm port list
 
         }
@@ -270,10 +275,13 @@ public class ConsoleController {
         view.getApplyButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setComPortParameters(view.getComPortIndex(),view.getBaudRate(),
-                        view.getDataBits(), view.getStopBits(), view.getParity(),
-                        view.getTimeoutMode(), view.getWriteTimeout(),
-                        view.getReadTimeout());
+//                setComPortParameters(view.getComPortIndex(),view.getBaudRate(),
+//                        view.getDataBits(), view.getStopBits(), view.getParity(),
+//                        view.getTimeoutMode(), view.getWriteTimeout(),
+//                        view.getReadTimeout());
+                setComPortParameters(1,9600, 8,1,1,
+                        0,0,0);
+                System.out.println("Console: Listener set params.");
             }
         });
         view.getRefreshButton().addActionListener(new ActionListener() {

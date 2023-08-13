@@ -5,6 +5,25 @@ public class CommPortModel {
 
     }
 
+
+
+    @Override
+    public String toString(){
+        StringBuilder cpmString = new StringBuilder();
+        cpmString.append("commPortList: " + getCommPortList());
+        cpmString.append("comPortIndex: " + getComPortIndex());
+        cpmString.append("commPort:" + getCommPort());
+        cpmString.append("commPortDescription:" + getCommPortDescription());
+        cpmString.append("commPortPath:" + getCommPortPath());
+        cpmString.append("baudRate:" + getBaudRate());
+        cpmString.append("stopBits:" + getStopBits());
+        cpmString.append("dataBits:" + getDataBits());
+        cpmString.append("parity:" + getParity());
+        cpmString.append("commParamsSet" + isCommParamsSet());
+        return cpmString.toString();
+    }
+
+
     /**
      * List of available com ports.
      */

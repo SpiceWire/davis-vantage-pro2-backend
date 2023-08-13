@@ -58,7 +58,7 @@ public class DavisinterfaceApplication extends JFrame {
 //			}
 //		}
 
-			SpringApplication.run(DavisinterfaceApplication.class, args);
+			//SpringApplication.run(DavisinterfaceApplication.class, args);
 
 	}
 }

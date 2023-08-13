@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 
 public class Seriall {
@@ -23,12 +24,13 @@ public class Seriall {
 
     //assigns serial port path from view selection passed from controller
     public String getComPortPath(int index) {
-        return SerialPort.getCommPorts()[index].getSystemPortPath();
+        return SerialPort.getCommPorts()[0].getSystemPortPath();
     }
 
     public static SerialPort selectSerialPort(String serialPortSystemPath) {
-        return SerialPort.getCommPort("COM4"); //sets the SerialPort object
-
+        System.out.println("Seriall : SelectSeralPort called");
+        //return SerialPort.getCommPort("COM4"); //sets the SerialPort object
+        return SerialPort.getCommPort(serialPortSystemPath);
     }
 
     public static String getPortSettings(){
@@ -53,7 +55,7 @@ public class Seriall {
      * The port.setComPortParameters uses the parameter of useRS485Mode, defaulted as false.
      *
      * @param comPortIndex  comPortList's index number of the selected com port
-     * @param newBaudRate 1200, 2400, 4800, 9600,  or19200. Davis default:19200.
+     * @param newBaudRate 1200, 2400, 4800, 9600, or 19200. Davis default:19200.
      * @param newDataBits 7 or 8. Davis default: 8
      * @param newStopBits  0, 1, 2, 3 (index from list {0, 1, 1.5, 2}) Davis default: 1
      * @param newParity  0, 1, 2 (index from list {no, even, odd}  Davis default: 1
@@ -69,10 +71,13 @@ public class Seriall {
     }
 
     public String[] getSerialPorts() {
-        String[] compPortsArray = new String[SerialPort.getCommPorts().length - 1];
-        for (int i = 0; i < SerialPort.getCommPorts().length - 1; i++) {
+        String[] compPortsArray = new String[SerialPort.getCommPorts().length];  //todo should be .length?
+        System.out.println("seriall Poorts: "+ Arrays.toString(getSerialPorts()));
+        System.out.println("Seriall: How many ports? "+ SerialPort.getCommPorts().length);
+        for (int i = 0; i <= SerialPort.getCommPorts().length - 1; i++) {
             compPortsArray[i] = SerialPort.getCommPorts()[i].getSystemPortPath();
         }
+        System.out.println("Seriall Poooorts: "+  Arrays.toString(getSerialPorts()));
         return compPortsArray;
     }
 

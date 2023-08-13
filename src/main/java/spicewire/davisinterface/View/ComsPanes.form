@@ -88,7 +88,7 @@
                     <item value="9600"/>
                     <item value="19200"/>
                   </model>
-                  <selectedIndex value="0"/>
+                  <selectedIndex value="4"/>
                 </properties>
               </component>
               <component id="a218a" class="javax.swing.JComboBox" binding="cmbStopBits">
@@ -102,7 +102,7 @@
                     <item value="1.5"/>
                     <item value="2"/>
                   </model>
-                  <selectedIndex value="0"/>
+                  <selectedIndex value="1"/>
                 </properties>
               </component>
               <component id="50d50" class="javax.swing.JLabel">

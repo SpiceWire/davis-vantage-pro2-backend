@@ -113,24 +113,25 @@ public class ComsPanes implements ViewDao {
                 runCommand("lps");
             }
         });
-//        applyButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                getComPortParameters();
-//            }
-//        });
+        applyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setComPortParameters();
+            }
+        });
+        System.out.println("Coms pane constructor completed.");
     }
 
     public boolean comPortParametersAreSet(){
-        return consoleController.isComPortParametersAreSet();
+        return CommPortModel.isCommParamsSet();
     };
 
     public void runCommand(String command){
         consoleController.runCommand(command);
     }
 
-    public String getComPortSettings(){
-        return consoleController.getComPortSettings();
+    public CommPortModel getComPortSettings(){
+        return new CommPortModel();
 
     }
 
@@ -146,7 +147,7 @@ public class ComsPanes implements ViewDao {
         CommPortModel.setDataBits(getDataBits());
         CommPortModel.setStopBits(getStopBits());
         CommPortModel.setParity(getParity());
-
+        System.out.println("ComPane: Params set");
         return new CommPortModel();
 
     }
