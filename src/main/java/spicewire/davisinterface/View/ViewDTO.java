@@ -17,7 +17,7 @@ public class ViewDTO {
      * Holds Controller's response to Loop and LPS commands.
      * Davis Command category: Current Data
      */
-    private static String evalText;
+    private static String currentDataEvalText;
 
     /**
      * Holds raw Davis Console results from testing commands: Test, RxCheck, RxTest, Ver, Nver, Receivers
