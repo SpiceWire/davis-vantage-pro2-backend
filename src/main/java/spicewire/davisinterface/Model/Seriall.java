@@ -64,16 +64,13 @@ public class Seriall {
     }
 
     /**
-     * Accepts and sets parameters for the serial port.
+     * Sets the serial port based on user's selected index number from the serial port list.
      * The com port index is translated to the com port path needed by Fazecast Jserialcomm library
-     * The port.setComPortParameters uses the parameter of useRS485Mode, defaulted as false.
+     * The port.setComPortParameters method uses the parameter of useRS485Mode, defaulted as false.
      *
      * @param comPortIndex  comPortList's index number of the selected com port
-     * @param newBaudRate 1200, 2400, 4800, 9600, or 19200. Davis default:19200.
-     * @param newDataBits 7 or 8. Davis default: 8
-     * @param newStopBits  0, 1, 2, 3 (index from list {0, 1, 1.5, 2}) Davis default: 1
-     * @param newParity  0, 1, 2 (index from list {no, even, odd}  Davis default: 1
-     * @return true if port was set, false if not
+     * @return boolean if params are  set successfully
+     *
      */
     public boolean setSerialPortParameters(int comPortIndex) {
         String comPortPath = getComPortPath(comPortIndex);
@@ -81,8 +78,13 @@ public class Seriall {
         CommPortModel.setComPortIndex(comPortIndex);
         SerialPort port = selectSerialPort(comPortPath);
         System.out.println(getPortSettings());
-        return port.setComPortParameters(CommPortModel.getBaudRate(), CommPortModel.getBaudRate(),
-        CommPortModel.getStopBits(), CommPortModel.getParity(), false);
+        CommPortModel.setBaudSet(port.setBaudRate(CommPortModel.getBaudRate()));
+        CommPortModel.setDataBitsSet(port.setNumDataBits(CommPortModel.getDataBits()));
+        CommPortModel.setStopBitsSet(port.setNumStopBits(CommPortModel.getStopBits()));
+        CommPortModel.setParitySet(port.setParity(CommPortModel.getParity()));
+//         port.setComPortParameters(CommPortModel.getBaudRate(), CommPortModel.getBaudRate(),
+//        CommPortModel.getStopBits(), CommPortModel.getParity(), false);
+        return serialPortSettingsSet();
     }
 
     public String[] getSerialPorts() {
