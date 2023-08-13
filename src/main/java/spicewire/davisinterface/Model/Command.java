@@ -1,13 +1,13 @@
 package spicewire.davisinterface.Model;
 
 /**
- * Class contains commands sent to the DavisVP2 console.
+ * Class contains commands sent to the DavisVP2 console over a serial port.
  *
- * Davis commands:
- *     -Do not all have the same terminating character.
+ * Davis commands, when sent to the Davis console:
+ *     -Do not all use the same terminating character.
  *     -Can return hex, binary or ASCII data from the Davis console, depending on the command.
  *     -Sometimes return data with a CRC.
- *     -Sometimes have parameters that need to be sent with a command.
+ *     -Sometimes have user-defined parameters that need to be sent with the command.
  *     -Return serial port data varying in length from 6 to 436 bytes.
  *     -Are categorized in Davis Serial Communication Reference Manual by:
  *      1) Testing Commands
@@ -134,11 +134,9 @@ public class Command {
         return terminatingChar;
     }
 
-
     public String getDescription() {
         return description;
     }
-
 
     public boolean isBinaryReturnData() {
         return binaryReturnData;

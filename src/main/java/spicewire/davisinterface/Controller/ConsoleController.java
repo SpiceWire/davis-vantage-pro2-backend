@@ -1,7 +1,5 @@
 package spicewire.davisinterface.Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import spicewire.davisinterface.Dao.JdbcWeatherRecord;
 import spicewire.davisinterface.Model.*;
 import spicewire.davisinterface.Services.DataProcessor;
@@ -182,9 +180,9 @@ public class ConsoleController {
      * Controller sends it to the View.
      */
     public void updateComPortList() {
-        String[] serialPortArr = serialModel.getSerialPorts();
+        String[] serialPortArr = serialModel.getSerialPortList();
         String[] comPortList = new String[serialPortArr.length];
-        System.out.println("Console com port list: " +  Arrays.toString(serialModel.getSerialPorts()));
+        System.out.println("Console com port list: " +  Arrays.toString(serialModel.getSerialPortList()));
         if (serialPortArr.length == 0) {
             CommPortModel.setCommPortList(new String[]{"NO_COM_PORTS_FOUND"});
             //return new String[]{"NO_COM_PORTS_FOUND"};
@@ -234,13 +232,13 @@ public class ConsoleController {
 //        String comPortPath, comPortName;
         boolean comPortParamsAreSet = false;
         try {
-            if (serialModel.getSerialPorts().length==0) {
+            if (serialModel.getSerialPortList().length==0) {
                 //System.out.println("No port is selected.");
                 setEvalMessage("No port is selected.");
                 return false;
             }
 
-            System.out.println(" Ports: " + Arrays.toString(serialModel.getSerialPorts()));
+            System.out.println(" Ports: " + Arrays.toString(serialModel.getSerialPortList()));
             comPortParametersAreSet = serialModel.setSerialPortParameters(comPortIndex, baud, dataBits, stopBits, parity);
 
 

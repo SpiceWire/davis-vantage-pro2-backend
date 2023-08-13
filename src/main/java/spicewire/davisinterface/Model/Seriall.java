@@ -87,28 +87,44 @@ public class Seriall {
         return serialPortSettingsSet();
     }
 
-    public String[] getSerialPorts() {
+    /**
+     * Gets a list of available serial ports from the Fazecast library.
+     * @return String[] of available port names. Names include leading slashes, dots, etc.
+     */
+    public String[] getSerialPortList() {
         String[] compPortsArray = new String[SerialPort.getCommPorts().length];  //todo should be .length?
-        System.out.println("seriall Poorts: "+ Arrays.toString(getSerialPorts()));
-        System.out.println("Seriall: How many ports? "+ SerialPort.getCommPorts().length);
         for (int i = 0; i <= SerialPort.getCommPorts().length - 1; i++) {
             compPortsArray[i] = SerialPort.getCommPorts()[i].getSystemPortPath();
         }
-        System.out.println("Seriall Poooorts: "+  Arrays.toString(getSerialPorts()));
         return compPortsArray;
     }
 
-    /*        TimeoutMode 0= nonblocking, 1=semiBlocking, others
-            newReadTimeout = milliseconds of inactivity to tolerate before returning from a readBytes(byte[],long) call*/
+    /**
+     * Sets Fazecast timeout params. See Fazecast JserialComm for complete documentation.
+     * Default for all parameters is 0.
+     *
+     * @param newTimeoutMode TimeoutMode 0= nonblocking, 1= read semi-blocking, 256 = write blocking, (others)
+     *                        TIMEOUT_NONBLOCKING mode specifies that corresponding readBytes(byte[],int)
+     *                        and writeBytes(byte[],int) calls will return immediately with any available data.
+     *                        TIMEOUT_READ_SEMI_BLOCKING mode specifies that a corresponding read call will block until
+     *                        either newReadTimeout milliseconds of inactivity have elapsed or at least 1 byte of data
+     *                        can be read.
+     *                       TIMEOUT_WRITE_BLOCKING mode specifies that a corresponding write call will block until all
+     *                       data bytes have been successfully written to the output serial device.
+     * @param newReadTimeout number of milliseconds of inactivity to tolerate before returning from a readBytes[] call
+     * @param newWriteTimeout number of milliseconds of inactivity to tolerate before returning from a writeBytes[] call
+     *
+     */
     public void setTimeouts(int newTimeoutMode, int newReadTimeout, int newWriteTimeout) {
         this.port.setComPortTimeouts(newTimeoutMode, newReadTimeout, newWriteTimeout);
 
     }
 
-    public final boolean setComPortTimeouts(int newTimeoutMode, int newReadTimeout, int newWriteTimeout) {
-        return this.port.setComPortTimeouts(newTimeoutMode, newReadTimeout, newWriteTimeout);
-    }
-
+    /**
+     * Builds and sends a Command class object to the console. The Fazecast Serial Port write method requires a buffer.
+     * @param command an object of the Command class with
+     * @param initialSending
+     */
     //This method builds and sends a command to the console. The Fazecast writeMethod requires a buffer.
     public void sendCommand(Command command, boolean initialSending) {
         if (initialSending==true) {delayTime = 1000;}
