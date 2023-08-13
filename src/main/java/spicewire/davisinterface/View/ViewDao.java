@@ -114,7 +114,7 @@ public interface ViewDao {
     /**
      * Requests controller to send the current com port settings.
      */
-    String getComPortSettings();
+    CommPortModel getComPortSettings();
 
    //CurrentWeather getCurrentWeather();
 }

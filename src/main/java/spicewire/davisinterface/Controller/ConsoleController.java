@@ -41,7 +41,7 @@ public class ConsoleController {
         setComPortParameters(1,9600, 8, 1, 1, 0, 0, 0);
         getComPortList();
         logger.info("Console controller started.");
-
+        listenerFromController();
 //        runCurrentData(command.getLoop());
 //        runCurrentData(command.getLps());
     }
