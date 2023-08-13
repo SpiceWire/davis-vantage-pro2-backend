@@ -34,6 +34,15 @@ public class Seriall {
     }
 
     private static boolean serialPortSettingsSet(){
+        boolean portSettingsSet = false;
+        if(CommPortModel.isComPortSet()==true &&
+           CommPortModel.isBaudSet()==true &&
+           CommPortModel.isDataBitsSet()==true &&
+            CommPortModel.isStopBitsSet()==true &&
+            CommPortModel.isParitySet()==true){
+            portSettingsSet = true;
+        }
+        return portSettingsSet;
 
     }
     public static String getPortSettings(){
@@ -45,7 +54,7 @@ public class Seriall {
         CommPortModel.setDataBits(port.getNumDataBits());
         CommPortModel.setStopBits(port.getNumStopBits());
         CommPortModel.setParity(port.getParity());
-        CommPortModel.isCommParamsSet()
+        CommPortModel.setCommParamsSet(serialPortSettingsSet());
 
         StringBuilder settings = new StringBuilder();
 

@@ -90,6 +90,31 @@ public class CommPortModel {
      */
     private static String updatedBy;
 
+    /**
+     * Boolean set by Serial Port after confirmation that the parameter was set successfully.
+     */
+    private static boolean comPortSet;
+
+    /**
+     * Boolean set by Serial Port after confirmation that the parameter was set successfully.
+     */
+    private static boolean baudSet;
+
+    /**
+     * Boolean set by Serial Port after confirmation that the parameter was set successfully.
+     */
+    private static boolean dataBitsSet;
+
+    /**
+     * Boolean set by Serial Port after confirmation that the parameter was set successfully.
+     */
+    private static boolean stopBitsSet;
+
+    /**
+     * Boolean set by Serial Port after confirmation that the parameter was set successfully.
+     */
+    private static boolean paritySet;
+
     public static String getUpdatedBy() {
         return updatedBy;
     }
@@ -176,5 +201,45 @@ public class CommPortModel {
 
     public static void setCommParamsSet(boolean commParamsSet) {
         CommPortModel.commParamsSet = commParamsSet;
+    }
+
+    public static boolean isComPortSet() {
+        return comPortSet;
+    }
+
+    public static void setComPortSet(boolean comPortSet) {
+        CommPortModel.comPortSet = comPortSet;
+    }
+
+    public static boolean isBaudSet() {
+        return baudSet;
+    }
+
+    public static void setBaudSet(boolean baudSet) {
+        CommPortModel.baudSet = baudSet;
+    }
+
+    public static boolean isDataBitsSet() {
+        return dataBitsSet;
+    }
+
+    public static void setDataBitsSet(boolean dataBitsSet) {
+        CommPortModel.dataBitsSet = dataBitsSet;
+    }
+
+    public static boolean isStopBitsSet() {
+        return stopBitsSet;
+    }
+
+    public static void setStopBitsSet(boolean stopBitsSet) {
+        CommPortModel.stopBitsSet = stopBitsSet;
+    }
+
+    public static boolean isParitySet() {
+        return paritySet;
+    }
+
+    public static void setParitySet(boolean paritySet) {
+        CommPortModel.paritySet = paritySet;
     }
 }
