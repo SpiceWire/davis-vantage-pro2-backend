@@ -1,8 +1,6 @@
 package spicewire.davisinterface.View;
 
-import org.springframework.stereotype.Component;
-import spicewire.davisinterface.Controller.ConsoleController;
-import spicewire.davisinterface.Dao.JdbcWeatherRecord;
+
 import spicewire.davisinterface.Model.CommPortModel;
 
 
@@ -10,8 +8,6 @@ import spicewire.davisinterface.Model.CommPortModel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import static spicewire.davisinterface.Model.DavisVP2.commPortModel;
 
 
 public class ComsPanes implements ViewDao {

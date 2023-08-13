@@ -91,7 +91,7 @@ public class Seriall {
      * Updates available serial ports from the Fazecast library.
      * @return String[] of available port names. Names include leading slashes, dots, etc.
      */
-    public String[]  getSerialPortList() {
+    public static String[]  getSerialPortList() {
         String[] compPortsArray = new String[SerialPort.getCommPorts().length];  //todo should be .length?
         for (int i = 0; i <= SerialPort.getCommPorts().length - 1; i++) {
             compPortsArray[i] = SerialPort.getCommPorts()[i].getSystemPortPath();

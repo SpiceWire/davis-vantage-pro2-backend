@@ -44,12 +44,12 @@ public class ConsoleController {
 //        runCurrentData(command.getLps());
     }
     public ConsoleController(){};
-    /**
-     * Takes a String from the View, converts it into a Command class, sends it to the Davis console.
-     * String must be a Command as described in the Davis manual. Currently accepts the following
-     * Commands : test, rxCheck, rxTest, ver, nver, receivers, loop, lps
-     * @param commandWord One of {test, rxCheck, rxTest, ver, nver, receivers, loop, lps}
-     */
+//    /**
+//     * Takes a String from the View, converts it into a Command class, sends it to the Davis console.
+//     * String must be a Command as described in the Davis manual. Currently accepts the following
+//     * Commands : test, rxCheck, rxTest, ver, nver, receivers, loop, lps
+//     * @param commandWord One of {test, rxCheck, rxTest, ver, nver, receivers, loop, lps}
+//     */
 //    public void runCommand(String commandWord){
 //        Command command = new Command();
 //        switch(commandWord.toLowerCase()){
@@ -210,8 +210,7 @@ public class ConsoleController {
      * @return String
      */
     public static String getComPortSettings() {
-        Seriall.getPortSettings();
-        return ;
+        return Seriall.getPortSettings();
     }
 
     /**
