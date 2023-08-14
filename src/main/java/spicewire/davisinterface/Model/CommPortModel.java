@@ -20,6 +20,7 @@ public class CommPortModel {
         cpmString.append("stopBits: ").append(getStopBits());
         cpmString.append("parity: ").append(getParity());
         cpmString.append("commParamsSet: ").append(isCommParamsSet());
+        cpmString.append("timeoutModeSet: ").append(isTimeoutModeSet());
         cpmString.append("last updated by: ").append(getUpdatedBy());
 
         cpmString.append("Baud set?      ").append(isBaudSet());
@@ -137,6 +138,20 @@ public class CommPortModel {
      * Default: 0
      */
     private static int readTimeout;
+
+    /**
+     * Boolean set by Serial Port after confirmation that the parameter was set successfully.
+     * TimeoutMode, ReadTimeout and WriteTimeout are set at the same time and share a boolean.
+     */
+    private static boolean timeoutModeSet;
+
+    public static boolean isTimeoutModeSet() {
+        return timeoutModeSet;
+    }
+
+    public static void setTimeoutModeSet(boolean timeoutModeSet) {
+        CommPortModel.timeoutModeSet = timeoutModeSet;
+    }
 
     public static int getTimeoutMode() {
         return timeoutMode;
