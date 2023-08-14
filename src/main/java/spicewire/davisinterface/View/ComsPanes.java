@@ -48,6 +48,8 @@ public class ComsPanes implements ViewDao {
     private JButton nverButton;
     private JTextArea testDescriptionTextArea;
     private JTabbedPane mainPane;
+    private JTextField textFieldTestName;
+    private JTextField textFieldCurrentDataCommand;
     private JButton wakeUpButton;
     private CommPortModel commPortModel;
     public final String LINE_SEPARATOR = System.getProperty("line.separator");
@@ -130,7 +132,21 @@ public class ComsPanes implements ViewDao {
         return new CommPortModel();
 
     }
-
+    private void updateView(String command){
+        consoleFriendlyTextArea.setText(ViewDTO.getTestingFriendlyText());
+        consoleRawTextArea.setText(ViewDTO.getTestingRawText());
+        testDescriptionTextArea.setText(ViewDTO.getTestingDescription());
+        currentDataTextArea.setText(ViewDTO.getCurrentDataText());
+        tfEval.setText(ViewDTO.getCurrentDataEvalText());
+        switch (command){
+            case "loop": case "lps": {
+               textFieldCurrentDataCommand.setText(command.toUpperCase());
+               break;
+            } default:{
+                textFieldTestName.setText(command.toUpperCase());
+            }
+        }
+    }
     /*    private void getComPortParameters(){
            setComPortParameters(getComPortIndex(), getBaudRate(), getDataBits(), getStopBits(),
                    getParity(), getTimeoutMode(), getWriteTimeout(), getReadTimeout());
