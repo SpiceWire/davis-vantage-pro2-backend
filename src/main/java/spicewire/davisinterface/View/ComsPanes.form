@@ -88,7 +88,7 @@
                     <item value="9600"/>
                     <item value="19200"/>
                   </model>
-                  <selectedIndex value="0"/>
+                  <selectedIndex value="3"/>
                 </properties>
               </component>
               <component id="a218a" class="javax.swing.JComboBox" binding="cmbStopBits">
@@ -254,7 +254,7 @@
               <tabbedpane title="Current Data"/>
             </constraints>
             <properties>
-              <visible value="true"/>
+              <visible value="false"/>
             </properties>
             <border type="none"/>
             <children>
