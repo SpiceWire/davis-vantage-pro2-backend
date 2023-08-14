@@ -77,7 +77,6 @@ public class CommPortModel {
      */
     private static int stopBits;
 
-
     /**
      * Index of selected parity of com port. Selected by View before being set and reported by Serial Port
      * after being set.
@@ -92,7 +91,7 @@ public class CommPortModel {
 
     /**
      * Name of last module to update the CommPortModel. Updated by View, Controller, Serial Port.
-     * @return String
+     *
      */
     private static String updatedBy;
 
@@ -120,6 +119,55 @@ public class CommPortModel {
      * Boolean set by Serial Port after confirmation that the parameter was set successfully.
      */
     private static boolean paritySet;
+
+    /**
+     * See Fazecast JSerialComm for complete documentation.
+     * TIMEOUT_NONBLOCKING: 0
+     * TIMEOUT_READ_BLOCKING: 16
+     * TIMEOUT_READ_SEMI_BLOCKING: 1
+     * TIMEOUT_SCANNER: 4096
+     * TIMEOUT_WRITE_BLOCKING: 256
+     * Default: 0
+     */
+    private static int timeoutMode;
+
+    /**
+     * See Fazecast JSerialComm for complete documentation.
+     * The number of milliseconds of inactivity to tolerate before returning from a readBytes(byte[],int) call.
+     * Default: 0
+     */
+    private static int readTimeout;
+
+    public static int getTimeoutMode() {
+        return timeoutMode;
+    }
+
+    public static void setTimeoutMode(int timeoutMode) {
+        CommPortModel.timeoutMode = timeoutMode;
+    }
+
+    public static int getReadTimeout() {
+        return readTimeout;
+    }
+
+    public static void setReadTimeout(int readTimeout) {
+        CommPortModel.readTimeout = readTimeout;
+    }
+
+    public static int getWriteTimeout() {
+        return writeTimeout;
+    }
+
+    public static void setWriteTimeout(int writeTimeout) {
+        CommPortModel.writeTimeout = writeTimeout;
+    }
+
+    /**
+     * The number of milliseconds of inactivity to tolerate before returning from a writeBytes(byte[],int) call
+     * (effective only on Windows).
+     * Default: 0
+     */
+    private static int writeTimeout;
 
     public static String getUpdatedBy() {
         return updatedBy;

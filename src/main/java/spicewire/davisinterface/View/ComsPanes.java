@@ -122,7 +122,6 @@ public class ComsPanes implements ViewDao {
         return CommPortModel.isCommParamsSet();
     }
 
-    ;
 
     public void runCommand(String command) {
         System.out.println("hello");//updateView(); //todo
@@ -152,13 +151,15 @@ public class ComsPanes implements ViewDao {
                    getParity(), getTimeoutMode(), getWriteTimeout(), getReadTimeout());
         }*/
     public CommPortModel setComPortParameters() {
-
         CommPortModel.setCommPort(getComPortSelection());
         CommPortModel.setComPortIndex(getComPortIndex());
         CommPortModel.setBaudRate(getBaudRate());
         CommPortModel.setDataBits(getDataBits());
         CommPortModel.setStopBits(getStopBits());
         CommPortModel.setParity(getParity());
+        CommPortModel.setTimeoutMode(getTimeoutMode());
+        CommPortModel.setReadTimeout(getReadTimeout());
+        CommPortModel.setWriteTimeout(getWriteTimeout());
         CommPortModel.setUpdatedBy("Swing View");
         System.out.println("ComPane: Params set");
         return new CommPortModel();
