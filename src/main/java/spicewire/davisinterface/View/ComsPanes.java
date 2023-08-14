@@ -174,7 +174,7 @@ public class ComsPanes implements ViewDao {
 
     public void populateComPortList() {
         clearComPortList();
-        if (CommPortModel.getCommPortList().length != 0) {
+        if ( CommPortModel.getCommPortList() != null && CommPortModel.getCommPortList().length != 0 ) {
             for (String str : CommPortModel.getCommPortList()) {
                 cmbComPort.addItem(str);
             }

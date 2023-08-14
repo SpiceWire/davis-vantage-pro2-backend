@@ -10,24 +10,24 @@ public class CommPortModel {
     @Override
     public String toString(){
         StringBuilder cpmString = new StringBuilder();
-        cpmString.append("commPortList: ").append(getCommPortList());
-        cpmString.append("comPortIndex: ").append(getComPortIndex());
-        cpmString.append("commPort: ").append(getCommPort());
-        cpmString.append("commPortDescription: ").append(getCommPortDescription());
-        cpmString.append("commPortPath: ").append(getCommPortPath());
-        cpmString.append("baudRate: ").append(getBaudRate());
-        cpmString.append("dataBits: ").append(getDataBits());
-        cpmString.append("stopBits: ").append(getStopBits());
-        cpmString.append("parity: ").append(getParity());
-        cpmString.append("commParamsSet: ").append(isCommParamsSet());
-        cpmString.append("timeoutModeSet: ").append(isTimeoutModeSet());
-        cpmString.append("last updated by: ").append(getUpdatedBy());
+        cpmString.append("commPortList: ").append(getCommPortList()).append("\n");
+        cpmString.append("comPortIndex: ").append(getComPortIndex()).append("\n");
+        cpmString.append("commPort: ").append(getCommPort()).append("\n");
+        cpmString.append("commPortDescription: ").append(getCommPortDescription()).append("\n");
+        cpmString.append("commPortPath: ").append(getCommPortPath()).append("\n");
+        cpmString.append("baudRate: ").append(getBaudRate()).append("\n");
+        cpmString.append("dataBits: ").append(getDataBits()).append("\n");
+        cpmString.append("stopBits: ").append(getStopBits()).append("\n");
+        cpmString.append("parity: ").append(getParity()).append("\n");
+        cpmString.append("commParamsSet: ").append(isCommParamsSet()).append("\n");
+        cpmString.append("timeoutModeSet: ").append(isTimeoutModeSet()).append("\n");
+        cpmString.append("last updated by: ").append(getUpdatedBy()).append("\n");
 
-        cpmString.append("Baud set?      ").append(isBaudSet());
-        cpmString.append("Data Bits set? ").append(isDataBitsSet());
-        cpmString.append("Stop Bits set? ").append(isStopBitsSet());
-        cpmString.append("Parity set?    ").append(isParitySet());
-        cpmString.append("Com Port set?  ").append(isComPortSet());
+        cpmString.append("Baud set?      ").append(isBaudSet()).append("\n");
+        cpmString.append("Data Bits set? ").append(isDataBitsSet()).append("\n");
+        cpmString.append("Stop Bits set? ").append(isStopBitsSet()).append("\n");
+        cpmString.append("Parity set?    ").append(isParitySet()).append("\n");
+        cpmString.append("Com Port set?  ").append(isComPortSet()).append("\n");
         return cpmString.toString();
     }
 

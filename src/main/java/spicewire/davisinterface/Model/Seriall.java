@@ -38,11 +38,9 @@ public class Seriall {
 
     private static boolean serialPortSettingsSet(){
         boolean portSettingsSet = false;
-        if(CommPortModel.isComPortSet()==true &&
-           CommPortModel.isBaudSet()==true &&
-           CommPortModel.isDataBitsSet()==true &&
-            CommPortModel.isStopBitsSet()==true &&
-            CommPortModel.isParitySet()==true){
+        if(CommPortModel.isComPortSet() && CommPortModel.isBaudSet() &&
+           CommPortModel.isDataBitsSet() && CommPortModel.isStopBitsSet() &&
+            CommPortModel.isParitySet()) {
             portSettingsSet = true;
         }
         return portSettingsSet;
@@ -122,7 +120,7 @@ public class Seriall {
      *
      */
     public void setTimeouts(int newTimeoutMode, int newReadTimeout, int newWriteTimeout) {
-        this.port.setComPortTimeouts(newTimeoutMode, newReadTimeout, newWriteTimeout);
+        port.setComPortTimeouts(newTimeoutMode, newReadTimeout, newWriteTimeout);
 
     }
 
@@ -136,7 +134,7 @@ public class Seriall {
      */
 
     public void sendCommand(Command command, boolean initialSending) {
-        if (initialSending==true) {delayTime = 1000;}
+        if (initialSending) {delayTime = 1000;}
         StringBuilder cmdSB = new StringBuilder(); //todo name it better
         cmdSB.append(command.getWord());
         if (command.getNumberOfDataParameters() > 0) {  //adds payload to the command word being sent to the console
@@ -154,7 +152,7 @@ public class Seriall {
             return;
         }
 
-        try (OutputStream out = port.getOutputStream();) { //the try block closes the port in the event of error
+        try (OutputStream out = port.getOutputStream()) { //the try block closes the port in the event of error
             port.writeBytes(cmdBytes, cmdBytes.length);
             System.out.println("\ncommand sent: " + cmdString);
 
@@ -200,7 +198,6 @@ public class Seriall {
      * Sends raw data to DataProcessor for validation. If data fails validation, a delay is added and
      * the command is re-sent to the console. Delay is increased with repeated failures. Process ends after
      * four consecutive failures.
-     *
      * delayTime is 1000 at initialization, incremented on failure, re-set to 1000 whenever a
      * command is sent to method sendCommand with initialSending = true.
      *
@@ -211,7 +208,7 @@ public class Seriall {
     private void confirmData(String data, Command command) {
 
         boolean goodData = DataProcessor.processRawData(data, command);
-        if (goodData==false){
+        if (!goodData){
             try {
                 if (delayTime<8000) {
                     Thread.sleep(delayTime);
