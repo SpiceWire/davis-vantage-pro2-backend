@@ -85,7 +85,7 @@ public class Seriall {
         CommPortModel.setParitySet(port.setParity(CommPortModel.getParity()));
         CommPortModel.setTimeoutModeSet(port.setComPortTimeouts(CommPortModel.getTimeoutMode(),
                 CommPortModel.getReadTimeout(),CommPortModel.getWriteTimeout()));
-
+        System.out.println("Seriall: setSerialPortParams ran");
 //         port.setComPortParameters(CommPortModel.getBaudRate(), CommPortModel.getBaudRate(),
 //        CommPortModel.getStopBits(), CommPortModel.getParity(), false);
         return serialPortSettingsSet();

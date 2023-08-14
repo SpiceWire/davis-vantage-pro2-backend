@@ -1,5 +1,7 @@
 package spicewire.davisinterface.Model;
 
+import java.util.Arrays;
+
 public class CommPortModel {
     public static void commPortModel(){
 
@@ -197,7 +199,7 @@ public class CommPortModel {
     }
 
     public static void setCommPortList(String[] commPortList) {
-        CommPortModel.commPortList = commPortList;
+        CommPortModel.commPortList = Arrays.toString(commPortList).split(" ");
     }
 
     public static int getComPortIndex() {

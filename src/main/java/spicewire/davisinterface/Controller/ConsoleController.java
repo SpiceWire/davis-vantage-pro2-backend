@@ -23,7 +23,7 @@ in data).
 public class ConsoleController {
 
     private Seriall serialModel;
-    private ComsPanes view;
+    private ComsPanes view = new ComsPanes();
     private Command command = new Command();
     private JdbcWeatherRecord jdbcWeatherRecord;
     private ViewDTO viewDTO= new ViewDTO();
@@ -306,7 +306,7 @@ public class ConsoleController {
                 checkIfComPortParametersAreSet();
                 if (comPortParametersAreSet) {
                     getSerialData(command.getLoop());
-
+                    System.out.println("Controller: loop called");
                 }
             }
         });

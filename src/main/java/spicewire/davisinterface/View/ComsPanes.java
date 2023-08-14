@@ -124,7 +124,7 @@ public class ComsPanes implements ViewDao {
 
 
     public void runCommand(String command) {
-        System.out.println("hello");//updateView(); //todo
+        updateView(command); //todo
     }
 
     public CommPortModel getComPortSettings() {
@@ -139,6 +139,7 @@ public class ComsPanes implements ViewDao {
         tfEval.setText(ViewDTO.getCurrentDataEvalText());
         switch (command){
             case "loop": case "lps": {
+                System.out.println("update view called with loop or lps");
                textFieldCurrentDataCommand.setText(command.toUpperCase());
                break;
             } default:{
