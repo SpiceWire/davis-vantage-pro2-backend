@@ -4,7 +4,6 @@ package spicewire.davisinterface.View;
 import spicewire.davisinterface.Model.CommPortModel;
 
 
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,13 +49,13 @@ public class ComsPanes implements ViewDao {
     private JTextArea testDescriptionTextArea;
     private JTabbedPane mainPane;
     private JButton wakeUpButton;
-    private CommPortModel commPortModel ;
+    private CommPortModel commPortModel;
     public final String LINE_SEPARATOR = System.getProperty("line.separator");
 
 
     public ComsPanes() {
         System.out.println("Comm panes being created.");
-        this.commPortModel= new CommPortModel();
+        this.commPortModel = new CommPortModel();
 
         populateComPortList();
 
@@ -117,24 +116,26 @@ public class ComsPanes implements ViewDao {
         System.out.println("Coms pane constructor completed.");
     }
 
-    public boolean comPortParametersAreSet(){
+    public boolean comPortParametersAreSet() {
         return CommPortModel.isCommParamsSet();
-    };
-
-    public void runCommand(String command){
-        updateView();
     }
 
-    public CommPortModel getComPortSettings(){
+    ;
+
+    public void runCommand(String command) {
+        System.out.println("hello");//updateView(); //todo
+    }
+
+    public CommPortModel getComPortSettings() {
         return new CommPortModel();
 
     }
 
-/*    private void getComPortParameters(){
-       setComPortParameters(getComPortIndex(), getBaudRate(), getDataBits(), getStopBits(),
-               getParity(), getTimeoutMode(), getWriteTimeout(), getReadTimeout());
-    }*/
-    public CommPortModel setComPortParameters(){
+    /*    private void getComPortParameters(){
+           setComPortParameters(getComPortIndex(), getBaudRate(), getDataBits(), getStopBits(),
+                   getParity(), getTimeoutMode(), getWriteTimeout(), getReadTimeout());
+        }*/
+    public CommPortModel setComPortParameters() {
 
         CommPortModel.setCommPort(getComPortSelection());
         CommPortModel.setComPortIndex(getComPortIndex());
@@ -154,10 +155,14 @@ public class ComsPanes implements ViewDao {
     }*/
 
 
-    public void populateComPortList(){
+    public void populateComPortList() {
         clearComPortList();
-        for (String str: CommPortModel.getCommPortList()){
-            cmbComPort.addItem(str);
+        if (CommPortModel.getCommPortList().length != 0) {
+            for (String str : CommPortModel.getCommPortList()) {
+                cmbComPort.addItem(str);
+            }
+        } else {
+            cmbComPort.addItem("NO_COM_PORT_FOUND");
         }
     }
 
@@ -174,7 +179,7 @@ public class ComsPanes implements ViewDao {
     }
 
     public void clearComPortList() {
-        if(cmbComPort.getItemCount()>0) {
+        if (cmbComPort.getItemCount() > 0) {
             cmbComPort.removeAllItems();
         }
     }
@@ -182,15 +187,28 @@ public class ComsPanes implements ViewDao {
     public JTextField getTfLoop() {
         return tfLoop;
     }
-    public JTextField getTfEval(){
+
+    public JTextField getTfEval() {
         return tfEval;
     }
-    public JTextField getTfLPS() {return tfLPS;}
-    public JTextField getTfPutET() {return tfPutET;}
-    public JTextField getTfPutRain() {return tfPutRain;}
-    public JTextField getTfNoParametersNeededTextField() {return tfNoParametersNeededTextField;}
 
-    public void setTfEval(String evalMessage){
+    public JTextField getTfLPS() {
+        return tfLPS;
+    }
+
+    public JTextField getTfPutET() {
+        return tfPutET;
+    }
+
+    public JTextField getTfPutRain() {
+        return tfPutRain;
+    }
+
+    public JTextField getTfNoParametersNeededTextField() {
+        return tfNoParametersNeededTextField;
+    }
+
+    public void setTfEval(String evalMessage) {
         tfEval.setText(evalMessage);
     }
 
@@ -218,78 +236,113 @@ public class ComsPanes implements ViewDao {
         return dataBits;
     }
 
-    public int getTimeoutMode(){
+    public int getTimeoutMode() {
         String timeoutModeStr = cmbTimeoutMode.getSelectedItem().toString();
         int timeoutMode = 0;
-        switch (timeoutModeStr){
-            case "Non-blocking": timeoutMode = 0;  //these int values are defined in Fazecast SerialPort package
+        switch (timeoutModeStr) {
+            case "Non-blocking":
+                timeoutMode = 0;  //these int values are defined in Fazecast SerialPort package
                 break;
-            case "Write Blocking": timeoutMode = 256;
+            case "Write Blocking":
+                timeoutMode = 256;
                 break;
-            case "Read Semi-blocking": timeoutMode = 1;
+            case "Read Semi-blocking":
+                timeoutMode = 1;
                 break;
-            case "Read Full-blocking": timeoutMode = 16;
+            case "Read Full-blocking":
+                timeoutMode = 16;
                 break;
-            case "Scanner": timeoutMode = 4096;
+            case "Scanner":
+                timeoutMode = 4096;
                 break;
         }
         return timeoutMode;
     }
 
-    public void setConsoleFriendlyTextArea(String friendlyText){
+    public void setConsoleFriendlyTextArea(String friendlyText) {
         consoleFriendlyTextArea.setText(friendlyText);
     }
-    public void setCurrentDataTextArea(String currentData){currentDataTextArea.setText(currentData);}
 
-    public int getWriteTimeout(){
+    public void setCurrentDataTextArea(String currentData) {
+        currentDataTextArea.setText(currentData);
+    }
+
+    public int getWriteTimeout() {
         return Integer.parseInt((String) cmbWriteTimeout.getSelectedItem());
     }
-    public int getReadTimeout(){
+
+    public int getReadTimeout() {
         return Integer.parseInt((String) cmbReadTimeout.getSelectedItem());
     }
+
     public JButton getRefreshButton() {
         return refreshButton;
     }
-    public JButton getApplyButton(){
+
+    public JButton getApplyButton() {
         return applyButton;
     }
-    public JButton getLoopButton(){
+
+    public JButton getLoopButton() {
         return loopButton;
     }
+
     public JButton getRxCheckButton() {
         return rxCheckButton;
     }
-    public JButton getRxTestButton(){
+
+    public JButton getRxTestButton() {
         return rxTestButton;
     }
-    public JButton getVersionButton(){
+
+    public JButton getVersionButton() {
         return versionButton;
     }
-    public JButton getNverButton() {return nverButton;}
-    public JButton getReceiversButton() {return receiversButton;}
-    public JButton getLPSButton(){
+
+    public JButton getNverButton() {
+        return nverButton;
+    }
+
+    public JButton getReceiversButton() {
+        return receiversButton;
+    }
+
+    public JButton getLPSButton() {
         return LPSButton;
     }
-    public JButton getHiLowsButton(){
+
+    public JButton getHiLowsButton() {
         return hiLowsButton;
     }
-    public JButton getPutRainButton(){
+
+    public JButton getPutRainButton() {
         return putRainButton;
     }
-    public JButton getPutETButton(){
+
+    public JButton getPutETButton() {
         return putETButton;
     }
+
     public JButton getHaltDataWakeUpButton() {
         return haltDataWakeUpButton;
     }
-    public JButton getWakeUpButton() {return wakeUpButton;}
-    public JPanel getTestButtonPanel() {return testButtonPanel;}
-    public void setTestDescriptionTextArea(String description){
+
+    public JButton getWakeUpButton() {
+        return wakeUpButton;
+    }
+
+    public JPanel getTestButtonPanel() {
+        return testButtonPanel;
+    }
+
+    public void setTestDescriptionTextArea(String description) {
         testDescriptionTextArea.setText(description);
     }
-    public void setConsoleRawTextArea(String rawData){
+
+    public void setConsoleRawTextArea(String rawData) {
         consoleRawTextArea.setText(rawData);
     }
+
     private void createUIComponents() {
         // TODO: place custom component creation code here
     }
