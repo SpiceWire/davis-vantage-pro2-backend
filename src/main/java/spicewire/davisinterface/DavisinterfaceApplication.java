@@ -50,6 +50,7 @@ public class DavisinterfaceApplication extends JFrame {
 			frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			frame.setSize(700, 600);
 			frame.setVisible(true);
+//todo set timeouts in console controller, etc.
 
 //		@Configuration
 //		 class CustomContainer implements WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {

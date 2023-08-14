@@ -5,6 +5,7 @@ import spicewire.davisinterface.Model.*;
 import spicewire.davisinterface.Services.DataProcessor;
 import spicewire.davisinterface.View.ComsPanes;
 import spicewire.davisinterface.View.TextAreas;
+import spicewire.davisinterface.View.ViewDTO;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +26,7 @@ public class ConsoleController {
     private ComsPanes view;
     private Command command = new Command();
     private JdbcWeatherRecord jdbcWeatherRecord;
-
+    private ViewDTO viewDTO= new ViewDTO();
     private boolean comPortParametersAreSet = false;
     private final Logger logger = Logger.getLogger(ConsoleController.class.getName());
 
@@ -36,7 +37,7 @@ public class ConsoleController {
         this.view = view;
         this.jdbcWeatherRecord = jdbcWeatherRecord;
         Seriall.getSerialPortList();
-        setComPortParameters(1,9600, 8, 1, 1, 0, 0, 0);
+        //setComPortParameters(1,9600, 8, 1, 1, 0, 0, 0);
 
         logger.info("Console controller started.");
         listenerFromController();
@@ -93,10 +94,14 @@ public class ConsoleController {
         //todo refactor so there is a com port params check with any button press
         //todo add a "you just pressed this button" field to the view.
         if (confirmCommandClass(command, 1)) {
-            sendCommandToConsole(command);
-            view.setTestDescriptionTextArea(command.getDescription());
-            view.setConsoleFriendlyTextArea(TextAreas.consoleFriendlyText(command));
-            view.setConsoleRawTextArea(DataProcessor.getSerialData());
+            ViewDTO.setTestingRawText(getSerialData(command));
+            ViewDTO.setTestingDescription(command.getDescription());
+            ViewDTO.setTestingFriendlyText(TextAreas.consoleFriendlyText(command));
+            ViewDTO.setLastCommandSent(command.getWord());
+
+//            view.setTestDescriptionTextArea(command.getDescription());
+//            view.setConsoleFriendlyTextArea(TextAreas.consoleFriendlyText(command));
+//            view.setConsoleRawTextArea(DataProcessor.getSerialData());
         }
     }
 
@@ -108,17 +113,22 @@ public class ConsoleController {
      * @return String from DataProcessor
      */
     private String getSerialData(Command command) {
+        ViewDTO.setLastCommandSent(command.getWord());
         sendCommandToConsole(command);
+        if (command.getType()==2) {
+            ViewDTO.setCurrentDataText(DataProcessor.getSerialData());
+        }
         return DataProcessor.getSerialData();
     }
 
     /**
      * Creates a JDBC record of a Current Data command (LOOP or LPS) using
-     * new serial port data from the DataProcessor. Sending
+     * new serial port data from the DataProcessor.
      *
      * @param command LOOP or LPS
      */
     private void createLoopRecord(Command command) {
+
         if (confirmCommandClass(command, 2)) {
             if (DataProcessor.getSerialData().length() > 0) {
                 if (command.getWord().equalsIgnoreCase("LOOP")) {
@@ -225,28 +235,32 @@ public class ConsoleController {
      * @param writeTimeout In milliseconds. Default 0
      * @param readTimeout In milliseconds. Default 0
      */
-    public boolean setComPortParameters(int comPortIndex, int baud, int dataBits, int stopBits,
-                                     int parity, int timeoutMode, int writeTimeout, int readTimeout) {
 
-        try {
-            if (serialModel.getSerialPortList().length==0) {
-                //System.out.println("No port is selected.");
-                setEvalMessage("No port is selected.");
-                return false;
-            }
-
-            System.out.println(" Ports: " + Arrays.toString(serialModel.getSerialPortList()));
-            comPortParametersAreSet = serialModel.setSerialPortParameters(comPortIndex, baud, dataBits, stopBits, parity);
-
-
-        } catch (Exception exception) {
-            //System.out.println("Com port parameters not set.");
-            setEvalMessage("Com port parameters not set.");
-        }
-        setEvalMessage("Com port parameters are set.");
-        setTimeouts(timeoutMode, writeTimeout, readTimeout);
-        return comPortParametersAreSet;
+    public boolean setComPortParameters(){
+        return true;
     }
+//    public boolean setComPortParameters(int comPortIndex, int baud, int dataBits, int stopBits,
+//                                     int parity, int timeoutMode, int writeTimeout, int readTimeout) {
+//
+//        try {
+//            if (serialModel.getSerialPortList().length==0) {
+//                //System.out.println("No port is selected.");
+//                setEvalMessage("No port is selected.");
+//                return false;
+//            }
+//
+//            System.out.println(" Ports: " + Arrays.toString(serialModel.getSerialPortList()));
+//            comPortParametersAreSet = serialModel.setSerialPortParameters(comPortIndex, baud, dataBits, stopBits, parity);
+//
+//
+//        } catch (Exception exception) {
+//            //System.out.println("Com port parameters not set.");
+//            setEvalMessage("Com port parameters not set.");
+//        }
+//        setEvalMessage("Com port parameters are set.");
+//        setTimeouts(timeoutMode, writeTimeout, readTimeout);
+//        return comPortParametersAreSet;
+//    }
 
     public boolean isComPortParametersAreSet() {
         return comPortParametersAreSet;
@@ -274,8 +288,8 @@ public class ConsoleController {
 //                        view.getDataBits(), view.getStopBits(), view.getParity(),
 //                        view.getTimeoutMode(), view.getWriteTimeout(),
 //                        view.getReadTimeout());
-                setComPortParameters(1,9600, 8,1,1,
-                        0,0,0);
+//                setComPortParameters(1,9600, 8,1,1,
+//                        0,0,0);
                 System.out.println("Console: Listener set params.");
             }
         });
@@ -291,6 +305,7 @@ public class ConsoleController {
                 checkIfComPortParametersAreSet();
                 if (comPortParametersAreSet) {
                     getSerialData(command.getLoop());
+
                 }
             }
         });

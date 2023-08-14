@@ -37,4 +37,54 @@ public class ViewDTO {
      * Davis Command category: Testing
      */
     private static String testingDescription;
+
+    private static String lastCommandSent;
+
+    public static String getLastCommandSent() {
+        return lastCommandSent;
+    }
+
+    public static void setLastCommandSent(String lastCommandSent) {
+        ViewDTO.lastCommandSent = lastCommandSent;
+    }
+
+    public static void setCurrentDataText(String currentDataText) {
+        ViewDTO.currentDataText = currentDataText;
+    }
+
+    public static String getCurrentDataText() {
+        return currentDataText;
+    }
+
+    public static String getCurrentDataEvalText() {
+        return currentDataEvalText;
+    }
+
+    public static void setCurrentDataEvalText(String currentDataEvalText) {
+        ViewDTO.currentDataEvalText = currentDataEvalText;
+    }
+
+    public static String getTestingRawText() {
+        return testingRawText;
+    }
+
+    public static void setTestingRawText(String testingRawText) {
+        ViewDTO.testingRawText = testingRawText;
+    }
+
+    public static String getTestingFriendlyText() {
+        return testingFriendlyText;
+    }
+
+    public static void setTestingFriendlyText(String testingFriendlyText) {
+        ViewDTO.testingFriendlyText = testingFriendlyText;
+    }
+
+    public static String getTestingDescription() {
+        return testingDescription;
+    }
+
+    public static void setTestingDescription(String testingDescription) {
+        ViewDTO.testingDescription = testingDescription;
+    }
 }
