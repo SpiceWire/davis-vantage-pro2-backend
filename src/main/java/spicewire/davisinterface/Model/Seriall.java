@@ -58,6 +58,8 @@ public class Seriall {
         CommPortModel.setStopBits(port.getNumStopBits());
         CommPortModel.setParity(port.getParity());
         CommPortModel.setCommParamsSet(serialPortSettingsSet());
+        CommPortModel.setWriteTimeout(port.getWriteTimeout());
+        CommPortModel.setReadTimeout(port.getReadTimeout());
         CommPortModel.setUpdatedBy("Serial Port");
 
         return new CommPortModel().toString();
@@ -67,6 +69,7 @@ public class Seriall {
      * Sets the serial port based on user's selected index number from the serial port list.
      * The com port index is translated to the com port path needed by Fazecast Jserialcomm library
      * The port.setComPortParameters method uses the parameter of useRS485Mode, defaulted as false.
+     * Fazecast JserialComm library does not have a native getTimeoutMode method.
      *
      * @param comPortIndex  comPortList's index number of the selected com port
      * @return boolean if params are  set successfully
@@ -82,6 +85,9 @@ public class Seriall {
         CommPortModel.setDataBitsSet(port.setNumDataBits(CommPortModel.getDataBits()));
         CommPortModel.setStopBitsSet(port.setNumStopBits(CommPortModel.getStopBits()));
         CommPortModel.setParitySet(port.setParity(CommPortModel.getParity()));
+        CommPortModel.setTimeoutModeSet(port.setComPortTimeouts(CommPortModel.getTimeoutMode(),
+                CommPortModel.getReadTimeout(),CommPortModel.getWriteTimeout()));
+
 //         port.setComPortParameters(CommPortModel.getBaudRate(), CommPortModel.getBaudRate(),
 //        CommPortModel.getStopBits(), CommPortModel.getParity(), false);
         return serialPortSettingsSet();
