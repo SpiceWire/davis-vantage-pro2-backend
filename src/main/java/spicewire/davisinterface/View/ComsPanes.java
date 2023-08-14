@@ -139,7 +139,7 @@ public class ComsPanes implements ViewDao {
         tfEval.setText(ViewDTO.getCurrentDataEvalText());
         switch (command){
             case "loop": case "lps": {
-                System.out.println("update view called with loop or lps");
+                System.out.println("View: update view called with loop or lps");
                textFieldCurrentDataCommand.setText(command.toUpperCase());
                break;
             } default:{

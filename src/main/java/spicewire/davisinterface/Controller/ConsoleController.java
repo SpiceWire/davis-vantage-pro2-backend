@@ -44,7 +44,7 @@ public class ConsoleController {
 //        runCurrentData(command.getLoop());
 //        runCurrentData(command.getLps());
     }
-    public ConsoleController(){};
+    public ConsoleController(){}
 //    /**
 //     * Takes a String from the View, converts it into a Command class, sends it to the Davis console.
 //     * String must be a Command as described in the Davis manual. Currently accepts the following
@@ -115,6 +115,7 @@ public class ConsoleController {
     private String getSerialData(Command command) {
         ViewDTO.setLastCommandSent(command.getWord());
         sendCommandToConsole(command);
+        System.out.println("Controller: getSerialData called with " + command.getWord());
         if (command.getType()==2) {
             ViewDTO.setCurrentDataText(DataProcessor.getSerialData());
         }
@@ -130,6 +131,7 @@ public class ConsoleController {
     private void createLoopRecord(Command command) {
 
         if (confirmCommandClass(command, 2)) {
+            System.out.println("Controller: CreateLoopRecord called with " + command.getWord());
             if (DataProcessor.getSerialData().length() > 0) {
                 if (command.getWord().equalsIgnoreCase("LOOP")) {
                     new Loop1Reading(DataProcessor.getSerialData());
@@ -160,6 +162,7 @@ public class ConsoleController {
     private boolean confirmCommandClass (Command command, int commandType){
 
         boolean commandIsCorrectType = (command.getType()==commandType);
+        System.out.println("Controller: confirmCommandClass called with " + command.getWord());
         if (!commandIsCorrectType){
             System.out.println("Internal error. Command " + command.getWord() +
                     " of type " + command.getType() + " was sent where only type " +
@@ -192,7 +195,7 @@ public class ConsoleController {
     public void updateComPortList() {
         String[] serialPortArr = serialModel.getSerialPortList();
         String[] comPortList = new String[serialPortArr.length];
-        System.out.println("Console com port list: " +  Arrays.toString(serialModel.getSerialPortList()));
+        System.out.println("Controller says: Intial Console com port list is: " +  Arrays.toString(serialModel.getSerialPortList()));
         if (serialPortArr.length == 0) {
             CommPortModel.setCommPortList(new String[]{"NO_COM_PORTS_FOUND"});
             //return new String[]{"NO_COM_PORTS_FOUND"};
@@ -208,6 +211,7 @@ public class ConsoleController {
                 }
             }
             comPortList = friendlySPName.toString().split(" ");
+            System.out.println("Controller says: Final console com port list is: " +  Arrays.toString(comPortList));
 
             //view.addComPortToCmbComPort(friendlySPName.toString()); //adds stripped name to comm port list
         }
@@ -223,7 +227,7 @@ public class ConsoleController {
         return Seriall.getPortSettings();
     }
 
-    /**
+    /*
      * View sends com port parameters to be set. The com port index number is sent to the
      * serial model, which generates the com port path.
      * @param comPortIndex index number of user-selected com port from com port list.
