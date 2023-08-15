@@ -120,7 +120,7 @@ public class Seriall {
      *
      */
     public void setTimeouts(int newTimeoutMode, int newReadTimeout, int newWriteTimeout) {
-        port.setComPortTimeouts(newTimeoutMode, newReadTimeout, newWriteTimeout);
+        port.setComPortTimeouts(1, 500, newWriteTimeout);
 
     }
 
@@ -147,6 +147,7 @@ public class Seriall {
         //this.port.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);  //todo evaluate if this is needed
 
         port.openPort();
+        System.out.println("Port opened:"+ port.isOpen());
         if (!port.isOpen()) {
             System.out.println("Port could not be opened.");
             return;
@@ -154,10 +155,14 @@ public class Seriall {
 
         try (OutputStream out = port.getOutputStream()) { //the try block closes the port in the event of error
             port.writeBytes(cmdBytes, cmdBytes.length);
-            System.out.println("\ncommand sent: " + cmdString);
+            Thread.sleep(500);
+            port.writeBytes(cmdBytes, cmdBytes.length);
+            System.out.println("\nSerial Model: command sent: " + cmdString);
 
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
         listenForData(command);
     }
@@ -168,18 +173,21 @@ public class Seriall {
      * @param command an object of the Command class with payloads or parameters set
      */
     public void listenForData(Command command) {
+        System.out.println("Serial Model: listenForData called");
         if (!port.isOpen()) {  //port is not auto-closable, can not be used in "try-with-resources"
             port.openPort();
         }
         rawData.setLength(0); //erases StringBuilder rawData
         try {
-            Thread.sleep(500);  //Delay is necessary. Console needs time to "wake up" to a command
+            Thread.sleep(700);  //Delay is necessary. Console needs time to "wake up" to a command
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         try (InputStream in = port.getInputStream()) {
+            System.out.println("Seriall: inputstream called");
             while (port.bytesAvailable() >= 1) {
                 char thisChar = (char) in.read();
+                System.out.print(thisChar);
                 if (command.isBinaryReturnData()) {  //commands can return binary, hex or text data
                     rawData.append(Integer.toBinaryString(thisChar) + " ");
                 } else rawData.append(thisChar);
@@ -191,6 +199,7 @@ public class Seriall {
             port.flushIOBuffers();
             port.closePort();
         }
+        System.out.println("Serial model: raw data is: " + rawData.toString());
         confirmData(rawData.toString(), command);
     }
 

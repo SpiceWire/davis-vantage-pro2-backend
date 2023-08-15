@@ -49,6 +49,12 @@ public class DataProcessor {
 
     public static boolean processRawData(String rawData, Command command) {
         boolean dataIsValid = false;
+        if(rawData.length()==0){
+            System.out.println("Data processor received blank rawData to process.");
+            return false;
+        }
+        System.out.println("Dataprocessor: raw data is: " + rawData);
+        System.out.println("Dataprocessor: Command is: " + command.getWord());
         if (!confirmMessageSize(rawData, command)) {
             System.out.println("There was an error detected in the data. Try again.");
             //todo log
@@ -94,8 +100,9 @@ public class DataProcessor {
      * did not pass CRC check
      */
     public static boolean confirmMessageSize(String data, Command command) {
+
         boolean dataIsOK = false;
-        int expectedNumberOfPackets = 1;
+        int expectedNumberOfPackets = 1; //how many times LoopData was sent
         String dataForTesting = new String();
         if (command.getType() == 2) {
             dataForTesting = removeAckMessage(data, command);  //removes ACK from front of data
@@ -116,7 +123,9 @@ public class DataProcessor {
         //Catch the wrong number of bytes before any CRC check.
         String[] dataStrArr = dataForTesting.split(" ");
         int expectedMessageSize = command.getExpectedNumberOfBytesInReply() * expectedNumberOfPackets;
+        System.out.println("Dataprocessor: expected size: " + expectedMessageSize);
         if (dataStrArr.length != expectedMessageSize) {
+            System.out.println("Dataprocessor: msg is not expected size");
             if (command.getWord().equalsIgnoreCase("RXCHECK")) {
                 if (dataStrArr.length < expectedMessageSize) { //RXCHECK has varying size of reply
                     dataIsOK = true;

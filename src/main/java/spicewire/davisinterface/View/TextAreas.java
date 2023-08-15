@@ -16,7 +16,7 @@ public class TextAreas {
     public static String consoleFriendlyText(Command command) {
         StringBuilder friendlyText = new StringBuilder();
         if (getSerialData().length() < CONSOLE_OK_MESSAGE.length()) {
-            friendlyText.append("No valid data was returned. Something went wrong.");
+            friendlyText.append("No valid data was returned. Something went wrong. Msg length was:").append(getSerialData().length());
             return friendlyText.toString();
         }
         switch (command.getWord()) {

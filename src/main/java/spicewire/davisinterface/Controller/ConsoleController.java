@@ -274,10 +274,11 @@ public class ConsoleController {
         this.comPortParametersAreSet = comPortParametersAreSet;
     }
 
-    private void checkIfComPortParametersAreSet() { //called from some GUI button action listeners, before trying to get console data
-        if (CommPortModel.isCommParamsSet() == false) {
+    private boolean checkIfComPortParametersAreSet() { //called from some GUI button action listeners, before trying to get console data
+        if (!CommPortModel.isCommParamsSet()) {
             setEvalMessage("Com port parameters are not set yet.");
-        } //else System.out.println("if statement is evaluated as else"); //todo remove
+        }
+        return CommPortModel.isCommParamsSet();//else System.out.println("if statement is evaluated as else"); //todo remove
     }
 
     private void setEvalMessage(String evalMessage) {
@@ -307,10 +308,12 @@ public class ConsoleController {
         view.getLoopButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("Controller: loop called");
                 checkIfComPortParametersAreSet();
-                if (comPortParametersAreSet) {
+
+                if (checkIfComPortParametersAreSet()) {
                     getSerialData(command.getLoop());
-                    System.out.println("Controller: loop called");
+
                 }
             }
         });
