@@ -115,6 +115,13 @@ public class ComsPanes implements ViewDao {
                 setComPortParameters();
             }
         });
+
+        refreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                populateComPortList();
+            }
+        });
         System.out.println("Coms pane constructor completed.");
     }
 
@@ -131,18 +138,21 @@ public class ComsPanes implements ViewDao {
         return new CommPortModel();
 
     }
+
     private void updateView(String command){
         consoleFriendlyTextArea.setText(ViewDTO.getTestingFriendlyText());
         consoleRawTextArea.setText(ViewDTO.getTestingRawText());
         testDescriptionTextArea.setText(ViewDTO.getTestingDescription());
         currentDataTextArea.setText(ViewDTO.getCurrentDataText());
         tfEval.setText(ViewDTO.getCurrentDataEvalText());
+        populateComPortList();
         switch (command){
             case "loop": case "lps": {
                 System.out.println("View: update view called with loop or lps");
                textFieldCurrentDataCommand.setText(command.toUpperCase());
                break;
-            } default:{
+            }
+                default:{
                 textFieldTestName.setText(command.toUpperCase());
             }
         }
@@ -175,13 +185,19 @@ public class ComsPanes implements ViewDao {
 
     public void populateComPortList() {
         clearComPortList();
+        int deleteThisLater =0;
+        System.out.println("View: populateComPort triggered");
         if ( CommPortModel.getCommPortList() != null && CommPortModel.getCommPortList().length != 0 ) {
+            System.out.println("view: comPort list length: " + CommPortModel.getCommPortList().length);
+            System.out.println("View: populateComPort if-statement triggered");
             for (String str : CommPortModel.getCommPortList()) {
+                deleteThisLater ++;
                 cmbComPort.addItem(str);
             }
         } else {
             cmbComPort.addItem("NO_COM_PORT_FOUND");
         }
+        System.out.println("View: count of added strings: " + deleteThisLater);
     }
 
     public JPanel getPanelMainJPanel() {

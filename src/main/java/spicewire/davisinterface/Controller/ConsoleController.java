@@ -195,26 +195,28 @@ public class ConsoleController {
     public void updateComPortList() {
         String[] serialPortArr = serialModel.getSerialPortList();
         String[] comPortList = new String[serialPortArr.length];
-        System.out.println("Controller says: Intial Console com port list is: " +  Arrays.toString(serialModel.getSerialPortList()));
+        System.out.println("Controller says: Initial Console com port list is: " +  Arrays.toString(serialModel.getSerialPortList()));
         if (serialPortArr.length == 0) {
             CommPortModel.setCommPortList(new String[]{"NO_COM_PORTS_FOUND"});
             //return new String[]{"NO_COM_PORTS_FOUND"};
         }
         //view.clearComPortList();
+        StringBuilder friendlySPName = new StringBuilder();
         for (String sp : serialPortArr) {  //strips system com port name of leading slashes, etc
-            StringBuilder friendlySPName = new StringBuilder();
+
             char c;
             for (int i = 0; i < sp.length(); i++) {
                 c = sp.charAt(i);
-                if (Character.isAlphabetic(c) || Character.isDigit(c)) {
+                if (Character.isAlphabetic(c) || Character.isDigit(c)){
                     friendlySPName.append(c);
                 }
             }
-            comPortList = friendlySPName.toString().split(" ");
-            System.out.println("Controller says: Final console com port list is: " +  Arrays.toString(comPortList));
+            friendlySPName.append(" ");
+            System.out.println("Controller says: Final console com port list item is: " +  Arrays.toString(comPortList));
 
             //view.addComPortToCmbComPort(friendlySPName.toString()); //adds stripped name to comm port list
         }
+        comPortList = friendlySPName.toString().split(" ");
         CommPortModel.setCommPortList(comPortList);
     }
 
