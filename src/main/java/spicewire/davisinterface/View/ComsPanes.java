@@ -7,6 +7,8 @@ import spicewire.davisinterface.Model.CommPortModel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 
 public class ComsPanes implements ViewDao {
@@ -112,6 +114,7 @@ public class ComsPanes implements ViewDao {
         applyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("View: apply button triggered.");
                 setComPortParameters();
             }
         });
@@ -123,6 +126,13 @@ public class ComsPanes implements ViewDao {
             }
         });
         System.out.println("Coms pane constructor completed.");
+        cmbComPort.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                CommPortModel.setComPortIndex(cmbComPort.getSelectedIndex());
+                System.out.println("View: comPortIndex set to " + CommPortModel.getComPortIndex());
+            }
+        });
     }
 
     public boolean comPortParametersAreSet() {
@@ -162,6 +172,7 @@ public class ComsPanes implements ViewDao {
                    getParity(), getTimeoutMode(), getWriteTimeout(), getReadTimeout());
         }*/
     public CommPortModel setComPortParameters() {
+        System.out.println("view: setComPortParams triggered");
         CommPortModel.setCommPort(getComPortSelection());
         CommPortModel.setComPortIndex(getComPortIndex());
         CommPortModel.setBaudRate(getBaudRate());

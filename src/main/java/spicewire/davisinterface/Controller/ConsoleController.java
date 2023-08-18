@@ -298,7 +298,7 @@ public class ConsoleController {
 //                setComPortParameters(1,9600, 8,1,1,
 //                        0,0,0);
                 System.out.println("Console: Listener set params.");
-                serialModel.setSerialPortParameters(0);
+                serialModel.setSerialPortParameters(CommPortModel.getComPortIndex());
             }
         });
         view.getRefreshButton().addActionListener(new ActionListener() {

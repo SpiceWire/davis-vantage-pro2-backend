@@ -19,12 +19,12 @@ public class Seriall {
 
     private StringBuilder rawData = new StringBuilder(); // raw data before CRC
     private static Integer delayTime = 1000; //delay between requests to the console in the event of a failed CRC
-
-    static SerialPort port = selectSerialPort("COM4");
+    private static SerialPort port;
+    //static SerialPort port = selectSerialPort("COM4");
 
     //assigns serial port path from view selection passed from controller
     public String getComPortPath(int index) {
-        return SerialPort.getCommPorts()[0].getSystemPortPath();
+        return SerialPort.getCommPorts()[index].getSystemPortPath();
     }
 
     public static SerialPort selectSerialPort(String serialPortSystemPath) {
@@ -33,7 +33,9 @@ public class Seriall {
         if (SerialPort.getCommPort(serialPortSystemPath)!=null) {
             CommPortModel.setComPortSet(true);
         }
-        return SerialPort.getCommPort(serialPortSystemPath);
+        port = SerialPort.getCommPort(serialPortSystemPath);
+
+        return port;
     }
 
     private static boolean serialPortSettingsSet(){
