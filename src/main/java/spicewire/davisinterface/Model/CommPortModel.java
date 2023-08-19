@@ -200,7 +200,9 @@ public class CommPortModel {
 
     public static void setCommPortList(String[] commPortList) {
         CommPortModel.commPortList = commPortList;
+
         System.out.println("ComPortModel: ComPortList has length of: " + commPortList.length);
+        System.out.println("ComPortModel: List is: " + Arrays.toString(commPortList));
     }
 
     public static int getComPortIndex() {

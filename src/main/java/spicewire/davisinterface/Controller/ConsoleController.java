@@ -212,7 +212,7 @@ public class ConsoleController {
                 }
             }
             friendlySPName.append(" ");
-            System.out.println("Controller says: Final console com port list item is: " +  Arrays.toString(comPortList));
+            System.out.println("Controller says: Final console com port list item is: " + friendlySPName.toString());
 
             //view.addComPortToCmbComPort(friendlySPName.toString()); //adds stripped name to comm port list
         }

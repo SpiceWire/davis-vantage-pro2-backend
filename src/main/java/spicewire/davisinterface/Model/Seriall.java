@@ -49,8 +49,10 @@ public class Seriall {
 
     }
     public static String getPortSettings(){
-        CommPortModel.setCommPortList(Arrays.toString(SerialPort.getCommPorts()).split(" "));
-        CommPortModel.setCommPort(port.getDescriptivePortName());
+        System.out.println("Seriall: getPortSettings triggered");
+        System.out.printf("Seriall: setCommPortList set to " + Arrays.toString(Arrays.toString(SerialPort.getCommPorts()).split(" ")));
+        //CommPortModel.setCommPortList(Arrays.toString(SerialPort.getCommPorts()).split(" "));
+        //CommPortModel.setCommPort(port.getDescriptivePortName());
         CommPortModel.setCommPortDescription(port.getDescriptivePortName());
         CommPortModel.setCommPortPath(port.getSystemPortPath());
         CommPortModel.setBaudRate(port.getBaudRate());
@@ -98,10 +100,12 @@ public class Seriall {
      * @return String[] of available port names. Names include leading slashes, dots, etc.
      */
     public static String[]  getSerialPortList() {
+        System.out.println("seriall: getSerialPortList triggered.");
         String[] compPortsArray = new String[SerialPort.getCommPorts().length];  //todo should be .length?
         for (int i = 0; i <= SerialPort.getCommPorts().length - 1; i++) {
             compPortsArray[i] = SerialPort.getCommPorts()[i].getSystemPortPath();
         }
+        System.out.println("Seriall: ComPortsArray = " + Arrays.toString(compPortsArray));
         return compPortsArray;
     }
 

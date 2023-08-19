@@ -176,6 +176,7 @@ public class ComsPanes implements ViewDao {
         CommPortModel.setCommPort(getComPortSelection());
         CommPortModel.setComPortIndex(getComPortIndex());
         CommPortModel.setBaudRate(getBaudRate());
+        System.out.println("view: baud rate is: " + getBaudRate());
         CommPortModel.setDataBits(getDataBits());
         CommPortModel.setStopBits(getStopBits());
         CommPortModel.setParity(getParity());
