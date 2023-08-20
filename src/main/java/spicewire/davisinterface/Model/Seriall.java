@@ -2,12 +2,14 @@ package spicewire.davisinterface.Model;
 
 
 import com.fazecast.jSerialComm.SerialPort;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import spicewire.davisinterface.Services.DataProcessor;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLOutput;
 import java.util.Arrays;
 
 
@@ -19,6 +21,7 @@ public class Seriall {
 
     private StringBuilder rawData = new StringBuilder(); // raw data before CRC
     private static Integer delayTime = 1000; //delay between requests to the console in the event of a failed CRC
+
     private static SerialPort port;
     //static SerialPort port = selectSerialPort("COM4");
 
@@ -28,7 +31,7 @@ public class Seriall {
     }
 
     public static SerialPort selectSerialPort(String serialPortSystemPath) {
-        System.out.println("Seriall : SelectSeralPort called with " + serialPortSystemPath);
+        System.out.println("Seriall : SelectSerialPort called with " + serialPortSystemPath);
         //return SerialPort.getCommPort("COM4"); //sets the SerialPort object
         if (SerialPort.getCommPort(serialPortSystemPath)!=null) {
             CommPortModel.setComPortSet(true);
@@ -53,7 +56,7 @@ public class Seriall {
         System.out.printf("Seriall: setCommPortList set to " + Arrays.toString(Arrays.toString(SerialPort.getCommPorts()).split(" ")));
         //CommPortModel.setCommPortList(Arrays.toString(SerialPort.getCommPorts()).split(" "));
         //CommPortModel.setCommPort(port.getDescriptivePortName());
-        CommPortModel.setCommPortDescription(port.getDescriptivePortName());
+ /*       CommPortModel.setCommPortDescription(port.getDescriptivePortName());
         CommPortModel.setCommPortPath(port.getSystemPortPath());
         CommPortModel.setBaudRate(port.getBaudRate());
         CommPortModel.setDataBits(port.getNumDataBits());
@@ -61,7 +64,7 @@ public class Seriall {
         CommPortModel.setParity(port.getParity());
         CommPortModel.setCommParamsSet(serialPortSettingsSet());
         CommPortModel.setWriteTimeout(port.getWriteTimeout());
-        CommPortModel.setReadTimeout(port.getReadTimeout());
+        CommPortModel.setReadTimeout(port.getReadTimeout());*/
         CommPortModel.setUpdatedBy("Serial Port");
 
         return new CommPortModel().toString();
@@ -83,13 +86,19 @@ public class Seriall {
         CommPortModel.setComPortIndex(comPortIndex);
         SerialPort port = selectSerialPort(comPortPath);
         System.out.println(getPortSettings());
-        CommPortModel.setBaudSet(port.setBaudRate(CommPortModel.getBaudRate()));
+        port.setBaudRate(CommPortModel.getBaudRate());
+        port.setNumDataBits(CommPortModel.getDataBits());
+        port.setNumStopBits(CommPortModel.getStopBits());
+        port.setParity(CommPortModel.getParity());
+        port.setComPortTimeouts(CommPortModel.getTimeoutMode(),
+                CommPortModel.getReadTimeout(),CommPortModel.getWriteTimeout());
+/*        CommPortModel.setBaudSet(port.setBaudRate(CommPortModel.getBaudRate()));
         CommPortModel.setDataBitsSet(port.setNumDataBits(CommPortModel.getDataBits()));
         CommPortModel.setStopBitsSet(port.setNumStopBits(CommPortModel.getStopBits()));
         CommPortModel.setParitySet(port.setParity(CommPortModel.getParity()));
         CommPortModel.setTimeoutModeSet(port.setComPortTimeouts(CommPortModel.getTimeoutMode(),
                 CommPortModel.getReadTimeout(),CommPortModel.getWriteTimeout()));
-        System.out.println("Seriall: setSerialPortParams ran");
+       */ System.out.println("Seriall: setSerialPortParams ran");
 //         port.setComPortParameters(CommPortModel.getBaudRate(), CommPortModel.getBaudRate(),
 //        CommPortModel.getStopBits(), CommPortModel.getParity(), false);
         return serialPortSettingsSet();
@@ -184,19 +193,28 @@ public class Seriall {
             port.openPort();
         }
         rawData.setLength(0); //erases StringBuilder rawData
+        System.out.println("Seriall: RawData StringBuilder reset");
+        int characterCount = 0;
         try {
-            Thread.sleep(700);  //Delay is necessary. Console needs time to "wake up" to a command
+            Thread.sleep(500);  //Delay is necessary. Console needs time to "wake up" to a command
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         try (InputStream in = port.getInputStream()) {
             System.out.println("Seriall: inputstream called");
             while (port.bytesAvailable() >= 1) {
+                characterCount ++;
                 char thisChar = (char) in.read();
-                System.out.print(thisChar);
+                System.out.println("Char: " + thisChar);
                 if (command.isBinaryReturnData()) {  //commands can return binary, hex or text data
+                    System.out.println("Seriall: command is binary return data");
                     rawData.append(Integer.toBinaryString(thisChar) + " ");
-                } else rawData.append(thisChar);
+                } else {
+                    //System.out.println("Seriall: command is not binary");
+                    rawData.append(thisChar);
+                }
+                //System.out.println("Seriall: count is; " + count);
+
             }
 
         } catch (IOException ioException) {
@@ -206,6 +224,7 @@ public class Seriall {
             port.closePort();
         }
         System.out.println("Serial model: raw data is: " + rawData.toString());
+        System.out.println("Character count is: " + characterCount);
         confirmData(rawData.toString(), command);
     }
 

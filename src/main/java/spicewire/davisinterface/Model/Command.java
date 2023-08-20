@@ -29,6 +29,7 @@ public class Command {
     private boolean binaryReturnData; //commands return binary, hex or ASCII data
     private int type;  //1=Testing  2=Current data  3=Download  4=EEPROM 5=Calibration 6=Clearing  7= Configuration
     private int expectedNumberOfBytesInReply; //specified in Davis Serial Communication Protocol
+    private int expectedNumberOfCharactersInReply; //specified in Davis Serial Communication Protocol
     private boolean crcInReply; //True if console reply will have a Cyclic Redundancy Check
     private String payload;  //data values (if any) that are part of command.
 
@@ -71,7 +72,8 @@ public class Command {
     }
 
     public Command(String word, int dataParameter, char terminatingChar, String description,
-                   boolean binaryReturnData, int type, int expectedNumberOfBytesInReply, boolean crcInReply,
+                   boolean binaryReturnData, int type, int expectedNumberOfBytesInReply,
+                   int expectedNumberOfCharactersInReply, boolean crcInReply,
                    String payload) {
         this.word = word;
         this.numberOfDataParameters = dataParameter;
@@ -80,28 +82,29 @@ public class Command {
         this.binaryReturnData = binaryReturnData;
         this.type = type;
         this.expectedNumberOfBytesInReply = expectedNumberOfBytesInReply;
+        this.expectedNumberOfCharactersInReply = expectedNumberOfCharactersInReply;
         this.crcInReply = crcInReply;
         this.payload = payload;
     }
 
 
     private static final Command test = new Command("TEST", 0, LINE_FEED, TEST_DESCRIPTION,
-            false, 1, 1, false, null);
+            false, 1, 1, 8, false, null);
 
     private static final Command rxCheck = new Command("RXCHECK", 0, LINE_FEED,
-            RX_CHECK_DESCRIPTION, false, 1, 32, false, null);
+            RX_CHECK_DESCRIPTION, false, 1, 32, 27, false, null);
 
     private static final Command rxTest = new Command("RXTEST", 0, LINE_FEED,
-            RX_TEST_DESCRIPTION, false, 1, 1, false, null);
+            RX_TEST_DESCRIPTION, false, 1, 1, 6,false, null);
 
     private static final Command ver = new Command("VER", 0, LINE_FEED,
-            VER_DESCRIPTION, false, 1, 3, false, null);
+            VER_DESCRIPTION, false, 1, 3, 19, false, null);
 
     private static final Command nver = new Command("NVER", 0, LINE_FEED,
-            NVER_DESCRIPTION, false, 1, 1, false, null);
+            NVER_DESCRIPTION, false, 1, 1, 12, false, null);
 
     private static final Command receivers = new Command("RECEIVERS", 0, LINE_FEED,
-            RECEIVERS_DESCRIPTION, false, 1, 1, false, null);
+            RECEIVERS_DESCRIPTION, false, 1, 1, 14, false, null);
 
     private static final Command loop = new Command("LOOP", 1, LINE_FEED, LOOP_DESCRIPTION,
             true, 2, 99, true, "1");

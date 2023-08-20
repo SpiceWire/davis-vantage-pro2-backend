@@ -1,5 +1,6 @@
 package spicewire.davisinterface.Model;
 
+import java.sql.SQLOutput;
 import java.util.Arrays;
 
 public class CommPortModel {
@@ -234,6 +235,7 @@ public class CommPortModel {
     }
 
     public static void setCommPortPath(String commPortPath) {
+        System.out.println("CommPortModel: SetCommPortPath called with " + commPortPath);
         CommPortModel.commPortPath = commPortPath;
     }
 
@@ -242,6 +244,7 @@ public class CommPortModel {
     }
 
     public static void setBaudRate(int baudRate) {
+        System.out.println("CommPortModel: SetBaudRate called with " + baudRate);
         CommPortModel.baudRate = baudRate;
     }
 
