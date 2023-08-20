@@ -203,7 +203,7 @@ public class Seriall {
         }
         try (InputStream in = port.getInputStream()) {
             System.out.println("Seriall: inputstream called");
-            while (port.bytesAvailable() >= 1 && inputCount <= command.getExpectedNumberOfUnitsInReply()) {
+            while (port.bytesAvailable() >= 1 && inputCount < command.getExpectedNumberOfUnitsInReply()) {
                 if(command.isFixedNumberOfReplyCharacters()){
                     inputCount ++;
                 }

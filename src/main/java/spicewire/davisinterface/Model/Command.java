@@ -5,7 +5,9 @@ package spicewire.davisinterface.Model;
  *
  * Davis commands, when sent to the Davis console:
  *     -Do not all use the same terminating character.
- *     -Can return hex, binary or ASCII data from the Davis console, depending on the command.
+ *     -The Davis console needs a single line feed or a single carriage return (but not both) after a command string.
+ *       Of note, Windows usually uses a carriage return AND line feed for a new line.
+ *     -Can return hex, binary, ASCII, or a mix of ASCII and binary data from the Davis console, depending on command.
  *     -Sometimes return data with a CRC.
  *     -Sometimes have user-defined parameters that need to be sent with the command.
  *     -Return serial port data varying in length from 6 to 436 bytes.

@@ -20,8 +20,6 @@ import spicewire.davisinterface.Model.Command;
  *    -The number of sensors can change.
  *    -The types of sensors can change.
  *    -The index order of sensors can change.
- *    -The Davis console needs a single line feed or a single carriage return (but not both) after a command string.
- *      Of note, Windows usually uses a carriage return AND line feed for a new line.
  *    -Values of two bytes are usually but not always sent LSB (Least Significant Bit) first (i.e. "in the wrong order").
  *    -Some values are held across nibbles of adjacent bytes.
  *    -Some bytes are mapped to booleans.
