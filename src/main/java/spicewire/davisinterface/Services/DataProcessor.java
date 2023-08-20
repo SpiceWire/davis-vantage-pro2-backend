@@ -2,6 +2,8 @@ package spicewire.davisinterface.Services;
 
 import spicewire.davisinterface.Model.Command;
 
+import java.util.regex.Pattern;
+
 
 /**This class processes raw data from the serial port. It removes any ACK messages and performs CRC checks. It also
  * evaluates whether a Davis Testing Command was successful. It does not have a constructor.
@@ -36,16 +38,18 @@ public class DataProcessor {
 
 
     private static StringBuilder serialData = new StringBuilder();  //sanitized data from the serial port
-
+    public static String evaluationMessage(Command command, boolean validData, String msg){
+        return " ";
+    }
 
     /**
      * This method receives and processes raw data from the serial port. If data is validated,
      * it removes any ack message from the data and sends the data to a String builder method.
      * @param rawData raw data from serial port
      * @param command A command to the console as described in Davis documentation.
+     * @return boolean true if data is validated.
      */
-
-    public static boolean processRawData(String rawData, Command command) {
+    public static boolean processRawData(Command command, String rawData) {
         boolean dataIsValid = false;
         if(rawData.length()==0){
             System.out.println("Data processor received blank rawData to process.");
@@ -53,6 +57,15 @@ public class DataProcessor {
         }
         System.out.println("Dataprocessor: raw data is: " + rawData);
         System.out.println("Dataprocessor: Command is: " + command.getWord());
+        switch (command.getWord()) {
+            case "LOOP": case "LPS": dataIsValid=validateLoop(command,rawData);
+            break;
+            case "VER": dataIsValid=validateVer(command, rawData);
+            break;
+            case "NVER": dataIsValid=validateNver(command, rawData);
+            break;
+
+        }
         if (!confirmMessageSize(rawData, command)) {
             System.out.println("There was an error detected in the data. Try again.");
             //todo log
@@ -64,6 +77,48 @@ public class DataProcessor {
         return dataIsValid;
     }
 
+
+    private static boolean validateLoop( Command command, String rawData){
+        String noAckMsg = removeAckMessage(rawData, command);
+        boolean validData = crcCheck(noAckMsg.split(" "), command);
+        createEvalMsg(command, validData);
+        return validData;
+    }
+
+
+    private static boolean validateVer(Command command, String rawData){
+        boolean validData = false;
+        if(validateOK(rawData)){
+            validData = ( //e.g. "Apr xx 2019"
+            Pattern.matches("[A-Z][a-z]{2}", rawData.substring(3,6)) &&
+            Pattern.matches("[\\d]{4}", rawData.substring(rawData.length()-4))
+            );
+        }
+            createEvalMsg(command, validData);
+        return validData;
+    }
+
+    private static boolean validateNver(Command command, String rawData){
+        boolean validData = false;
+        if(validateOK(rawData)){
+            validData = Pattern.matches("[\\d]\\.[\\d]{2}",rawData.substring(rawData.length()-4));
+        }
+        createEvalMsg(command, validData);
+        return validData;
+    }
+
+    private static void createEvalMsg(Command command, boolean data){
+        StringBuilder eval = new StringBuilder();
+        eval.append("The response to command ").append(command.getWord());
+        eval.append(data? " passed": "did not pass");
+        eval.append(" data validation.");
+        evaluationMessage(command, data, eval.toString());
+    }
+
+
+    private static boolean validateOK(String rawData){
+        return Pattern.compile("OK").matcher(rawData.substring(0,2)).matches();
+    }
     /**
      * This method accepts serial data with the ack message removed. It creates a String builder from the data
      * for other classes to access.
@@ -90,8 +145,9 @@ public class DataProcessor {
      * Some commands generate more than one data packet at a time.
      * Testing Commands (Command type 1) generate exactly one packet.
      * Current Data Commands (Command type 2) generate one or more packets.
-     * Some commands do not have a CRC, but their data can be somewhat validated by message size.
-     *
+     * Some commands do not have a CRC.
+     * Some commands have a fixed reply size(TEST, VER, NVER, LOOP, LPS). Some do not
+     * (RECEIVERS, RXCHECK, RXTEST).
      * @param data raw data from the serial port
      * @param command the command sent to the Davis console that generated the serial port data
      * @return boolean true = message passes CRC check (if any) and is proper size. False = wrong size or

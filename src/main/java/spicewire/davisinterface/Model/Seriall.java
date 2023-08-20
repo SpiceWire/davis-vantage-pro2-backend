@@ -246,7 +246,7 @@ public class Seriall {
      */
     private void confirmData(String data, Command command) {
 
-        boolean goodData = DataProcessor.processRawData(data, command);
+        boolean goodData = DataProcessor.processRawData(command,data);
         if (!goodData){
             try {
                 if (delayTime<8000) {
