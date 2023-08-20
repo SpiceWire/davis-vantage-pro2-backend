@@ -194,7 +194,7 @@ public class Seriall {
         }
         rawData.setLength(0); //erases StringBuilder rawData
         System.out.println("Seriall: RawData StringBuilder reset");
-        int characterCount = 0;
+        int inputCount = 0;
         try {
             Thread.sleep(500);  //Delay is necessary. Console needs time to "wake up" to a command
         } catch (Exception e) {
@@ -202,12 +202,16 @@ public class Seriall {
         }
         try (InputStream in = port.getInputStream()) {
             System.out.println("Seriall: inputstream called");
-            while (port.bytesAvailable() >= 1) {
-                characterCount ++;
+            while (port.bytesAvailable() >= 1 && inputCount <= ) {
+                if(command.isFixedNumberOfReplyCharacters()){
+                    inputCount ++;
+                }
+
                 char thisChar = (char) in.read();
                 System.out.println("Char: " + thisChar);
                 if (command.isBinaryReturnData()) {  //commands can return binary, hex or text data
                     System.out.println("Seriall: command is binary return data");
+                    inputCount ++;
                     rawData.append(Integer.toBinaryString(thisChar) + " ");
                 } else {
                     //System.out.println("Seriall: command is not binary");

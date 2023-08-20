@@ -122,7 +122,7 @@ public class DataProcessor {
 
         //Catch the wrong number of bytes before any CRC check.
         String[] dataStrArr = dataForTesting.split(" ");
-        int expectedMessageSize = command.getExpectedNumberOfBytesInReply() * expectedNumberOfPackets;
+        int expectedMessageSize = command.getExpectedNumberOfUnitsInReply() * expectedNumberOfPackets;
         System.out.println("Dataprocessor: expected size: " + expectedMessageSize);
         if (dataStrArr.length != expectedMessageSize) {
             System.out.println("Dataprocessor: msg is not expected size");
