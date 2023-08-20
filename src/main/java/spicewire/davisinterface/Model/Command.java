@@ -28,7 +28,9 @@ public class Command {
     private String description; //Description of the command and any return data expected
     private boolean binaryReturnData; //commands return binary, hex or ASCII data
     private int type;  //1=Testing  2=Current data  3=Download  4=EEPROM 5=Calibration 6=Clearing  7= Configuration
+    private boolean fixedNumberOfReplyBytes;//does the command's reply have a fixed number of bytes?
     private int expectedNumberOfBytesInReply; //specified in Davis Serial Communication Protocol
+    private boolean fixedNumberOfReplyCharacters;//does the command's reply have a fixed number of characters?
     private int expectedNumberOfCharactersInReply; //specified in Davis Serial Communication Protocol
     private boolean crcInReply; //True if console reply will have a Cyclic Redundancy Check
     private String payload;  //data values (if any) that are part of command.
@@ -72,7 +74,8 @@ public class Command {
     }
 
     public Command(String word, int dataParameter, char terminatingChar, String description,
-                   boolean binaryReturnData, int type, int expectedNumberOfBytesInReply,
+                   boolean binaryReturnData, int type, boolean fixedNumberOfReplyBytes,
+                   int expectedNumberOfBytesInReply, boolean fixedNumberOfReplyCharacters,
                    int expectedNumberOfCharactersInReply, boolean crcInReply,
                    String payload) {
         this.word = word;
@@ -81,7 +84,9 @@ public class Command {
         this.description = description;
         this.binaryReturnData = binaryReturnData;
         this.type = type;
+        this.fixedNumberOfReplyBytes = fixedNumberOfReplyBytes;
         this.expectedNumberOfBytesInReply = expectedNumberOfBytesInReply;
+        this.fixedNumberOfReplyCharacters = fixedNumberOfReplyCharacters;
         this.expectedNumberOfCharactersInReply = expectedNumberOfCharactersInReply;
         this.crcInReply = crcInReply;
         this.payload = payload;
@@ -89,37 +94,37 @@ public class Command {
 
 
     private static final Command test = new Command("TEST", 0, LINE_FEED, TEST_DESCRIPTION,
-            false, 1, 1, 8, false, null);
+            false, 1, false, 1, true, 8, false, null);
 
     private static final Command rxCheck = new Command("RXCHECK", 0, LINE_FEED,
-            RX_CHECK_DESCRIPTION, false, 1, 32, 27, false, null);
+            RX_CHECK_DESCRIPTION, false, 1, false,32,  false, 27, false, null);
 
     private static final Command rxTest = new Command("RXTEST", 0, LINE_FEED,
-            RX_TEST_DESCRIPTION, false, 1, 1, 6,false, null);
+            RX_TEST_DESCRIPTION, false, 1, false, 1, true, 6,false, null);
 
     private static final Command ver = new Command("VER", 0, LINE_FEED,
-            VER_DESCRIPTION, false, 1, 3, 19, false, null);
+            VER_DESCRIPTION, false, 1, false, 3, true, 19, false, null);
 
     private static final Command nver = new Command("NVER", 0, LINE_FEED,
-            NVER_DESCRIPTION, false, 1, 1, 12, false, null);
+            NVER_DESCRIPTION, false, 1, false, 1, true, 12, false, null);
 
     private static final Command receivers = new Command("RECEIVERS", 0, LINE_FEED,
-            RECEIVERS_DESCRIPTION, false, 1, 1, 14, false, null);
+            RECEIVERS_DESCRIPTION, false, 1, false, 1, true, 14, false, null);
 
     private static final Command loop = new Command("LOOP", 1, LINE_FEED, LOOP_DESCRIPTION,
-            true, 2, 99, true, "1");
+            true, 2, true, 99, false, 800, true, "1");
 
     private static final Command lps = new Command("LPS", 2, LINE_FEED, LPS_DESCRIPTION,
-            true, 2, 99, true, "2 1");
+            true, 2, true, 99, false, 800, true, "2 1");
 
     private static final Command hilows = new Command("HILOWS", 0, LINE_FEED, HILOWS_DESCRIPTION,
-            false, 2, 436, true, null);
+            false, 2,true, 436, false, 1000, true, null);
 
     private static final Command putrain = new Command("PUTRAIN", 1, LINE_FEED, PUTRAIN_DESCRIPTION,
-            false, 2, 7, false, null);
+            false, 2, true, 1, true, 3, false, null);
 
     private static final Command putet = new Command("PUTET", 1, LINE_FEED, PUTET_DESCRIPTION,
-            false, 2, 7, false, null);
+            false, 2, true,  1, true, 3, false, null);
 
     public String getPayload() {
         return payload;
