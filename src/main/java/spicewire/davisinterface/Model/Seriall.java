@@ -184,7 +184,8 @@ public class Seriall {
 
     /**
      * Serial port listens for data. An InputStream receives the data, translates it to a binary
-     * string if necessary, sends it to another method for validation
+     * string if necessary, sends it to another method for validation.
+     * This method stops listening for data if the data reaches the size expected.
      * @param command an object of the Command class with payloads or parameters set
      */
     public void listenForData(Command command) {
@@ -202,7 +203,7 @@ public class Seriall {
         }
         try (InputStream in = port.getInputStream()) {
             System.out.println("Seriall: inputstream called");
-            while (port.bytesAvailable() >= 1 && inputCount <= ) {
+            while (port.bytesAvailable() >= 1 && inputCount <= command.getExpectedNumberOfUnitsInReply()) {
                 if(command.isFixedNumberOfReplyCharacters()){
                     inputCount ++;
                 }
@@ -228,7 +229,7 @@ public class Seriall {
             port.closePort();
         }
         System.out.println("Serial model: raw data is: " + rawData.toString());
-        System.out.println("Character count is: " + characterCount);
+        System.out.println("Character or byte count is: " + inputCount);
         confirmData(rawData.toString(), command);
     }
 
