@@ -115,13 +115,13 @@ public class DataProcessor {
 
     private static boolean validateVer(Command command, String rawData){
         boolean validData = false;
-
+        String ackRemoved = "";
         if(validateOK(rawData)) {
-
+            ackRemoved = removeOKForValidation(rawData);
         }
             validData = ( //e.g. "Apr xx 2019"
-            Pattern.matches("[A-Z][a-z]{2}", rawData.substring(3,6)) &&
-            Pattern.matches("[\\d]{4}", rawData.substring(rawData.length()-4))
+            Pattern.matches("[A-Z][a-z]{2}", ackRemoved.substring(0,3)) &&
+            Pattern.matches("[\\d]{4}", ackRemoved.substring(ackRemoved.length()-4))
             );
 
             createEvalMsg(command, validData);
@@ -145,7 +145,7 @@ public class DataProcessor {
         String ackRemoved = "";
         if(validateOK(rawData)) {
             System.out.println("Dataprocessor: validateOK called and passed.");
-            ackRemoved = rawData.substring(6).trim();
+            ackRemoved = removeOKForValidation(rawData);
         } else {
             System.out.println("Dataprocessor: validateOK called and did NOT pass.");
             return false;
@@ -181,11 +181,18 @@ public class DataProcessor {
 
     private static boolean validateOK(String rawData){
         //return Pattern.compile("OK").matcher(rawData.substring(0,2)).matches();
-//        System.out.println("validateOKdata is: " + rawData.substring(0,6));
-//        System.out.println("validateOKrawData is: " + rawData);
+        System.out.println("validateOKdata is: " + rawData.substring(0,6));
+        System.out.println("validateOKrawData is: " + rawData);
         return rawData.substring(0,6).trim().equalsIgnoreCase("OK");
     }
 
+    private static String removeOKForValidation(String rawData){
+        System.out.println("removeOK raw data " + rawData );
+        System.out.println("remove ok trimmed " +
+                rawData.substring(rawData.indexOf("K")+1).trim());
+        return rawData.substring(rawData.indexOf("K")+1).trim();
+
+    }
 
     /**
      * This method accepts validated serial data and creates a String builder from the data

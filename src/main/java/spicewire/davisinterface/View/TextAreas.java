@@ -29,7 +29,7 @@ public class TextAreas {
             case "NVER":
                 friendlyText.append("Successful if a number is returned.\n");
                 friendlyText.append("Firmware number installed is ");
-                friendlyText.append(getSerialData().substring(CONSOLE_OK_MESSAGE.length() - 1));
+                friendlyText.append(removeOKMessage(getSerialData()));
                 break;
             case "RECEIVERS":
                 friendlyText.append("You are listening to station number: ");
@@ -41,7 +41,7 @@ public class TextAreas {
             case "VER":
                 friendlyText.append("Successful if a date is returned.\n");
                 friendlyText.append("Firmware date code is: ");
-                friendlyText.append(getSerialData().substring(CONSOLE_OK_MESSAGE.length() - 1));
+                friendlyText.append(removeOKMessage(getSerialData()));
                 break;
             case "RXTEST":
                 friendlyText.append("Successful if OK is returned.\n");
@@ -51,8 +51,7 @@ public class TextAreas {
                 break;
             case "RXCHECK":
                 friendlyText.append("Successful if several numbers were returned.\n");
-                String serialString = getSerialData();
-                String diagnosticData = serialString.substring(serialString.indexOf("K")+1).trim();
+                String diagnosticData = removeOKMessage(getSerialData());
                 String[] drAry = diagnosticData.split(" ");
                 friendlyText.append("Total packets received: ").append(drAry[0]).append(LINE_SEPARATOR);
                 friendlyText.append("Total packets missed: ").append(drAry[1]).append(LINE_SEPARATOR);
@@ -64,5 +63,8 @@ public class TextAreas {
                 friendlyText.append("Something went wrong.");
         }
         return friendlyText.toString();
+    }
+    private static String removeOKMessage(String serialData){
+        return serialData.substring(serialData.indexOf("K")+1).trim();
     }
 }
