@@ -109,7 +109,7 @@ public class ConsoleController {
      * Sends a single command to the Davis console and returns the sanitized and validated
      * serial data it generates. It can be used with LOOP and LPS commands before making a LOOP record.
      *
-     * @param command  that generates serial data
+     * @param command  A member of the Command class that generates serial data
      * @return String from DataProcessor
      */
     private String getSerialData(Command command) {

@@ -99,7 +99,7 @@ public class Command {
             true, false, null);
 
     private static final Command rxCheck = new Command("RXCHECK", 0, LINE_FEED,
-            RX_CHECK_DESCRIPTION, false, 1, false,27,
+            RX_CHECK_DESCRIPTION, false, 1, false,28,
             true, false, null);
 
     private static final Command rxTest = new Command("RXTEST", 0, LINE_FEED,

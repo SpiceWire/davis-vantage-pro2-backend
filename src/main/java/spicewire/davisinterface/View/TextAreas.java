@@ -51,7 +51,8 @@ public class TextAreas {
                 break;
             case "RXCHECK":
                 friendlyText.append("Successful if several numbers were returned.\n");
-                String diagnosticData = getSerialData().substring(5);
+                String serialString = getSerialData();
+                String diagnosticData = serialString.substring(serialString.indexOf("K")+1).trim();
                 String[] drAry = diagnosticData.split(" ");
                 friendlyText.append("Total packets received: ").append(drAry[0]).append(LINE_SEPARATOR);
                 friendlyText.append("Total packets missed: ").append(drAry[1]).append(LINE_SEPARATOR);

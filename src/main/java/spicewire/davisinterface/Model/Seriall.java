@@ -21,7 +21,9 @@ public class Seriall {
 
     private StringBuilder rawData = new StringBuilder(); // raw data before CRC
     private static Integer delayTime = 1000; //delay between requests to the console in the event of a failed CRC
-
+    private static final String WAKE_UP_CHAR =  "\n";
+    private static final byte[] WAKE_UP = WAKE_UP_CHAR.getBytes();
+    private static final int WAKE_UP_LENGTH = WAKE_UP_CHAR.length();
     private static SerialPort port;
     //static SerialPort port = selectSerialPort("COM4");
 
@@ -140,7 +142,22 @@ public class Seriall {
     }
 
     /**
-     * Builds and sends a Command class object to the console. The Fazecast Serial Port write method requires a buffer.
+     * Builds a command string to send to the Davis console. Some commands (LPS, PUTRAIN, PUTET) require
+     * a payload of user-specified data. Terminating chars depend on command type.
+     * @param command Object of the Command class.
+     * @return String to send to Davis console
+     */
+    private String buildCommand(Command command){
+        StringBuilder commandString = new StringBuilder();
+        commandString.append(command.getWord());
+        if(command.getNumberOfDataParameters()>0){//adds payload to the command word being sent to the console
+            commandString.append(" " + command.getPayload());
+        }
+        commandString.append(command.getTerminatingChar()); //Terminating chars might be \n, \r or both together.
+        return commandString.toString();
+    }
+    /**
+     * Sends a Command class object to the console. The Fazecast Serial Port write method requires a buffer.
      * If this method results in any data transmission errors, it increases the time between
      * attempts, stopping after a total of 4 attempts.
      * @param command an object of the Command class with payloads or parameters set
@@ -150,26 +167,19 @@ public class Seriall {
 
     public void sendCommand(Command command, boolean initialSending) {
         if (initialSending) {delayTime = 1000;}
-        StringBuilder cmdSB = new StringBuilder(); //todo name it better
-        cmdSB.append(command.getWord());
-        if (command.getNumberOfDataParameters() > 0) {  //adds payload to the command word being sent to the console
-            cmdSB.append(" " + command.getPayload());
-        }
-        cmdSB.append(command.getTerminatingChar());  //Terminating chars might be \n, \r or both together.
-        String cmdString = cmdSB.toString();
+        String cmdString = buildCommand(command);
         byte[] cmdBytes = cmdString.getBytes(StandardCharsets.UTF_8);  //converts String to Byte array
 
-        //this.port.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);  //todo evaluate if this is needed
-
         port.openPort();
-        System.out.println("Port opened:"+ port.isOpen());
+        System.out.println("Port opened? "+ port.isOpen());
         if (!port.isOpen()) {
             System.out.println("Port could not be opened.");
             return;
         }
 
         try (OutputStream out = port.getOutputStream()) { //the try block closes the port in the event of error
-            port.writeBytes(cmdBytes, cmdBytes.length);
+            //port.writeBytes(cmdBytes, cmdBytes.length);
+            port.writeBytes(WAKE_UP,WAKE_UP_LENGTH);
             Thread.sleep(500);
             port.writeBytes(cmdBytes, cmdBytes.length);
             System.out.println("\nSerial Model: command sent: " + cmdString);

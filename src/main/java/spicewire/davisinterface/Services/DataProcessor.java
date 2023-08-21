@@ -39,16 +39,19 @@ public class DataProcessor {
 
     private static StringBuilder serialData = new StringBuilder();  //sanitized data from the serial port
     public static String evaluationMessage(Command command, boolean validData, String msg){
-        return " ";
+        return msg;
     }
 
     /**
-     * This method receives and processes raw data from the serial port. If data is validated,
-     * it removes any ack message from the data and sends the data to a String builder method.
+     * This method receives raw data from the serial port and sends the data to appropriate
+     * methods for validation based on the Command used. If data is validated, this method
+     * initiates helps make the data available for consumption by other classes. It returns a
+     * boolean on whether the data was validated.
      * @param rawData raw data from serial port
      * @param command A command to the console as described in Davis documentation.
      * @return boolean true if data is validated.
      */
+
     public static boolean processRawData(Command command, String rawData) {
         boolean dataIsValid = false;
         if(rawData.length()==0){
@@ -60,26 +63,50 @@ public class DataProcessor {
         switch (command.getWord()) {
             case "LOOP": case "LPS": dataIsValid=validateLoop(command,rawData);
             break;
+            case "TEST": dataIsValid=validateTest(command, rawData);
+            break;
             case "VER": dataIsValid=validateVer(command, rawData);
             break;
             case "NVER": dataIsValid=validateNver(command, rawData);
             break;
-
+            case "RXTEST":dataIsValid=validateOK(rawData);
+            break;
+            case "RXCHECK": dataIsValid=validateRxcheck(command, rawData);
+            break;
+            default:
+                System.out.println("Command not yet implemented");
+                break;
         }
-        if (!confirmMessageSize(rawData, command)) {
+
+        if(dataIsValid){
+            setSerialData(removeAckMessage(command,rawData));
+        } else{
+            System.out.println("There was an error detected in the data. Try again. The erroneous raw data was " +
+                    rawData);
+        }
+
+
+/*        if (!confirmMessageSize(rawData, command)) {
             System.out.println("There was an error detected in the data. Try again.");
             //todo log
             clearSerialDataString();
 
         } else {
             setSerialData(removeAckMessage(rawData, command));
-            dataIsValid = true;}
+            dataIsValid = true;}*/
+
         return dataIsValid;
     }
 
+    private static boolean validateTest(Command command, String rawData){
+        boolean validData = false;
+        validData = rawData.trim().equalsIgnoreCase("TEST");
+        createEvalMsg(command, validData);
+        return validData;
+    }
 
     private static boolean validateLoop( Command command, String rawData){
-        String noAckMsg = removeAckMessage(rawData, command);
+        String noAckMsg = removeAckMessage(command,rawData);
         boolean validData = crcCheck(noAckMsg.split(" "), command);
         createEvalMsg(command, validData);
         return validData;
@@ -88,12 +115,15 @@ public class DataProcessor {
 
     private static boolean validateVer(Command command, String rawData){
         boolean validData = false;
-        if(validateOK(rawData)){
+
+        if(validateOK(rawData)) {
+
+        }
             validData = ( //e.g. "Apr xx 2019"
             Pattern.matches("[A-Z][a-z]{2}", rawData.substring(3,6)) &&
             Pattern.matches("[\\d]{4}", rawData.substring(rawData.length()-4))
             );
-        }
+
             createEvalMsg(command, validData);
         return validData;
     }
@@ -107,21 +137,60 @@ public class DataProcessor {
         return validData;
     }
 
+    private static boolean validateRxcheck(Command command, String rawData){
+        boolean validData = false;
+        System.out.println("Dataprocessor: validateRxCheck called.");
+        int charCount = 0;
+        int spaceCount = 0;
+        String ackRemoved = "";
+        if(validateOK(rawData)) {
+            System.out.println("Dataprocessor: validateOK called and passed.");
+            ackRemoved = rawData.substring(6).trim();
+        } else {
+            System.out.println("Dataprocessor: validateOK called and did NOT pass.");
+            return false;
+        }
+
+        for (char c: ackRemoved.toCharArray()){
+            if (Character.isWhitespace(c) || Character.isDigit(c)){
+                charCount ++;
+            }
+            if (Character.isWhitespace(c)){
+                    spaceCount ++;
+            }
+        }
+        System.out.println("dataprocessor: RxCheck: char, space: " + charCount + " " + spaceCount);
+            if (charCount == ackRemoved.length() && spaceCount == 4) {
+                validData = true;
+
+            }
+
+        createEvalMsg(command, validData);
+        return validData;
+    }
+
+
     private static void createEvalMsg(Command command, boolean data){
         StringBuilder eval = new StringBuilder();
         eval.append("The response to command ").append(command.getWord());
-        eval.append(data? " passed": "did not pass");
+        eval.append(data? " passed": " did not pass");
         eval.append(" data validation.");
         evaluationMessage(command, data, eval.toString());
     }
 
 
     private static boolean validateOK(String rawData){
-        return Pattern.compile("OK").matcher(rawData.substring(0,2)).matches();
+        //return Pattern.compile("OK").matcher(rawData.substring(0,2)).matches();
+//        System.out.println("validateOKdata is: " + rawData.substring(0,6));
+//        System.out.println("validateOKrawData is: " + rawData);
+        return rawData.substring(0,6).trim().equalsIgnoreCase("OK");
     }
+
+
     /**
-     * This method accepts serial data with the ack message removed. It creates a String builder from the data
-     * for other classes to access.
+     * This method accepts validated serial data and creates a String builder from the data
+     * for other classes to access. Serial data for LOOP and LPS commands does not include the ACK OK
+     * characters.
      * @param data serial data with the ack message removed
      */
     private static void setSerialData(String data) {
@@ -159,7 +228,7 @@ public class DataProcessor {
         int expectedNumberOfPackets = 1; //how many times LoopData was sent
         String dataForTesting = new String();
         if (command.getType() == 2) {
-            dataForTesting = removeAckMessage(data, command);  //removes ACK from front of data
+            dataForTesting = removeAckMessage(command,data);  //removes ACK from front of data
             if (command.getWord().equalsIgnoreCase("LOOP")) {
                 expectedNumberOfPackets = Integer.parseInt(command.getPayload());
             } else if (command.getWord().equalsIgnoreCase("LPS")) {
@@ -244,15 +313,19 @@ public class DataProcessor {
         serialData.setLength(0);
     }
 
-    private static String removeAckMessage(String fullData, Command command) {
-        String data = new String();
+    /**
+     * Method removes the characters "OK" from the raw data responses to LOOP and LPS commands but
+     * keeps the characters for other commands.
+     * @param fullData validated rawData from serial port;
+     * @param command Member of the Command class
+     * @return String. If Command is LOOP or LPS, "OK" is removed from initial string.
+     */
+    private static String removeAckMessage(Command command, String fullData) {
         if (command.getType() == 2) {
-            data = fullData.substring(4);
+            fullData = fullData.substring(fullData.indexOf("K")+1).trim();
         }
-        return data;
+        return fullData;
     }
-
-
 
 
     //CRC table copied from Davis manual
