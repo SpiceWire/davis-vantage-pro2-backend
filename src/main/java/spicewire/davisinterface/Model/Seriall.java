@@ -137,8 +137,8 @@ public class Seriall {
      *
      */
     public void setTimeouts(int newTimeoutMode, int newReadTimeout, int newWriteTimeout) {
-        port.setComPortTimeouts(1, 500, newWriteTimeout);
-
+        //port.setComPortTimeouts(1, 500, newWriteTimeout);//worked OK
+        port.setComPortTimeouts(newTimeoutMode, newReadTimeout, newWriteTimeout);
     }
 
     /**

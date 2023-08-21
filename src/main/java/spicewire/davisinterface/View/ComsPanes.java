@@ -131,6 +131,7 @@ public class ComsPanes implements ViewDao {
             public void itemStateChanged(ItemEvent e) {
                 CommPortModel.setComPortIndex(cmbComPort.getSelectedIndex());
                 System.out.println("View: comPortIndex set to " + CommPortModel.getComPortIndex());
+                //setComPortParameters();
             }
         });
     }
@@ -155,7 +156,7 @@ public class ComsPanes implements ViewDao {
         testDescriptionTextArea.setText(ViewDTO.getTestingDescription());
         currentDataTextArea.setText(ViewDTO.getCurrentDataText());
         tfEval.setText(ViewDTO.getCurrentDataEvalText());
-        populateComPortList();
+        //populateComPortList();
         switch (command){
             case "loop": case "lps": {
                 System.out.println("View: update view called with loop or lps");
