@@ -240,9 +240,9 @@ public class Seriall {
                 }
 
                 char thisChar = (char) in.read();
-                System.out.println("Char: " + thisChar);
+                //System.out.println("Char: " + thisChar);
                 if (command.isBinaryReturnData()) {  //commands can return binary, hex or text data
-                    System.out.println("Seriall: command is binary return data");
+                    //System.out.println("Seriall: command is binary return data");
                     inputCount ++;
                     rawData.append(Integer.toBinaryString(thisChar) + " ");
                 } else {

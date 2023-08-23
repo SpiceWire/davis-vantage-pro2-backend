@@ -106,7 +106,8 @@ public class DataProcessor {
     }
 
     private static boolean validateLoop( Command command, String rawData){
-        String noAckMsg = removeAckMessage(command,rawData);
+        String noAckMsg = removeAckMessage(command, rawData);
+        System.out.println("DP: ValidateLoop called. NoAck =" + noAckMsg);
         boolean validData = crcCheck(noAckMsg.split(" "), command);
         createEvalMsg(command, validData);
         return validData;
@@ -329,7 +330,10 @@ public class DataProcessor {
      */
     private static String removeAckMessage(Command command, String fullData) {
         if (command.getType() == 2) {
-            fullData = fullData.substring(fullData.indexOf("K")+1).trim();
+
+            System.out.println("DP: removeAckMsg called: removed: " + fullData.substring(0,14));
+            fullData = fullData.substring(14);//, fullData.length()-6
+            //fullData = fullData.substring(fullData.indexOf("K")+1).trim();
         }
         return fullData;
     }

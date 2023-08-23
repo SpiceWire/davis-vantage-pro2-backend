@@ -119,11 +119,11 @@ public class Command {
             true, false, null);
 
     private static final Command loop = new Command("LOOP", 1, LINE_FEED, LOOP_DESCRIPTION,
-            true, 2, true, 99,
+            true, 2, true, 102,
             false, true, "1");
 
     private static final Command lps = new Command("LPS", 2, LINE_FEED, LPS_DESCRIPTION,
-            true, 2, true, 99,
+            true, 2, true, 102,
             false,  true, "2 1");
 
     private static final Command hilows = new Command("HILOWS", 0, LINE_FEED, HILOWS_DESCRIPTION,
