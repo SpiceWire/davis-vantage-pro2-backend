@@ -278,6 +278,7 @@ public class ConsoleController {
 
     private boolean checkIfComPortParametersAreSet() { //called from some GUI button action listeners, before trying to get console data
         if (!CommPortModel.isCommParamsSet()) {
+            System.out.println(CommPortModel.getAllParams());
             setEvalMessage("Com port parameters are not set yet.");
         }
         return CommPortModel.isCommParamsSet();//else System.out.println("if statement is evaluated as else"); //todo remove

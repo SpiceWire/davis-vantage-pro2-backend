@@ -10,9 +10,10 @@ public class CommPortModel {
 
 
 
-    @Override
-    public String toString(){
+
+    public static String getAllParams(){
         StringBuilder cpmString = new StringBuilder();
+        cpmString.append("ComPortModel says:\n");
         cpmString.append("commPortList: ").append(getCommPortList()).append("\n");
         cpmString.append("comPortIndex: ").append(getComPortIndex()).append("\n");
         cpmString.append("commPort: ").append(getCommPort()).append("\n");

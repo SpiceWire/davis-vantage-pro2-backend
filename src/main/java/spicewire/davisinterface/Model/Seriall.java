@@ -45,10 +45,20 @@ public class Seriall {
 
     private static boolean serialPortSettingsSet(){
         boolean portSettingsSet = false;
+        System.out.println("Seriall: baudset? " + CommPortModel.isBaudSet());
+        System.out.println("Seriall: dataSet? " + CommPortModel.isDataBitsSet());
+        System.out.println("Seriall: StopSet? " + CommPortModel.isStopBitsSet());
+        System.out.println("seriall: Parityset? " + CommPortModel.isParitySet());
+        System.out.println("seriall: comportset? " + CommPortModel.isComPortSet());
+
         if(CommPortModel.isComPortSet() && CommPortModel.isBaudSet() &&
            CommPortModel.isDataBitsSet() && CommPortModel.isStopBitsSet() &&
             CommPortModel.isParitySet()) {
+            System.out.println("Serial: all settings are set");
             portSettingsSet = true;
+            CommPortModel.setCommParamsSet(true);
+            CommPortModel.setUpdatedBy("Serial");
+            new CommPortModel();
         }
         return portSettingsSet;
 
@@ -88,12 +98,14 @@ public class Seriall {
         CommPortModel.setComPortIndex(comPortIndex);
         SerialPort port = selectSerialPort(comPortPath);
         System.out.println(getPortSettings());
-        port.setBaudRate(CommPortModel.getBaudRate());
-        port.setNumDataBits(CommPortModel.getDataBits());
-        port.setNumStopBits(CommPortModel.getStopBits());
-        port.setParity(CommPortModel.getParity());
-        port.setComPortTimeouts(CommPortModel.getTimeoutMode(),
+        System.out.println("serial: setSerialPortParameters called.");
+        boolean baudSet = port.setBaudRate(CommPortModel.getBaudRate());
+        boolean numDataBitsSet = port.setNumDataBits(CommPortModel.getDataBits());
+        boolean numStopBitsSet = port.setNumStopBits(CommPortModel.getStopBits());
+        boolean paritySet = port.setParity(CommPortModel.getParity());
+        boolean timeoutsSet = port.setComPortTimeouts(CommPortModel.getTimeoutMode(),
                 CommPortModel.getReadTimeout(),CommPortModel.getWriteTimeout());
+        setComPortModel(baudSet, numDataBitsSet, numStopBitsSet, paritySet, timeoutsSet);
 /*        CommPortModel.setBaudSet(port.setBaudRate(CommPortModel.getBaudRate()));
         CommPortModel.setDataBitsSet(port.setNumDataBits(CommPortModel.getDataBits()));
         CommPortModel.setStopBitsSet(port.setNumStopBits(CommPortModel.getStopBits()));
@@ -104,6 +116,15 @@ public class Seriall {
 //         port.setComPortParameters(CommPortModel.getBaudRate(), CommPortModel.getBaudRate(),
 //        CommPortModel.getStopBits(), CommPortModel.getParity(), false);
         return serialPortSettingsSet();
+    }
+
+    private void setComPortModel(boolean baud, boolean data, boolean stop, boolean parity, boolean timeouts){
+        CommPortModel.setBaudSet(baud);
+        CommPortModel.setDataBitsSet(data);
+        CommPortModel.setStopBitsSet(stop);
+        CommPortModel.setParitySet(parity);
+        CommPortModel.setTimeoutModeSet(timeouts);
+        new CommPortModel();
     }
 
     /**
