@@ -52,6 +52,8 @@ public class ComsPanes implements ViewDao {
     private JTabbedPane mainPane;
     private JTextField textFieldTestName;
     private JTextField textFieldCurrentDataCommand;
+    private JButton btnGetWeather;
+    private JTextArea weatherText;
     private JButton wakeUpButton;
     private CommPortModel commPortModel;
     public final String LINE_SEPARATOR = System.getProperty("line.separator");
@@ -134,6 +136,10 @@ public class ComsPanes implements ViewDao {
                 //setComPortParameters();
             }
         });
+    }
+
+    public JButton getBtnGetWeather() {
+        return btnGetWeather;
     }
 
     public boolean comPortParametersAreSet() {

@@ -366,7 +366,12 @@ public class ConsoleController {
                 runConsoleTest(command.getReceivers());
             }
         });
-
+        view.getBtnGetWeather().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getCurrentWeather();
+            }
+        });
 
     }
 
