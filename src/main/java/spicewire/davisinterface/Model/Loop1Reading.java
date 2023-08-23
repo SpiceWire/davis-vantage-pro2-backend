@@ -30,7 +30,7 @@ import java.time.LocalDate;
 //todo resolve inside  and outside alarms
 
 public class Loop1Reading implements LoopReading {
-    private JdbcWeatherRecord jdbcWeatherRecord;
+    //private JdbcWeatherRecord jdbcWeatherRecord;
     private TempHumStation station = new TempHumStation();
 
     private String[] loopRecord;
@@ -157,7 +157,7 @@ public class Loop1Reading implements LoopReading {
         this.forecastIcon = setForecastIcon();
         this.dataSource = "DavisVP2L1";
         System.out.println("Loop1 Reading object created. Inside temp is: " + getInsideTemperature());
-        jdbcWeatherRecord.createRecord(this);
+        //jdbcWeatherRecord.createRecord(this);
     }
 
     public Loop1Reading() {

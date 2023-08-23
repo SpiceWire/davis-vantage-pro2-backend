@@ -30,7 +30,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
     }
 
     public CurrentWeather getWeather(){
-        String consoleSqlLoop1 = "SELECT bar_trend, " +
+        String consoleSqlLoop1 = "SELECT bar_trend, entry_date, " +
                 "barometer, inside_temperature, inside_humidity," +
                 "outside_temperature, wind_speed, ten_min_avg_wind_speed, wind_direction, extra_temperature1," +
                 "extra_temperature2, extra_temperature3, extra_temperature4, extra_temperature5, extra_temperature6," +
@@ -197,7 +197,11 @@ public class JdbcWeatherRecord implements WeatherRecord {
         currentWeather.setSolarRadiation(l1srs.getInt("solar_radiation"));
 
         currentWeather.setStormRain(l1srs.getDouble("storm_rain"));
-        currentWeather.setStartDateOfCurrentStorm(l1srs.getDate("start_date_of_current_storm").toLocalDate());
+        if (l1srs.getString("start_date_of_current_storm")!=null){
+            currentWeather.setStartDateOfCurrentStorm(l1srs.getDate("start_date_of_current_storm").toLocalDate());
+        } else {
+            currentWeather.setStartDateOfCurrentStorm(null);
+        }
         currentWeather.setDayRain(l1srs.getDouble("day_rain"));
         currentWeather.setMonthRain(l1srs.getDouble("month_rain"));
         currentWeather.setYearRain(l1srs.getDouble("year_rain"));
@@ -205,11 +209,11 @@ public class JdbcWeatherRecord implements WeatherRecord {
         currentWeather.setDayET(l1srs.getDouble("day_ET"));
         currentWeather.setMonthET(l1srs.getDouble("month_ET"));
         currentWeather.setYearET(l1srs.getDouble("year_ET"));
-        currentWeather.setSoilMoisture1(l1srs.getDouble("soilMoisture1"));
-        currentWeather.setSoilMoisture2(l1srs.getDouble("soilMoisture2"));
+        currentWeather.setSoilMoisture1(l1srs.getDouble("soil_moisture1"));
+        currentWeather.setSoilMoisture2(l1srs.getDouble("soil_moisture2"));
 
-        currentWeather.setSoilMoisture3(l1srs.getDouble("soilMoisture3"));
-        currentWeather.setSoilMoisture4(l1srs.getDouble("soilMoisture4"));
+        currentWeather.setSoilMoisture3(l1srs.getDouble("soil_moisture3"));
+        currentWeather.setSoilMoisture4(l1srs.getDouble("soil_moisture4"));
         currentWeather.setLeafWetness1(l1srs.getInt("leaf_wetness1"));
         currentWeather.setLeafWetness2(l1srs.getInt("leaf_wetness2"));
         currentWeather.setLeafWetness3(l1srs.getInt("leaf_wetness3"));

@@ -12,7 +12,7 @@ import java.time.LocalDate;
  */
 
 public class Loop2Reading implements DataRecord {
-    private JdbcWeatherRecord jdbcWeatherRecord;
+    //private JdbcWeatherRecord jdbcWeatherRecord;
     private String[] loopRecord;
     private int barTrend;
     private int packetType;
@@ -94,7 +94,7 @@ public class Loop2Reading implements DataRecord {
         this.barometricCalibrationNumber = setBarometricCalibrationNumber();
         this.barometricSensorRawReading = setBarometricSensorRawReading();
         this.dataSource= "DavisVP2L2";
-        jdbcWeatherRecord.createRecord(this);
+        //jdbcWeatherRecord.createRecord(this);
         System.out.println("Loop2Reading: Loop2 Reading object created. Inside temp is: " + getInsideTemperature());
         //todo additional parameters to be added later
 

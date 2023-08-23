@@ -134,9 +134,11 @@ public class ConsoleController {
             System.out.println("Controller: CreateLoopRecord called with " + command.getWord());
             if (DataProcessor.getSerialData().length() > 0) {
                 if (command.getWord().equalsIgnoreCase("LOOP")) {
-                    new Loop1Reading(DataProcessor.getSerialData());
+                    Loop1Reading l1Reading = new Loop1Reading(DataProcessor.getSerialData());
+                    jdbcWeatherRecord.createRecord(l1Reading);
                 } else if (command.getWord().equalsIgnoreCase("LPS")) {
-                    new Loop2Reading(DataProcessor.getSerialData());
+                    Loop2Reading l2Reading =  new Loop2Reading(DataProcessor.getSerialData());
+                    jdbcWeatherRecord.createRecord(l2Reading);
                 }
             }
         }
