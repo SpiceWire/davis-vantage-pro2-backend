@@ -323,8 +323,9 @@ public class ConsoleController {
         view.getLPSButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("Controller: LPS called. Com check: " + checkIfComPortParametersAreSet());
                 checkIfComPortParametersAreSet();
-                if (comPortParametersAreSet) {
+                if (checkIfComPortParametersAreSet()) {
                     getSerialData(command.getLps());
                 }
             }
