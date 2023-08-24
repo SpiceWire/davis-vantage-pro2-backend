@@ -1,5 +1,9 @@
 package spicewire.davisinterface.Controller;
+import org.apache.commons.dbcp2.BasicDataSource;
 
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import spicewire.davisinterface.Dao.JdbcWeatherRecord;
 import spicewire.davisinterface.Model.*;
 import spicewire.davisinterface.Services.DataProcessor;
@@ -19,13 +23,17 @@ Not all data has a CRC (Cyclic Redundancy Check, for detecting transmission erro
 in data).
 
 */
-
+@Configuration
 public class ConsoleController {
 
-    private Seriall serialModel;
+    public static  BasicDataSource dataSource = new BasicDataSource();
+//    etUrl("jdbc:postgresql://localhost:5432/WeatherDB");
+//		dataSource.setUsername("postgres");
+//		dataSource.setPassword("postgres");
+    private Seriall serialModel = new Seriall();
     private ComsPanes view = new ComsPanes();
     private Command command = new Command();
-    private JdbcWeatherRecord jdbcWeatherRecord;
+    private JdbcWeatherRecord jdbcWeatherRecord = new JdbcWeatherRecord(dataSource);
     private ViewDTO viewDTO= new ViewDTO();
     private boolean comPortParametersAreSet = false;
     private final Logger logger = Logger.getLogger(ConsoleController.class.getName());
@@ -82,7 +90,7 @@ public class ConsoleController {
         createLoopRecord(command.getLps());
         return jdbcWeatherRecord.getWeather();
     }
-        //todo transfer these to the coms view?
+
 
 
     /**

@@ -1,6 +1,9 @@
 package spicewire.davisinterface.Dao;
 
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
@@ -24,6 +27,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
 
     private final JdbcTemplate jdbcTemplate;
     CurrentWeather currentWeather = new CurrentWeather();
+    BasicDataSource dataSource = new BasicDataSource();
 
     public JdbcWeatherRecord(DataSource datasource) {
         jdbcTemplate = new JdbcTemplate(datasource);

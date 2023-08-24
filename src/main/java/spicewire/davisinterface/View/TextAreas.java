@@ -6,7 +6,8 @@ import spicewire.davisinterface.Services.DataProcessor;
 import static spicewire.davisinterface.Services.DataProcessor.getSerialData;
 
 /**
- * This class generates text messages to send to the View.
+ * This class generates text messages for Type 1 Commands (TEST, RXCHECK,
+ * RXTEST, VER, RECEIVERS, NVER) to send to the View.
  */
 public class TextAreas {
     //Console OK message is usually <Linefeed><Carriage Return>OK<Linefeed><Carriage Return>

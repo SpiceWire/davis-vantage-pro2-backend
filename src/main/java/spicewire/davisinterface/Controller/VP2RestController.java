@@ -12,13 +12,15 @@ import spicewire.davisinterface.Controller.ConsoleController;
 public class VP2RestController {
 
     private CurrentWeather currentWeather;
-    private ConsoleController consoleController;
-    public VP2RestController(){
+    private ConsoleController consoleController ;
 
+    public VP2RestController(ConsoleController consoleController){
+        this.consoleController = consoleController;
     }
 
 @RequestMapping(method= RequestMethod.GET)
 public CurrentWeather get() {
+        //return new CurrentWeather();
     return consoleController.getCurrentWeather();
     //what do i need at first? getweather. Implement that.
     //@RequestBody deserializes incoming data into a java object
