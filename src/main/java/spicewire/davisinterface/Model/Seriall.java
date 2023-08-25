@@ -3,6 +3,7 @@ package spicewire.davisinterface.Model;
 
 import com.fazecast.jSerialComm.SerialPort;
 import org.springframework.http.converter.json.GsonBuilderUtils;
+import org.springframework.stereotype.Component;
 import spicewire.davisinterface.Services.DataProcessor;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.SQLOutput;
 import java.util.Arrays;
 
-
+@Component
 public class Seriall {
  /*    Note:resetting the serial port settings forces a readSerial event.
      The SerialPort object has no constructors in the Fazecast.jSerialComm.SerialPort model.

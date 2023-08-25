@@ -21,7 +21,7 @@ public class VP2RestController {
 @RequestMapping(method= RequestMethod.GET)
 public CurrentWeather get() {
         //return new CurrentWeather();
-    return consoleController.getCurrentWeather();
+    return consoleController.getMostRecentWeather();
     //what do i need at first? getweather. Implement that.
     //@RequestBody deserializes incoming data into a java object
     //@ResponseBody maps an object into Json

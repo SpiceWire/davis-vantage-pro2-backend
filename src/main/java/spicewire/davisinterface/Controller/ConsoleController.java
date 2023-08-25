@@ -82,6 +82,9 @@ public class ConsoleController {
 //                System.out.println("Command " + commandWord + " does not exist or is not yet implemented.");
 //        }
 //    }
+    public CurrentWeather getMostRecentWeather(){
+        return jdbcWeatherRecord.getWeather();
+    }
 
     public CurrentWeather getCurrentWeather(){
         getSerialData(command.getLoop());
