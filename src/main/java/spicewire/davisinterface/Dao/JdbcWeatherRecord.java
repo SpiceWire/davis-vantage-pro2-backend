@@ -3,8 +3,11 @@ package spicewire.davisinterface.Dao;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.hateoas.mediatype.PropertyUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import org.springframework.stereotype.Component;
@@ -12,11 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import spicewire.davisinterface.Model.*;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Properties;
 
 /**
  * Class uses JDBC to create and retrieve weather records from a database. The createRecord method
@@ -28,21 +33,7 @@ import java.time.LocalTime;
 
 public class JdbcWeatherRecord implements WeatherRecord {
 
-    private final String url = "jdbc:postgresql://localhost:5432/WeatherDB";
-    private final String user = "postgres";
-    private final String password = "postgres";
 
-    public Connection connect() {
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(url, user, password);
-            System.out.println("Connected to the PostgreSQL server successfully.");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-        return conn;
-    }
 
     private final JdbcTemplate jdbcTemplate;
     CurrentWeather currentWeather = new CurrentWeather();
