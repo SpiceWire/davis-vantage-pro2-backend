@@ -35,7 +35,7 @@ import java.util.Properties;
 public class JdbcWeatherRecord implements WeatherRecord {
 
     private final JdbcTemplate jdbcTemplate;
-    CurrentWeather currentWeather = new CurrentWeather();
+
 //    @Autowired
 //    BasicDataSource dataSource = new BasicDataSource();
 //    BasicDataSource dataSource = DavisinterfaceApplication.getDatasource();
@@ -45,6 +45,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
     }
 
     public CurrentWeather getWeather(){
+        CurrentWeather currentWeather = new CurrentWeather();
         String consoleSqlLoop1 = "SELECT bar_trend, entry_date, " +
                 "barometer, inside_temperature, inside_humidity," +
                 "outside_temperature, wind_speed, ten_min_avg_wind_speed, wind_direction, extra_temperature1," +
@@ -71,10 +72,10 @@ public class JdbcWeatherRecord implements WeatherRecord {
         SqlRowSet loop1Srs = jdbcTemplate.queryForRowSet(consoleSqlLoop1);
         SqlRowSet loop2Srs = jdbcTemplate.queryForRowSet(consoleSqlLoop2);
         while (loop1Srs.next()){
-            mapL1RowToDavis(loop1Srs);
+            mapL1RowToDavis(loop1Srs, currentWeather);
         }
         while (loop2Srs.next()){
-            mapL2RowToDavis(loop2Srs);
+            mapL2RowToDavis(loop2Srs, currentWeather);
         }
         return currentWeather;
     }
@@ -170,7 +171,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
         return LocalTime.now();
     }
 
-    private void mapL1RowToDavis(SqlRowSet l1srs){
+    private void mapL1RowToDavis(SqlRowSet l1srs, CurrentWeather currentWeather){
         currentWeather.setBarTrend(l1srs.getInt("bar_trend"));
         currentWeather.setBarometer(l1srs.getDouble("barometer"));
         currentWeather.setInsideTemperature(l1srs.getDouble( "inside_temperature"));
@@ -240,7 +241,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
         System.out.println("l1srs date: " + l1srs.getDate("entry_date"));
     }
 
-    private void mapL2RowToDavis(SqlRowSet l2srs){
+    private void mapL2RowToDavis(SqlRowSet l2srs, CurrentWeather currentWeather){
         currentWeather.setTwoMinAvgWindSpeed(l2srs.getInt("two_min_avg_wind_speed"));
         currentWeather.setTenMinuteWindGust(l2srs.getDouble("ten_min_wind_gust"));
         currentWeather.setWindDirectionForTheTenMinuteWindGust(l2srs.getInt("wind_direction_for_the_ten_minute_wind_gust"));
