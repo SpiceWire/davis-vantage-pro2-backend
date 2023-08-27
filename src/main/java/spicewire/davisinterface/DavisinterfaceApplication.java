@@ -18,6 +18,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import spicewire.davisinterface.Controller.ConsoleController;
 import spicewire.davisinterface.Controller.DavisVP2Controller;
 import spicewire.davisinterface.Controller.VP2RestController;
@@ -37,17 +38,18 @@ public class DavisinterfaceApplication extends JFrame {
 	private static final String user = "postgres";
 	private static final String password = "postgres";
 
-	public static Connection connect() {
-		Connection conn = null;
-		try {
-			conn = DriverManager.getConnection(url, user, password);
-			System.out.println("Connected to the PostgreSQL server successfully.");
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
 
-		return conn;
-	}
+//	public static Connection connect() {
+//		Connection conn = null;
+//		try {
+//			conn = DriverManager.getConnection(url, user, password);
+//			System.out.println("Connected to the PostgreSQL server successfully.");
+//		} catch (SQLException e) {
+//			System.out.println(e.getMessage());
+//		}
+//
+//		return conn;
+//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(DavisinterfaceApplication.class, args);
