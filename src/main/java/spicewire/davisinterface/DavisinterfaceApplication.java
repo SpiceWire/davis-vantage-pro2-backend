@@ -28,15 +28,25 @@ import spicewire.davisinterface.Model.Seriall;
 import spicewire.davisinterface.View.ComsPanes;
 
 import javax.swing.*;
+import java.beans.BeanProperty;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 @SpringBootApplication
 public class DavisinterfaceApplication extends JFrame {
-	private static final String url = "jdbc:postgresql://localhost:5432/WeatherDB";
-	private static final String user = "postgres";
-	private static final String password = "postgres";
+
+	@ConfigurationProperties
+	public static BasicDataSource getDatasource(){
+		BasicDataSource dataSource = new BasicDataSource();
+		dataSource.setUrl("jdbc:postgresql://localhost:5432/WeatherDB");
+		dataSource.setUsername("postgres");
+		dataSource.setPassword("postgres");
+		return dataSource;
+	}
+//	private static final String url = "jdbc:postgresql://localhost:5432/WeatherDB";
+//	private static final String user = "postgres";
+//	private static final String password = "postgres";
 
 
 //	public static Connection connect() {
@@ -55,6 +65,8 @@ public class DavisinterfaceApplication extends JFrame {
 		SpringApplication.run(DavisinterfaceApplication.class, args);
 //		Seriall serialModel = new Seriall();
 //		ComsPanes view = new spicewire.davisinterface.View.ComsPanes();
+
+//
 //
 //		BasicDataSource dataSource = new BasicDataSource();
 //		dataSource.setUrl("jdbc:postgresql://localhost:5432/WeatherDB");

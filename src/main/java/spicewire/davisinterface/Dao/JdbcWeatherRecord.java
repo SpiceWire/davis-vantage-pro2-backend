@@ -12,6 +12,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RestController;
+import spicewire.davisinterface.DavisinterfaceApplication;
 import spicewire.davisinterface.Model.*;
 
 import javax.sql.DataSource;
@@ -33,14 +34,14 @@ import java.util.Properties;
 
 public class JdbcWeatherRecord implements WeatherRecord {
 
-
-
     private final JdbcTemplate jdbcTemplate;
     CurrentWeather currentWeather = new CurrentWeather();
-    BasicDataSource dataSource = new BasicDataSource();
-
-    public JdbcWeatherRecord(DataSource datasource) {
-        jdbcTemplate = new JdbcTemplate(datasource);
+//    @Autowired
+//    BasicDataSource dataSource = new BasicDataSource();
+//    BasicDataSource dataSource = DavisinterfaceApplication.getDatasource();
+    public JdbcWeatherRecord(BasicDataSource dataSource) {
+        dataSource = DavisinterfaceApplication.getDatasource();
+        jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     public CurrentWeather getWeather(){
@@ -66,6 +67,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "FROM record " +
                 "WHERE for_export = 'TRUE'  AND data_source = 'DavisVP2L2' " +
                 "ORDER BY entry DESC LIMIT 1";
+        System.out.println("jdbctemplate = " + jdbcTemplate.toString());
         SqlRowSet loop1Srs = jdbcTemplate.queryForRowSet(consoleSqlLoop1);
         SqlRowSet loop2Srs = jdbcTemplate.queryForRowSet(consoleSqlLoop2);
         while (loop1Srs.next()){
