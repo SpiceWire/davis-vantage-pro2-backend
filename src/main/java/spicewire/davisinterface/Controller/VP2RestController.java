@@ -21,6 +21,7 @@ public class VP2RestController {
 @RequestMapping(method= RequestMethod.GET)
 public CurrentWeather get() {
         //return new CurrentWeather();
+    System.out.println("VP2 says: " +consoleController.getMostRecentWeather().toString());
     return consoleController.getMostRecentWeather();
     //what do i need at first? getweather. Implement that.
     //@RequestBody deserializes incoming data into a java object
