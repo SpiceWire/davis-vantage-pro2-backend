@@ -129,11 +129,11 @@ public class Seriall {
     /**
      * Sets the booleans of the ComPortModel to indicate whether the serial port settings were set
      * successfully.
-     * @param baud
-     * @param data
-     * @param stop
-     * @param parity
-     * @param timeouts
+     * @param baud Was baud successfully set?
+     * @param data Was numDataBits successfully set?
+     * @param stop Was numStopBits successfully set?
+     * @param parity Was parity successfully set?
+     * @param timeouts  Timeout mode, readTimeout and writeTimeout are bundled in the same boolean
      */
     private void setComPortModel(boolean baud, boolean data, boolean stop, boolean parity, boolean timeouts){
         CommPortModel.setBaudSet(baud);
@@ -146,7 +146,7 @@ public class Seriall {
 
     /**
      * Updates available serial ports from the Fazecast library.
-     * @return String[] of available port names. Names include leading slashes, dots, etc.
+     * @return String[] of available port names. Strings/names include leading slashes, dots, etc.
      */
     public static String[]  getSerialPortList() {
         System.out.println("seriall: getSerialPortList triggered.");
