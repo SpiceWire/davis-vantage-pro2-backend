@@ -9,7 +9,7 @@ import java.time.LocalDate;
  *  a Davis Loop or LPS reading (e.g. monthRain).
  *  It excludes:
  *    1) aggregated data that must be calculated from the database
- *         (e.g. average temp CurrentWeather week),
+ *         (e.g. average temp this week),
  *    2) calibration information
  *    3) alarms
  *    4) firmware info
@@ -78,9 +78,6 @@ public class CurrentWeather {
     private Double lastFifteenMinRain;
     private Double lastHourRain;
     private Double last24HourRain;
-
-
-
 
 
     public CurrentWeather() {

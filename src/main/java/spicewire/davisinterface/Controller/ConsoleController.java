@@ -2,8 +2,6 @@ package spicewire.davisinterface.Controller;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import spicewire.davisinterface.Dao.JdbcWeatherRecord;
 import spicewire.davisinterface.Model.*;
 import spicewire.davisinterface.Services.DataProcessor;
@@ -86,7 +84,13 @@ public class ConsoleController {
         return jdbcWeatherRecord.getWeather();
     }
 
-    public CurrentWeather getCurrentWeather(){
+    /**
+     * This method gathers sensor data from the Davis system using the LOOP and LPS
+     * Commands, inserts the readings into the database, and returns a CurrentWeather
+     * object containing the gathered sensor data.
+     * @return CurrentWeather object with new data.
+     */
+    public CurrentWeather getCurrentWeatherReadings(){
         getSerialData(command.getLoop());
         createLoopRecord(command.getLoop());
         getSerialData(command.getLps());
@@ -99,20 +103,16 @@ public class ConsoleController {
     /**
      * This method handles all console testing commands: TEST, RXCHECK, RXTEST, VER, RECEIVERS, NVER.
      * Console testing commands are type 1.
-     * @param command of the Command class
+     * @param command of the Command class (i.e. type 1)
      */
     private void runConsoleTest(Command command) {
         //todo refactor so there is a com port params check with any button press
-        //todo add a "you just pressed this button" field to the view.
         if (confirmCommandClass(command, 1)) {
             ViewDTO.setTestingRawText(getSerialData(command));
             ViewDTO.setTestingDescription(command.getDescription());
             ViewDTO.setTestingFriendlyText(TextAreas.consoleFriendlyText(command));
             ViewDTO.setLastCommandSent(command.getWord());
 
-//            view.setTestDescriptionTextArea(command.getDescription());
-//            view.setConsoleFriendlyTextArea(TextAreas.consoleFriendlyText(command));
-//            view.setConsoleRawTextArea(DataProcessor.getSerialData());
         }
     }
 
@@ -134,8 +134,8 @@ public class ConsoleController {
     }
 
     /**
-     * Creates a JDBC record of a Current Data command (LOOP or LPS) using
-     * new serial port data from the DataProcessor.
+     * Creates a JDBC record of a LOOP or LPS Current Data command (i.e. Type 2) using
+     *  serial port data from the DataProcessor.
      *
      * @param command LOOP or LPS
      */
@@ -158,7 +158,7 @@ public class ConsoleController {
     /**
      * Sends an assembled command to the Serial class to forward to the Davis console.
      * initialSending is default true. The Serial class changes this to "false" if the serial data has errors.
-     * @param command
+     * @param command from the Command class
      */
     public void sendCommandToConsole(Command command) {
         serialModel.sendCommand(command, true);
@@ -168,12 +168,11 @@ public class ConsoleController {
      * Confirms that a command is the correct type for the method being called.
      * Command types: 1=Testing  2=Current Data  3=Download  4=EEPROM 5=Calibration 6=Clearing  7= Configuration
      *  (Categorized in Davis Serial Communication Reference Manual)
-     * @param command from Command class
+     * @param command from the Command class
      * @param commandType int
      * @return boolean, true if there is a type match
      */
     private boolean confirmCommandClass (Command command, int commandType){
-
         boolean commandIsCorrectType = (command.getType()==commandType);
         System.out.println("Controller: confirmCommandClass called with " + command.getWord());
         if (!commandIsCorrectType){
@@ -382,7 +381,7 @@ public class ConsoleController {
         view.getBtnGetWeather().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getCurrentWeather();
+                getCurrentWeatherReadings();
             }
         });
 
