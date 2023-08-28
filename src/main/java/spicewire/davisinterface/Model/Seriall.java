@@ -26,22 +26,30 @@ public class Seriall {
     private static final byte[] WAKE_UP = WAKE_UP_CHAR.getBytes();
     private static final int WAKE_UP_LENGTH = WAKE_UP_CHAR.length();
     private static SerialPort port;
-    //static SerialPort port = selectSerialPort("COM4");
 
-    //assigns serial port path from view selection passed from controller
+
+    /**
+     * Assigns serial port path from view selection passed from controller.
+     * @param index of the user-selected serial port in the serial port list.
+     * @return system port path as string.
+     */
     public String getComPortPath(int index) {
         return SerialPort.getCommPorts()[index].getSystemPortPath();
     }
 
+    /**
+     * This method sets and returns the serial port, and sets relevant ComPortModel boolean.
+     * @param serialPortSystemPath
+     * @return SerialPort object.
+     */
     public static SerialPort selectSerialPort(String serialPortSystemPath) {
-        System.out.println("Seriall : SelectSerialPort called with " + serialPortSystemPath);
-        //return SerialPort.getCommPort("COM4"); //sets the SerialPort object
+        //System.out.println("Seriall : SelectSerialPort called with " + serialPortSystemPath);
+
         if (SerialPort.getCommPort(serialPortSystemPath)!=null) {
             CommPortModel.setComPortSet(true);
+            return port = SerialPort.getCommPort(serialPortSystemPath);
         }
-        port = SerialPort.getCommPort(serialPortSystemPath);
-
-        return port;
+        else return null;
     }
 
     private static boolean serialPortSettingsSet(){
@@ -64,23 +72,21 @@ public class Seriall {
         return portSettingsSet;
 
     }
-    public static String getPortSettings(){
-        System.out.println("Seriall: getPortSettings triggered");
-        System.out.printf("Seriall: setCommPortList set to " + Arrays.toString(Arrays.toString(SerialPort.getCommPorts()).split(" ")));
-        //CommPortModel.setCommPortList(Arrays.toString(SerialPort.getCommPorts()).split(" "));
-        //CommPortModel.setCommPort(port.getDescriptivePortName());
- /*       CommPortModel.setCommPortDescription(port.getDescriptivePortName());
-        CommPortModel.setCommPortPath(port.getSystemPortPath());
-        CommPortModel.setBaudRate(port.getBaudRate());
-        CommPortModel.setDataBits(port.getNumDataBits());
-        CommPortModel.setStopBits(port.getNumStopBits());
-        CommPortModel.setParity(port.getParity());
-        CommPortModel.setCommParamsSet(serialPortSettingsSet());
-        CommPortModel.setWriteTimeout(port.getWriteTimeout());
-        CommPortModel.setReadTimeout(port.getReadTimeout());*/
-        CommPortModel.setUpdatedBy("Serial Port");
 
-        return new CommPortModel().toString();
+    //todo evaluate if this is necessary.
+    public static String getPortSettings(){
+        StringBuilder sbSettings = new StringBuilder();
+        sbSettings.append("Seriall: getPortSettings triggered\n");
+        sbSettings.append("Serial port says current settings are: \n");
+        sbSettings.append("Baud: " + port.getBaudRate() + "\n");
+        sbSettings.append("DataBits: " + port.getNumDataBits()+ "\n");
+        sbSettings.append("StopBits: " + port.getNumStopBits()+ "\n");
+        sbSettings.append("Parity: " + port.getParity()+ "\n");
+        sbSettings.append("WriteTimout (ms): " + port.getWriteTimeout()+ "\n");
+        sbSettings.append("ReadTimeout (ms): " + port.getReadTimeout()+ "\n");
+        sbSettings.append("Port path: " + port.getSystemPortPath()+ "\n");
+
+        return sbSettings.toString();
     }
 
     /**
@@ -93,6 +99,7 @@ public class Seriall {
      * @return boolean if params are  set successfully
      *
      */
+    //todo use the timeout method instead.
     public boolean setSerialPortParameters(int comPortIndex) {
         String comPortPath = getComPortPath(comPortIndex);
         CommPortModel.setCommPortPath(comPortPath);
@@ -119,6 +126,15 @@ public class Seriall {
         return serialPortSettingsSet();
     }
 
+    /**
+     * Sets the booleans of the ComPortModel to indicate whether the serial port settings were set
+     * successfully.
+     * @param baud
+     * @param data
+     * @param stop
+     * @param parity
+     * @param timeouts
+     */
     private void setComPortModel(boolean baud, boolean data, boolean stop, boolean parity, boolean timeouts){
         CommPortModel.setBaudSet(baud);
         CommPortModel.setDataBitsSet(data);
@@ -178,6 +194,7 @@ public class Seriall {
         commandString.append(command.getTerminatingChar()); //Terminating chars might be \n, \r or both together.
         return commandString.toString();
     }
+
     /**
      * Sends a Command class object to the console. The Fazecast Serial Port write method requires a buffer.
      * If this method results in any data transmission errors, it increases the time between
@@ -200,7 +217,6 @@ public class Seriall {
         }
 
         try (OutputStream out = port.getOutputStream()) { //the try block closes the port in the event of error
-            //port.writeBytes(cmdBytes, cmdBytes.length);
             port.writeBytes(WAKE_UP,WAKE_UP_LENGTH);
             Thread.sleep(500);
             port.writeBytes(cmdBytes, cmdBytes.length);
@@ -239,29 +255,22 @@ public class Seriall {
                 if(command.isFixedNumberOfReplyCharacters()){
                     inputCount ++;
                 }
-
                 char thisChar = (char) in.read();
-                //System.out.println("Char: " + thisChar);
                 if (command.isBinaryReturnData()) {  //commands can return binary, hex or text data
-                    //System.out.println("Seriall: command is binary return data");
                     inputCount ++;
                     rawData.append(Integer.toBinaryString(thisChar) + " ");
                 } else {
-                    //System.out.println("Seriall: command is not binary");
                     rawData.append(thisChar);
                 }
-                //System.out.println("Seriall: count is; " + count);
-
             }
-
         } catch (IOException ioException) {
             System.out.println(ioException.getMessage());
         } finally {
             port.flushIOBuffers();
             port.closePort();
         }
-        System.out.println("Serial model: raw data is: " + rawData.toString());
-        System.out.println("Character or byte count is: " + inputCount);
+//        System.out.println("Serial model: raw data is: " + rawData.toString());
+//        System.out.println("Character or byte count is: " + inputCount);
         confirmData(rawData.toString(), command);
     }
 
