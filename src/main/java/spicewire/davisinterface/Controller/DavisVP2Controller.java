@@ -13,7 +13,7 @@ public class DavisVP2Controller  {
 
 
 
-    @GetMapping(path = "/portSettings")
+    @GetMapping(path = "/settings")
     public String getComPortSettings(){
         return ConsoleController.getComPortSettings();
     }

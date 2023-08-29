@@ -11,6 +11,7 @@ public class SerialSettingsDTO {
     Integer writeTimeout;
     String[] comPortList;
 
+
     public SerialSettingsDTO(Integer baud, Integer dataBits, Integer stopBits,
                              Integer parity, Integer comPortIndex, Integer timeoutMode,
                              Integer readTimeout, Integer writeTimeout, String[] comPortList) {
@@ -25,7 +26,20 @@ public class SerialSettingsDTO {
         this.comPortList = comPortList;
     }
 
+    public SerialSettingsDTO(){};
 
+    public SerialSettingsDTO getCurrentSettings() {
+        this.baud = CommPortModel.getBaudRate();
+        this.dataBits = CommPortModel.getDataBits();
+        this.stopBits = CommPortModel.getStopBits();
+        this.parity = CommPortModel.getParity();
+        this.comPortIndex = CommPortModel.getComPortIndex();
+        this.timeoutMode = CommPortModel.getTimeoutMode();
+        this.readTimeout = CommPortModel.getReadTimeout();
+        this.writeTimeout = CommPortModel.getWriteTimeout();
+        this.comPortList = CommPortModel.getCommPortList();
+        return this;
+    }
     public Integer getBaud() {
         return baud;
     }
