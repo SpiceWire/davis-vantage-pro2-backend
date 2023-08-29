@@ -1,6 +1,7 @@
 package spicewire.davisinterface.Controller;
 import org.apache.commons.dbcp2.BasicDataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.w3c.dom.ls.LSOutput;
 import spicewire.davisinterface.Dao.JdbcWeatherRecord;
@@ -31,6 +32,7 @@ public class ConsoleController {
 
     public static  BasicDataSource dataSource = new BasicDataSource();
     private Seriall serialModel = new Seriall();
+    @Autowired
     private ComsPanes view = new ComsPanes();
     private Command command = new Command();
     private JdbcWeatherRecord jdbcWeatherRecord = new JdbcWeatherRecord(dataSource);

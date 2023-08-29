@@ -1,6 +1,7 @@
 package spicewire.davisinterface.View;
 
 
+import org.springframework.stereotype.Component;
 import spicewire.davisinterface.Model.CommPortModel;
 
 
@@ -10,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-
+@Component
 public class ComsPanes implements ViewDao {
 
     private JPanel mainJPanel;
