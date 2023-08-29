@@ -11,6 +11,8 @@ import spicewire.davisinterface.View.TextAreas;
 import spicewire.davisinterface.View.ViewDTO;
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 
 import java.util.Arrays;
@@ -224,6 +226,14 @@ public class ConsoleController {
             checkIfComPortParametersAreSet();
             if (checkIfComPortParametersAreSet()) {
                 getSerialData(command.getLps());
+            }
+        });
+
+        view.getRefreshButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateComPortList();
+                System.out.println("consoleController: Refresh called.");
             }
         });
         view.getTestButton().addActionListener(e -> runConsoleTest(command.getTest()));
