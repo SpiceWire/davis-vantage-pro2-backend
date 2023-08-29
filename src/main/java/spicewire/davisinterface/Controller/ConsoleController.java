@@ -9,8 +9,7 @@ import spicewire.davisinterface.View.ComsPanes;
 import spicewire.davisinterface.View.TextAreas;
 import spicewire.davisinterface.View.ViewDTO;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.util.logging.Logger;
 
 import java.util.Arrays;
@@ -190,9 +189,12 @@ public class ConsoleController {
 
     private boolean checkIfComPortParametersAreSet() {
         if (!CommPortModel.isCommParamsSet()) {
-            logger.info(CommPortModel.getAllParams());
             setEvalMessage("Com port parameters are not set yet.");
         }
+        else {
+            setEvalMessage("Com port parameters are set.");
+        }
+        logger.info(CommPortModel.getAllParams());
         return CommPortModel.isCommParamsSet();
     }
 
@@ -201,89 +203,33 @@ public class ConsoleController {
     }
 
     public void listenerFromController() {  //adds listeners to objects in the view
-        view.getApplyButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                setComPortParameters(view.getComPortIndex(),view.getBaudRate(),
-//                        view.getDataBits(), view.getStopBits(), view.getParity(),
-//                        view.getTimeoutMode(), view.getWriteTimeout(),
-//                        view.getReadTimeout());
-//                setComPortParameters(1,9600, 8,1,1,
-//                        0,0,0);
-                logger.info("Console: Listener set params.");
-                serialModel.setSerialPortParameters(CommPortModel.getComPortIndex());
-            }
+        view.getApplyButton().addActionListener(e -> {
+            logger.info("Console: Listener set params.");
+            serialModel.setSerialPortParameters(CommPortModel.getComPortIndex());
         });
-        view.getRefreshButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateComPortList();
-            }
-        });
-        view.getLoopButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                logger.info("Controller: loop called");
-                checkIfComPortParametersAreSet();
+        view.getLoopButton().addActionListener(e -> {
+            logger.info("Controller: loop called");
+            checkIfComPortParametersAreSet();
 
-                if (checkIfComPortParametersAreSet()) {
-                    getSerialData(command.getLoop());
+            if (checkIfComPortParametersAreSet()) {
+                getSerialData(command.getLoop());
 
-                }
             }
         });
-        view.getLPSButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                logger.info("Controller: LPS called. Com check: " + checkIfComPortParametersAreSet());
-                checkIfComPortParametersAreSet();
-                if (checkIfComPortParametersAreSet()) {
-                    getSerialData(command.getLps());
-                }
+        view.getLPSButton().addActionListener(e -> {
+            logger.info("Controller: LPS called. Com check: " + checkIfComPortParametersAreSet());
+            checkIfComPortParametersAreSet();
+            if (checkIfComPortParametersAreSet()) {
+                getSerialData(command.getLps());
             }
         });
-        view.getTestButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                runConsoleTest(command.getTest());
-            }
-        });
-        view.getRxCheckButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                runConsoleTest(command.getRxCheck());
-            }
-        });
-        view.getRxTestButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                runConsoleTest(command.getRxTest());
-            }
-        });
-        view.getVersionButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                runConsoleTest(command.getVer());
-            }
-        });
-        view.getNverButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                runConsoleTest(command.getNver());
-            }
-        });
-        view.getReceiversButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                runConsoleTest(command.getReceivers());
-            }
-        });
-        view.getBtnGetWeather().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getCurrentWeatherReadings();
-            }
-        });
+        view.getTestButton().addActionListener(e -> runConsoleTest(command.getTest()));
+        view.getRxCheckButton().addActionListener(e -> runConsoleTest(command.getRxCheck()));
+        view.getRxTestButton().addActionListener(e -> runConsoleTest(command.getRxTest()));
+        view.getVersionButton().addActionListener(e -> runConsoleTest(command.getVer()));
+        view.getNverButton().addActionListener(e -> runConsoleTest(command.getNver()));
+        view.getReceiversButton().addActionListener(e -> runConsoleTest(command.getReceivers()));
+        view.getBtnGetWeather().addActionListener(e -> getCurrentWeatherReadings());
 
     }
 
