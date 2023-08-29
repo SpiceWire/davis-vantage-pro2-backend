@@ -2,6 +2,7 @@ package spicewire.davisinterface.Controller;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import org.springframework.context.annotation.Configuration;
+import org.w3c.dom.ls.LSOutput;
 import spicewire.davisinterface.Dao.JdbcWeatherRecord;
 import spicewire.davisinterface.Model.*;
 import spicewire.davisinterface.Services.DataProcessor;
@@ -35,13 +36,14 @@ public class ConsoleController {
 
 
     public ConsoleController(Seriall serialModel, ComsPanes view, JdbcWeatherRecord jdbcWeatherRecord) {
-        logger.info("Console controller started.");
+        System.out.println("Console controller started.");
         this.serialModel = serialModel;
         this.view = view;
         this.jdbcWeatherRecord = jdbcWeatherRecord;
         Seriall.getSerialPortList();
-        logger.info("Console controller started.");
+        System.out.println("Console controller started.");
         listenerFromController();
+        System.out.println();
     }
     public ConsoleController(){}
 
@@ -77,6 +79,7 @@ public class ConsoleController {
             ViewDTO.setTestingDescription(command.getDescription());
             ViewDTO.setTestingFriendlyText(TextAreas.consoleFriendlyText(command));
             ViewDTO.setLastCommandSent(command.getWord());
+
         }
     }
 
@@ -90,7 +93,7 @@ public class ConsoleController {
     private String getSerialData(Command command) {
         ViewDTO.setLastCommandSent(command.getWord());
         sendCommandToConsole(command);
-        logger.info("Controller: getSerialData called with " + command.getWord());
+        System.out.println("Controller: getSerialData called with " + command.getWord());
         if (command.getType()==2) {
             ViewDTO.setCurrentDataText(DataProcessor.getSerialData());
         }
@@ -106,7 +109,7 @@ public class ConsoleController {
     private void createLoopRecord(Command command) {
 
         if (confirmCommandClass(command, 2)) {
-            logger.info("Controller: CreateLoopRecord called with " + command.getWord());
+            System.out.println("Controller: CreateLoopRecord called with " + command.getWord());
             if (DataProcessor.getSerialData().length() > 0) {
                 if (command.getWord().equalsIgnoreCase("LOOP")) {
                     Loop1Reading l1Reading = new Loop1Reading(DataProcessor.getSerialData());
@@ -138,9 +141,9 @@ public class ConsoleController {
      */
     private boolean confirmCommandClass (Command command, int commandType){
         boolean commandIsCorrectType = (command.getType()==commandType);
-        logger.info("Controller: confirmCommandClass called with " + command.getWord());
+        System.out.println("Controller: confirmCommandClass called with " + command.getWord());
         if (!commandIsCorrectType){
-            logger.info("Internal error. Command " + command.getWord() +
+            System.out.println("Internal error. Command " + command.getWord() +
                     " of type " + command.getType() + " was sent where only type " +
                     commandType + "fits.");
         }
@@ -155,7 +158,7 @@ public class ConsoleController {
     public void updateComPortList() {
         String[] serialPortArr = serialModel.getSerialPortList();
         String[] comPortList = new String[serialPortArr.length];
-        logger.info("Controller says: Initial Console com port list is: " +  Arrays.toString(serialModel.getSerialPortList()));
+        System.out.println("Controller says: Initial Console com port list is: " +  Arrays.toString(serialModel.getSerialPortList()));
         if (serialPortArr.length == 0) {
             CommPortModel.setCommPortList(new String[]{"NO_COM_PORTS_FOUND"});
 
@@ -171,7 +174,7 @@ public class ConsoleController {
                 }
             }
             friendlySPName.append(" ");
-            logger.info("Controller says: Final console com port list item is: " + friendlySPName);
+            System.out.println("Controller says: Final console com port list item is: " + friendlySPName);
         }
         comPortList = friendlySPName.toString().split(" ");
         CommPortModel.setCommPortList(comPortList);
@@ -194,7 +197,7 @@ public class ConsoleController {
         else {
             setEvalMessage("Com port parameters are set.");
         }
-        logger.info(CommPortModel.getAllParams());
+        System.out.println(CommPortModel.getAllParams());
         return CommPortModel.isCommParamsSet();
     }
 
@@ -204,11 +207,11 @@ public class ConsoleController {
 
     public void listenerFromController() {  //adds listeners to objects in the view
         view.getApplyButton().addActionListener(e -> {
-            logger.info("Console: Listener set params.");
+            System.out.println("Console: Listener set params.");
             serialModel.setSerialPortParameters(CommPortModel.getComPortIndex());
         });
         view.getLoopButton().addActionListener(e -> {
-            logger.info("Controller: loop called");
+            System.out.println("Controller: loop called");
             checkIfComPortParametersAreSet();
 
             if (checkIfComPortParametersAreSet()) {
@@ -217,7 +220,7 @@ public class ConsoleController {
             }
         });
         view.getLPSButton().addActionListener(e -> {
-            logger.info("Controller: LPS called. Com check: " + checkIfComPortParametersAreSet());
+            System.out.println("Controller: LPS called. Com check: " + checkIfComPortParametersAreSet());
             checkIfComPortParametersAreSet();
             if (checkIfComPortParametersAreSet()) {
                 getSerialData(command.getLps());

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
@@ -28,6 +29,7 @@ import spicewire.davisinterface.Model.Seriall;
 import spicewire.davisinterface.View.ComsPanes;
 
 import javax.swing.*;
+import java.awt.*;
 import java.beans.BeanProperty;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -45,6 +47,19 @@ public class DavisinterfaceApplication extends JFrame {
 		return dataSource;
 	}
 
+	public DavisinterfaceApplication(){
+		initSwingGUI();
+	}
+
+	private void initSwingGUI(){
+			System.out.println("frame called on start");
+			JFrame frame = new JFrame("Settings");
+			ComsPanes view = new spicewire.davisinterface.View.ComsPanes();
+			frame.setContentPane(view.getPanelMainJPanel());
+			frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+			frame.setSize(700, 600);
+			frame.setVisible(true);
+	}
 //	private static final String url = "jdbc:postgresql://localhost:5432/WeatherDB";
 //	private static final String user = "postgres";
 //	private static final String password = "postgres";
@@ -63,7 +78,14 @@ public class DavisinterfaceApplication extends JFrame {
 //	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(DavisinterfaceApplication.class, args);
+		var ctx = new SpringApplicationBuilder(DavisinterfaceApplication.class)
+				.headless(false).run(args);
+
+		EventQueue.invokeLater(()->{
+			var ex = ctx.getBean(DavisinterfaceApplication.class);
+			ex.setVisible(true);
+		});
+		//SpringApplication.run(DavisinterfaceApplication.class, args);
 //		Seriall serialModel = new Seriall();
 //		ComsPanes view = new spicewire.davisinterface.View.ComsPanes();
 
