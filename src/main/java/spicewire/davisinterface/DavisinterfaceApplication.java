@@ -44,6 +44,7 @@ public class DavisinterfaceApplication extends JFrame {
 		dataSource.setPassword("postgres");
 		return dataSource;
 	}
+
 //	private static final String url = "jdbc:postgresql://localhost:5432/WeatherDB";
 //	private static final String user = "postgres";
 //	private static final String password = "postgres";
