@@ -6,19 +6,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class DavisVP2Controller  {
 
-
-    //private static DavisVP2 davisVP2;
-    //private static DataSource datasource;
     private ConsoleController consoleController;
+    public static String API_BASE_URL = " http://localhost:8080/console/";
 
 
 
-    public void get(){
-
-
-        System.out.println("Weather record sent from server.");
-
-    }
 
 
     @GetMapping(path = "/portSettings")
@@ -26,6 +18,13 @@ public class DavisVP2Controller  {
         return ConsoleController.getComPortSettings();
     }
 
+
+    public void setSettings(){
+
+
+        System.out.println("Weather record sent from server.");
+
+    }
     /*
     @RequestMapping(path = "/davisvp2/comportsettings", method = RequestMethod.PUT)
     public void*/
