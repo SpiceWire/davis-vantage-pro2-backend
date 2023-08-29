@@ -5,7 +5,7 @@ import com.fazecast.jSerialComm.SerialPort;
 import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Component;
 import spicewire.davisinterface.Services.DataProcessor;
-
+import spicewire.davisinterface.Model.SerialSettingsDTO;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -26,7 +26,7 @@ public class Seriall {
     private static final byte[] WAKE_UP = WAKE_UP_CHAR.getBytes();
     private static final int WAKE_UP_LENGTH = WAKE_UP_CHAR.length();
     private static SerialPort port;
-
+    private static SerialSettingsDTO serialSettingsDTO;
 
     /**
      * Assigns serial port path from view selection passed from controller.
@@ -87,6 +87,24 @@ public class Seriall {
         sbSettings.append("Port path: " + port.getSystemPortPath()+ "\n");
 
         return sbSettings.toString();
+    }
+
+    /**
+     * Sets the serial port based on user's submitted parameters. Uses a DTO.
+     * @param serialDTO
+     * @return boolean, true if all settings were successfully set.
+     */
+    public boolean setPortParams(SerialSettingsDTO serialDTO){
+        String comPortPath = getComPortPath(serialDTO.getComPortIndex());
+        SerialPort port = selectSerialPort(comPortPath);
+        boolean baudSet = port.setBaudRate(serialDTO.getBaud());
+        boolean numDataBitsSet = port.setNumDataBits(serialDTO.getDataBits());
+        boolean numStopBitsSet = port.setNumStopBits(serialDTO.getStopBits());
+        boolean paritySet = port.setParity(serialDTO.getParity());
+        boolean timeoutsSet = port.setComPortTimeouts(serialDTO.getTimeoutMode(),
+                serialDTO.getReadTimeout(),serialDTO.getWriteTimeout());
+        setComPortModel(baudSet, numDataBitsSet, numStopBitsSet, paritySet, timeoutsSet);
+        return serialPortSettingsSet();
     }
 
     /**

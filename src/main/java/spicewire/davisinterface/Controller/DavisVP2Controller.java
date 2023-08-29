@@ -2,27 +2,30 @@ package spicewire.davisinterface.Controller;
 
 
 import org.springframework.web.bind.annotation.*;
+import spicewire.davisinterface.Model.SerialSettingsDTO;
+import spicewire.davisinterface.Services.SerialSettingsService;
 
 @RestController
+@RequestMapping("/vp2")
 public class DavisVP2Controller  {
 
     private ConsoleController consoleController;
-    public static String API_BASE_URL = " http://localhost:8080/console/";
-
-
-
-
+    private SerialSettingsDTO serialSettingsDTO;
+    private SerialSettingsService serialSettingsService;
 
     @GetMapping(path = "/settings")
-    public String getComPortSettings(){
-        return ConsoleController.getComPortSettings();
+    public SerialSettingsDTO getComPortSettings(){
+
+        return serialSettingsService.getCurrentSettings();
+    }
+
+    @PostMapping(path= "/settings")
+    public SerialSettingsDTO setSettings(@RequestBody SerialSettingsDTO newSettings){
+
     }
 
 
-    public void setSettings(){
 
-
-        System.out.println("Weather record sent from server.");
 
     }
     /*

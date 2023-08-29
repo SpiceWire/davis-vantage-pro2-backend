@@ -1,21 +1,20 @@
 package spicewire.davisinterface.Controller;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import spicewire.davisinterface.Model.CurrentWeather;
-import spicewire.davisinterface.Controller.ConsoleController;
 
 @RestController
-public class VP2RestController {
+@RequestMapping("/weather")
+public class WeatherRestController {
     //@RequestBody deserializes incoming data into a java object
     //@ResponseBody maps an object into Json
     private CurrentWeather currentWeather;
     private ConsoleController consoleController ;
 
-    public VP2RestController(ConsoleController consoleController){
+    public WeatherRestController(ConsoleController consoleController){
         this.consoleController = consoleController;
     }
 

@@ -28,18 +28,7 @@ public class SerialSettingsDTO {
 
     public SerialSettingsDTO(){};
 
-    public SerialSettingsDTO getCurrentSettings() {
-        this.baud = CommPortModel.getBaudRate();
-        this.dataBits = CommPortModel.getDataBits();
-        this.stopBits = CommPortModel.getStopBits();
-        this.parity = CommPortModel.getParity();
-        this.comPortIndex = CommPortModel.getComPortIndex();
-        this.timeoutMode = CommPortModel.getTimeoutMode();
-        this.readTimeout = CommPortModel.getReadTimeout();
-        this.writeTimeout = CommPortModel.getWriteTimeout();
-        this.comPortList = CommPortModel.getCommPortList();
-        return this;
-    }
+
     public Integer getBaud() {
         return baud;
     }

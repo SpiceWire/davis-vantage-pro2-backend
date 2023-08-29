@@ -1,39 +1,14 @@
 package spicewire.davisinterface;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.web.server.WebServerFactoryCustomizer;
-import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 
-import javax.sql.DataSource;
-
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import spicewire.davisinterface.Controller.ConsoleController;
-import spicewire.davisinterface.Controller.DavisVP2Controller;
-import spicewire.davisinterface.Controller.VP2RestController;
-import spicewire.davisinterface.Dao.JdbcWeatherRecord;
-import spicewire.davisinterface.Model.DavisVP2;
-import spicewire.davisinterface.Model.Seriall;
 import spicewire.davisinterface.View.ComsPanes;
 
 import javax.swing.*;
 import java.awt.*;
-import java.beans.BeanProperty;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 @SpringBootApplication
 public class DavisinterfaceApplication extends JFrame {
