@@ -10,7 +10,8 @@ import spicewire.davisinterface.Controller.ConsoleController;
 
 @RestController
 public class VP2RestController {
-
+    //@RequestBody deserializes incoming data into a java object
+    //@ResponseBody maps an object into Json
     private CurrentWeather currentWeather;
     private ConsoleController consoleController ;
 
@@ -20,11 +21,11 @@ public class VP2RestController {
 
 @RequestMapping(method= RequestMethod.GET)
 public CurrentWeather get() {
-        //return new CurrentWeather();
-    System.out.println("VP2 says: " +consoleController.getMostRecentWeather().toString());
     return consoleController.getMostRecentWeather();
-    //what do i need at first? getweather. Implement that.
-    //@RequestBody deserializes incoming data into a java object
-    //@ResponseBody maps an object into Json
+}
+
+@RequestMapping(method = RequestMethod.GET, path = "/new")
+    public CurrentWeather make(){
+        return consoleController.getCurrentWeatherReadings();
 }
 }
