@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import spicewire.davisinterface.Model.SerialSettingsDTO;
+import spicewire.davisinterface.Model.SerialStatus;
 import spicewire.davisinterface.Services.SerialSettingsService;
 
 @RestController
@@ -16,13 +17,12 @@ public class DavisVP2Controller  {
     private SerialSettingsService serialSettingsService;
 
     @GetMapping(path = "/settings")
-    public SerialSettingsDTO getComPortSettings(){
-
+    public SerialStatus getComPortSettings(){
         return serialSettingsService.getCurrentSettings();
     }
 
     @PostMapping(path= "/settings")
-    public SerialSettingsDTO setSettings(@RequestBody SerialSettingsDTO newSettings){
+    public SerialStatus setSettings(@RequestBody SerialSettingsDTO newSettings){
         boolean consoleParamsSet = serialSettingsService.applySettings(newSettings);
         if (!consoleParamsSet){
             throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Settings were not applied, " +

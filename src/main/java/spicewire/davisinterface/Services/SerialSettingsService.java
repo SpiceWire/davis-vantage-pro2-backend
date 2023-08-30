@@ -3,24 +3,26 @@ package spicewire.davisinterface.Services;
 import spicewire.davisinterface.Controller.ConsoleController;
 import spicewire.davisinterface.Model.CommPortModel;
 import spicewire.davisinterface.Model.SerialSettingsDTO;
+import spicewire.davisinterface.Model.SerialStatus;
 
 import java.io.Console;
 
 public class SerialSettingsService {
     private SerialSettingsDTO serialSettingsDTO;
     private ConsoleController consoleController;
-    public SerialSettingsDTO getCurrentSettings() {
-        Integer baud = CommPortModel.getBaudRate();
-        Integer dataBits = CommPortModel.getDataBits();
-        Integer stopBits = CommPortModel.getStopBits();
-        Integer parity = CommPortModel.getParity();
-        Integer comPortIndex = CommPortModel.getComPortIndex();
-        Integer timeoutMode = CommPortModel.getTimeoutMode();
-        Integer readTimeout = CommPortModel.getReadTimeout();
-        Integer writeTimeout = CommPortModel.getWriteTimeout();
-        String[] comPortList = CommPortModel.getCommPortList();
-        return new SerialSettingsDTO(baud, dataBits, stopBits, parity, comPortIndex,
-                timeoutMode, readTimeout, writeTimeout, comPortList);
+    public SerialStatus getCurrentSettings() {
+//        Integer baud = CommPortModel.getBaudRate();
+//        Integer dataBits = CommPortModel.getDataBits();
+//        Integer stopBits = CommPortModel.getStopBits();
+//        Integer parity = CommPortModel.getParity();
+//        Integer comPortIndex = CommPortModel.getComPortIndex();
+//        Integer timeoutMode = CommPortModel.getTimeoutMode();
+//        Integer readTimeout = CommPortModel.getReadTimeout();
+//        Integer writeTimeout = CommPortModel.getWriteTimeout();
+//        String[] comPortList = CommPortModel.getCommPortList();
+//        return new SerialSettingsDTO(baud, dataBits, stopBits, parity, comPortIndex,
+//                timeoutMode, readTimeout, writeTimeout, comPortList);
+        return consoleController.getSerialPortSettings();
     }
 
     /**

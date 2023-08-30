@@ -1,5 +1,8 @@
 package spicewire.davisinterface.Model;
 
+/**
+ * This class is used to transfer commPort settings from the View to the controller.
+ */
 public class SerialSettingsDTO {
     Integer baud;
     Integer dataBits;
