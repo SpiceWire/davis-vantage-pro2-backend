@@ -14,9 +14,10 @@ import spicewire.davisinterface.Services.SerialSettingsService;
 @RestController
 @RequestMapping("/vp2")
 public class DavisVP2Controller  {
-
+    @Autowired
     private ConsoleController consoleController;
     private SerialSettingsDTO serialSettingsDTO;
+    @Autowired
     private SerialSettingsService serialSettingsService;
 
     @GetMapping(path = "/settings")

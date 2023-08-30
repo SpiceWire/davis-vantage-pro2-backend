@@ -9,8 +9,9 @@ import spicewire.davisinterface.Model.SerialSettingsDTO;
 import spicewire.davisinterface.Model.SerialStatus;
 
 import java.io.Console;
-@Component
-@Configuration
+@Service
+//@Component
+//@Configuration
 public class SerialSettingsService {
     private SerialSettingsDTO serialSettingsDTO;
     private ConsoleController consoleController;

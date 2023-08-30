@@ -3,6 +3,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.ls.LSOutput;
 import spicewire.davisinterface.Dao.JdbcWeatherRecord;
 import spicewire.davisinterface.Model.*;
@@ -28,6 +29,7 @@ in data).
 
 */
 @Configuration
+@Service
 public class ConsoleController {
 
     public static  BasicDataSource dataSource = new BasicDataSource();
