@@ -11,7 +11,6 @@ import java.util.Arrays;
 public class SerialStatus {
     String systemPortName;
     String[] commPortList;
-    SerialPort[]comPortList;
     Integer comPortIndex;
     String commPortDescription;
     String commPortPath;
@@ -41,7 +40,7 @@ public class SerialStatus {
                         String commPortPath, Integer baudRate, Integer dataBits, Integer stopBits, Integer parity,
                         Integer timeoutMode, Integer writeTimeout, Integer readTimeout) {
         this.systemPortName = systemPortName;
-        this.commPortList = commPortList;
+        this.commPortList = serialPortsAsString(commPortList);
         this.comPortIndex = comPortIndex;
         this.commPortDescription = commPortDescription;
         this.commPortPath = commPortPath;
@@ -54,18 +53,20 @@ public class SerialStatus {
         this.readTimeout = readTimeout;
     }
 
+    /**
+     * Helper method for the constructor. Makes a String[] from a SerialPort[].
+     * @param spArr Array of SerialPorts from the operating system.
+     * @return String array of serial port names stripped of non-alphanumerics.
+     */
     String[] serialPortsAsString (SerialPort[] spArr){
-        String[] compPortsArray = new String[spArr.length];  //todo should be .length?
-        for (int i = 0; i <= spArr.length - 1; i++) {
-            compPortsArray[i] = spArr[i].getSystemPortPath();
-        }
-        String[] comPortList = new String[spArr.length];
-        System.out.println("Controller says: Initial Console com port list is: " +  Arrays.toString(serialModel.getSerialPortList()));
-        if (spArr.length == 0) {
-            CommPortModel.setCommPortList(new String[]{"NO_COM_PORTS_FOUND"});
+        String[] spNameArray = new String[spArr.length];
+        System.out.println("SerialStatus: Com port length: " + spArr.length);
+        if (spNameArray.length==0){
+            System.out.println("no com ports found");
+            return new String[]{"NO_COM_PORTS_FOUND"};
         }
         StringBuilder friendlySPName = new StringBuilder();
-        for (String sp : spArr) {  //strips system com port name of leading slashes, etc
+        for (String sp : spNameArray) {  //strips system com port name of leading slashes, etc
             char c;
             for (int i = 0; i < sp.length(); i++) {
                 c = sp.charAt(i);
@@ -74,11 +75,13 @@ public class SerialStatus {
                 }
             }
             friendlySPName.append(" ");
-            System.out.println("Controller says: Final console com port list item is: " + friendlySPName);
+            System.out.println("SerialStatus: Cumulative console com port list is: " + friendlySPName);
         }
-        comPortList = friendlySPName.toString().split(" ");
-        CommPortModel.setCommPortList(comPortList);
+        String[] comPortList = friendlySPName.toString().split(" ");
+        System.out.println("SerialStatus: ports are: " + Arrays.toString(comPortList));
+        return comPortList;
     }
+
     public Integer getTimeoutMode() {
         return timeoutMode;
     }
