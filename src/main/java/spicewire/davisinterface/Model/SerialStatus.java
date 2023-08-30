@@ -1,6 +1,7 @@
 package spicewire.davisinterface.Model;
 
 import com.fazecast.jSerialComm.SerialPort;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
@@ -8,6 +9,7 @@ import java.util.Arrays;
  * Serves as a DTO to indicate the current actual status and settings of the
  * Serial Port.
  */
+@Component
 public class SerialStatus {
     String systemPortName;
     String[] commPortList;

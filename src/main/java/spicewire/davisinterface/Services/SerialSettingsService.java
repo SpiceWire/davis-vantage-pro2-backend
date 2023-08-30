@@ -1,12 +1,16 @@
 package spicewire.davisinterface.Services;
 
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import spicewire.davisinterface.Controller.ConsoleController;
 import spicewire.davisinterface.Model.CommPortModel;
 import spicewire.davisinterface.Model.SerialSettingsDTO;
 import spicewire.davisinterface.Model.SerialStatus;
 
 import java.io.Console;
-
+@Component
+@Configuration
 public class SerialSettingsService {
     private SerialSettingsDTO serialSettingsDTO;
     private ConsoleController consoleController;
