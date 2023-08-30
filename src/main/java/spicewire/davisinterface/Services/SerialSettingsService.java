@@ -1,5 +1,6 @@
 package spicewire.davisinterface.Services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.io.Console;
 //@Configuration
 public class SerialSettingsService {
     private SerialSettingsDTO serialSettingsDTO;
+    @Autowired
     private ConsoleController consoleController;
     public SerialStatus getCurrentSettings() {
 //        Integer baud = CommPortModel.getBaudRate();
