@@ -196,7 +196,7 @@ public class ConsoleController {
      * path, description, systemPortName
      * @return String
      */
-    public static String getComPortSettings() {
+    public static SerialStatus getComPortSettings() {
         return Seriall.getPortSettings();
     }
 

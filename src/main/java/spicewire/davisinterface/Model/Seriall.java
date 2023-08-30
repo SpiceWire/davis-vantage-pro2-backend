@@ -9,6 +9,7 @@ import spicewire.davisinterface.Model.SerialSettingsDTO;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLOutput;
 import java.util.Arrays;
@@ -73,17 +74,25 @@ public class Seriall {
 
     }
 
-    //todo evaluate if this is necessary.
-    public static String getPortSettings(){
+    /**
+     * Queries the serial port for the current settings being used.
+     * @return SerialStatus object.
+     */
+    public static SerialStatus getPortSettings(){
         String systemPortName = port.getSystemPortName();
         SerialPort[] commPortList = SerialPort.getCommPorts();
-        Integer comPortIndex = null;
         String commPortDescription = port.getPortDescription();
         String commPortPath = port.getSystemPortPath();
         Integer baudRate = port.getBaudRate();
         Integer dataBits = port.getNumDataBits();
         Integer stopBits = port.getNumStopBits();
         Integer parity = port.getParity();
+        Integer write = port.getWriteTimeout();
+        Integer read = port.getReadTimeout();
+
+        SerialStatus serialStatus = new SerialStatus(systemPortName, commPortList, commPortDescription,
+                commPortPath, baudRate, dataBits, stopBits, parity, write, read);
+
 
         StringBuilder sbSettings = new StringBuilder();
         sbSettings.append("Seriall: getPortSettings triggered\n");
@@ -92,11 +101,16 @@ public class Seriall {
         sbSettings.append("DataBits: " + dataBits+ "\n");
         sbSettings.append("StopBits: " + stopBits+ "\n");
         sbSettings.append("Parity: " + parity + "\n");
-        sbSettings.append("WriteTimout (ms): " + port.getWriteTimeout()+ "\n");
-        sbSettings.append("ReadTimeout (ms): " + port.getReadTimeout()+ "\n");
+        sbSettings.append("Port list: " + Arrays.toString(serialStatus.commPortList));
+        sbSettings.append("Port description: " + commPortDescription+ "\n");
         sbSettings.append("Port path: " + commPortPath+ "\n");
+        sbSettings.append("Port name: " + systemPortName+ "\n");
+        sbSettings.append("WriteTimeout (ms): " + write + "\n");
+        sbSettings.append("ReadTimeout (ms): " + read + "\n");
 
-        return sbSettings.toString();
+        System.out.println(sbSettings);
+
+        return serialStatus;
     }
 
     /**
@@ -178,12 +192,9 @@ public class Seriall {
      */
     public static String[]  getSerialPortList() {
         System.out.println("seriall: getSerialPortList triggered.");
-        String[] compPortsArray = new String[SerialPort.getCommPorts().length];  //todo should be .length?
-        for (int i = 0; i <= SerialPort.getCommPorts().length - 1; i++) {
-            compPortsArray[i] = SerialPort.getCommPorts()[i].getSystemPortPath();
-        }
-        System.out.println("Seriall: ComPortsArray = " + Arrays.toString(compPortsArray));
-        return compPortsArray;
+        SerialStatus serialStatus = new SerialStatus();
+        return serialStatus.serialPortsAsString(SerialPort.getCommPorts());
+
     }
 
     /**

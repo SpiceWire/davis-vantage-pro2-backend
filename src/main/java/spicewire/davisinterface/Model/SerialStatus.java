@@ -11,23 +11,20 @@ import java.util.Arrays;
 public class SerialStatus {
     String systemPortName;
     String[] commPortList;
-    Integer comPortIndex;
     String commPortDescription;
     String commPortPath;
     Integer baudRate;
     Integer dataBits;
     Integer stopBits;
     Integer parity;
-    Integer timeoutMode;
     Integer writeTimeout;
     Integer readTimeout;
 
-    public SerialStatus(String systemPortName, String[] commPortList, Integer comPortIndex,
+    public SerialStatus(String systemPortName, String[] commPortList,
                         String commPortDescription, String commPortPath, Integer baudRate, Integer dataBits,
                         Integer stopBits, Integer parity) {
         this.systemPortName = systemPortName;
         this.commPortList = commPortList;
-        this.comPortIndex = comPortIndex;
         this.commPortDescription = commPortDescription;
         this.commPortPath = commPortPath;
         this.baudRate = baudRate;
@@ -36,21 +33,35 @@ public class SerialStatus {
         this.parity = parity;
     }
 
-    public SerialStatus(String systemPortName, SerialPort[] commPortList, Integer comPortIndex, String commPortDescription,
+    public SerialStatus(String systemPortName, SerialPort[] commPortList,  String commPortDescription,
                         String commPortPath, Integer baudRate, Integer dataBits, Integer stopBits, Integer parity,
-                        Integer timeoutMode, Integer writeTimeout, Integer readTimeout) {
+                         Integer writeTimeout, Integer readTimeout) {
         this.systemPortName = systemPortName;
         this.commPortList = serialPortsAsString(commPortList);
-        this.comPortIndex = comPortIndex;
         this.commPortDescription = commPortDescription;
         this.commPortPath = commPortPath;
         this.baudRate = baudRate;
         this.dataBits = dataBits;
         this.stopBits = stopBits;
         this.parity = parity;
-        this.timeoutMode = timeoutMode;
         this.writeTimeout = writeTimeout;
         this.readTimeout = readTimeout;
+    }
+
+    @Override
+    public String toString() {
+        return "SerialStatus{" +
+                "systemPortName='" + systemPortName + '\'' +
+                ", commPortList=" + Arrays.toString(commPortList) +
+                ", commPortDescription='" + commPortDescription + '\'' +
+                ", commPortPath='" + commPortPath + '\'' +
+                ", baudRate=" + baudRate +
+                ", dataBits=" + dataBits +
+                ", stopBits=" + stopBits +
+                ", parity=" + parity +
+                ", writeTimeout=" + writeTimeout +
+                ", readTimeout=" + readTimeout +
+                '}';
     }
 
     /**
@@ -58,7 +69,8 @@ public class SerialStatus {
      * @param spArr Array of SerialPorts from the operating system.
      * @return String array of serial port names stripped of non-alphanumerics.
      */
-    String[] serialPortsAsString (SerialPort[] spArr){
+
+    public String[] serialPortsAsString (SerialPort[] spArr){
         String[] spNameArray = new String[spArr.length];
         System.out.println("SerialStatus: Com port length: " + spArr.length);
         if (spNameArray.length==0){
@@ -80,14 +92,6 @@ public class SerialStatus {
         String[] comPortList = friendlySPName.toString().split(" ");
         System.out.println("SerialStatus: ports are: " + Arrays.toString(comPortList));
         return comPortList;
-    }
-
-    public Integer getTimeoutMode() {
-        return timeoutMode;
-    }
-
-    public void setTimeoutMode(Integer timeoutMode) {
-        this.timeoutMode = timeoutMode;
     }
 
     public Integer getWriteTimeout() {
@@ -123,14 +127,6 @@ public class SerialStatus {
 
     public void setCommPortList(String[] commPortList) {
         this.commPortList = commPortList;
-    }
-
-    public Integer getComPortIndex() {
-        return comPortIndex;
-    }
-
-    public void setComPortIndex(Integer comPortIndex) {
-        this.comPortIndex = comPortIndex;
     }
 
     public String getCommPortDescription() {
