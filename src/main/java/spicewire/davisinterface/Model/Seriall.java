@@ -75,16 +75,26 @@ public class Seriall {
 
     //todo evaluate if this is necessary.
     public static String getPortSettings(){
+        String systemPortName = port.getSystemPortName();
+        SerialPort[] commPortList = SerialPort.getCommPorts();
+        Integer comPortIndex = null;
+        String commPortDescription = port.getPortDescription();
+        String commPortPath = port.getSystemPortPath();
+        Integer baudRate = port.getBaudRate();
+        Integer dataBits = port.getNumDataBits();
+        Integer stopBits = port.getNumStopBits();
+        Integer parity = port.getParity();
+
         StringBuilder sbSettings = new StringBuilder();
         sbSettings.append("Seriall: getPortSettings triggered\n");
         sbSettings.append("Serial port says current settings are: \n");
-        sbSettings.append("Baud: " + port.getBaudRate() + "\n");
-        sbSettings.append("DataBits: " + port.getNumDataBits()+ "\n");
-        sbSettings.append("StopBits: " + port.getNumStopBits()+ "\n");
-        sbSettings.append("Parity: " + port.getParity()+ "\n");
+        sbSettings.append("Baud: " + baudRate + "\n");
+        sbSettings.append("DataBits: " + dataBits+ "\n");
+        sbSettings.append("StopBits: " + stopBits+ "\n");
+        sbSettings.append("Parity: " + parity + "\n");
         sbSettings.append("WriteTimout (ms): " + port.getWriteTimeout()+ "\n");
         sbSettings.append("ReadTimeout (ms): " + port.getReadTimeout()+ "\n");
-        sbSettings.append("Port path: " + port.getSystemPortPath()+ "\n");
+        sbSettings.append("Port path: " + commPortPath+ "\n");
 
         return sbSettings.toString();
     }

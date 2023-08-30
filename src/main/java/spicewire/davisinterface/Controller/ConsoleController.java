@@ -69,10 +69,15 @@ public class ConsoleController {
         return jdbcWeatherRecord.getWeather();
     }
 
+    /**
+     * Uses a DTO to set CommPort settings.
+     * @param settingsDTO
+     * @return  boolean true if settings are set successfully.
+     */
     public boolean setPortParams(SerialSettingsDTO settingsDTO ){
-
-        serialModel.
+        return serialModel.setPortParams((settingsDTO));
     }
+
     /**
      * This method handles all console testing commands: TEST, RXCHECK, RXTEST, VER, RECEIVERS, NVER.
      * Console testing commands are type 1.

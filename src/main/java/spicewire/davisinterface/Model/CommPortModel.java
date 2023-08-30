@@ -4,12 +4,10 @@ import java.sql.SQLOutput;
 import java.util.Arrays;
 
 public class CommPortModel {
-    public static void commPortModel(){
 
+
+    public CommPortModel() {
     }
-
-
-
 
     public static String getAllParams(){
         StringBuilder cpmString = new StringBuilder();
