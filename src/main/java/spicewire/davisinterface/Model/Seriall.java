@@ -4,6 +4,7 @@ package spicewire.davisinterface.Model;
 import com.fazecast.jSerialComm.SerialPort;
 import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import spicewire.davisinterface.Services.DataProcessor;
 import spicewire.davisinterface.Model.SerialSettingsDTO;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.sql.SQLOutput;
 import java.util.Arrays;
 
 @Component
+@Service
 public class Seriall {
  /*    Note:resetting the serial port settings forces a readSerial event.
      The SerialPort object has no constructors in the Fazecast.jSerialComm.SerialPort model.
@@ -26,6 +28,7 @@ public class Seriall {
     private static final String WAKE_UP_CHAR =  "\n";
     private static final byte[] WAKE_UP = WAKE_UP_CHAR.getBytes();
     private static final int WAKE_UP_LENGTH = WAKE_UP_CHAR.length();
+    private static final String NO_COM_PORT = "NO_COM_PORT_SELECTED";
     private static SerialPort port;
     private static SerialSettingsDTO serialSettingsDTO;
 
@@ -79,16 +82,40 @@ public class Seriall {
      * @return SerialStatus object.
      */
     public static SerialStatus getPortSettings(){
-        String systemPortName = port.getSystemPortName();
+        String systemPortName;
+        String commPortPath;
+        String commPortDescription;
+        Integer baudRate;
+        Integer dataBits;
+        Integer stopBits;
+        Integer parity;
+        Integer write;
+        Integer read;
+
+        if (port == null){
+            systemPortName = NO_COM_PORT;
+            commPortPath= NO_COM_PORT;
+            commPortDescription = NO_COM_PORT;
+            baudRate = null;
+            dataBits = null;
+            stopBits = null;
+            parity = null;
+            write = null;
+            read = null;
+
+        } else{
+            systemPortName = port.getSystemPortName();
+            commPortPath= port.getSystemPortPath();
+            commPortDescription = port.getPortDescription();
+            baudRate = port.getBaudRate();
+            dataBits = port.getNumDataBits();
+            stopBits = port.getNumStopBits();
+            parity = port.getParity();
+            write = port.getWriteTimeout();
+            read = port.getReadTimeout();
+        }
+
         SerialPort[] commPortList = SerialPort.getCommPorts();
-        String commPortDescription = port.getPortDescription();
-        String commPortPath = port.getSystemPortPath();
-        Integer baudRate = port.getBaudRate();
-        Integer dataBits = port.getNumDataBits();
-        Integer stopBits = port.getNumStopBits();
-        Integer parity = port.getParity();
-        Integer write = port.getWriteTimeout();
-        Integer read = port.getReadTimeout();
 
         SerialStatus serialStatus = new SerialStatus(systemPortName, commPortList, commPortDescription,
                 commPortPath, baudRate, dataBits, stopBits, parity, write, read);

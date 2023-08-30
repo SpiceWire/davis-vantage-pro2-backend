@@ -31,10 +31,10 @@ in data).
 */
 @Configuration
 @Service
-
 public class ConsoleController {
 
     public static  BasicDataSource dataSource = new BasicDataSource();
+    @Autowired
     private Seriall serialModel = new Seriall();
     @Autowired
     private ComsPanes view = new ComsPanes();
