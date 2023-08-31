@@ -31,7 +31,6 @@ public class SerialSettingsDTO {
 
     public SerialSettingsDTO(){};
 
-
     public Integer getBaud() {
         return baud;
     }
