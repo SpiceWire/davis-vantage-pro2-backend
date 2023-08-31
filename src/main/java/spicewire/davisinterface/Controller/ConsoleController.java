@@ -94,7 +94,6 @@ public class ConsoleController {
             ViewDTO.setTestingDescription(command.getDescription());
             ViewDTO.setTestingFriendlyText(TextAreas.consoleFriendlyText(command));
             ViewDTO.setLastCommandSent(command.getWord());
-
         }
     }
 

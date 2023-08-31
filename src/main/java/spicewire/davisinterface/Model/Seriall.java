@@ -147,7 +147,7 @@ public class Seriall {
      */
     public boolean setPortParams(SerialSettingsDTO serialDTO){
         String comPortPath = getComPortPath(serialDTO.getComPortIndex());
-        SerialPort port = selectSerialPort(comPortPath);
+        port = selectSerialPort(comPortPath);
         boolean baudSet = port.setBaudRate(serialDTO.getBaud());
         boolean numDataBitsSet = port.setNumDataBits(serialDTO.getDataBits());
         boolean numStopBitsSet = port.setNumStopBits(serialDTO.getStopBits());
@@ -173,7 +173,7 @@ public class Seriall {
         String comPortPath = getComPortPath(comPortIndex);
         CommPortModel.setCommPortPath(comPortPath);
         CommPortModel.setComPortIndex(comPortIndex);
-        SerialPort port = selectSerialPort(comPortPath);
+        port = selectSerialPort(comPortPath);
         System.out.println(getPortSettings());
         System.out.println("serial: setSerialPortParameters called.");
         boolean baudSet = port.setBaudRate(CommPortModel.getBaudRate());

@@ -71,14 +71,18 @@ public class SerialStatus {
      * @param spArr Array of SerialPorts from the operating system.
      * @return String array of serial port names stripped of non-alphanumerics.
      */
-
     public String[] serialPortsAsString (SerialPort[] spArr){
         String[] spNameArray = new String[spArr.length];
+        StringBuilder sbNameArray = new StringBuilder();
         System.out.println("SerialStatus: Com port length: " + spArr.length);
         if (spNameArray.length==0){
             System.out.println("no com ports found");
             return new String[]{"NO_COM_PORTS_FOUND"};
         }
+        for (int i = 0; i <= spArr.length - 1; i++) {
+            spNameArray[i] = spArr[i].getSystemPortPath();
+        }
+        System.out.println("com port name array: " + sbNameArray);
         StringBuilder friendlySPName = new StringBuilder();
         for (String sp : spNameArray) {  //strips system com port name of leading slashes, etc
             char c;

@@ -7,7 +7,7 @@ import static spicewire.davisinterface.Services.DataProcessor.getSerialData;
 
 /**
  * This class generates text messages for Type 1 Commands (TEST, RXCHECK,
- * RXTEST, VER, RECEIVERS, NVER) to send to the View.
+ * RXTEST, VER, RECEIVERS, NVER) for display in the View.
  */
 public class TextAreas {
     //Console OK message is usually <Linefeed><Carriage Return>OK<Linefeed><Carriage Return>
@@ -17,7 +17,7 @@ public class TextAreas {
     public static String consoleFriendlyText(Command command) {
         StringBuilder friendlyText = new StringBuilder();
         if (getSerialData().length() < CONSOLE_OK_MESSAGE.length()) {
-            friendlyText.append("No valid data was returned. Something went wrong. Msg length was:").append(getSerialData().length());
+            friendlyText.append("No valid data was returned. Something went wrong. Msg length was: ").append(getSerialData().length());
             return friendlyText.toString();
         }
         switch (command.getWord()) {
@@ -29,7 +29,7 @@ public class TextAreas {
                 break;
             case "NVER":
                 friendlyText.append("Successful if a number is returned.\n");
-                friendlyText.append("Firmware number installed is ");
+                friendlyText.append("Firmware number installed is: ");
                 friendlyText.append(removeOKMessage(getSerialData()));
                 break;
             case "RECEIVERS":
