@@ -1,11 +1,13 @@
 package spicewire.davisinterface.Controller;
 
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import spicewire.davisinterface.Model.CurrentWeather;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/weather")
 public class WeatherRestController {
