@@ -10,7 +10,7 @@ import spicewire.davisinterface.Model.SerialSettingsDTO;
 import spicewire.davisinterface.Model.SerialStatus;
 import spicewire.davisinterface.Services.SerialSettingsService;
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173","http://localhost:5173"})
 @RestController
 @RequestMapping("/vp2")
 public class DavisVP2Controller  {
