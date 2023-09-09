@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import spicewire.davisinterface.Model.CurrentWeather;
 
-@CrossOrigin(origins = {"http://localhost:5173","http://localhost:8080"})
+@CrossOrigin
 @RestController
 @RequestMapping("/weather")
 public class WeatherRestController {
