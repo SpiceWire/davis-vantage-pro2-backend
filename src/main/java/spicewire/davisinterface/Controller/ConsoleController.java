@@ -55,6 +55,9 @@ public class ConsoleController {
     }
     public ConsoleController(){}
 
+    private void autoGenerateWeatherRecords(){
+        getCurrentWeatherReadings();
+    }
     public CurrentWeather getMostRecentWeather(){
         return jdbcWeatherRecord.getWeather();
     }
