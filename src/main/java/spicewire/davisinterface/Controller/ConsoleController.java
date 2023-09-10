@@ -3,6 +3,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.ls.LSOutput;
@@ -12,10 +13,11 @@ import spicewire.davisinterface.Services.DataProcessor;
 import spicewire.davisinterface.View.ComsPanes;
 import spicewire.davisinterface.View.TextAreas;
 import spicewire.davisinterface.View.ViewDTO;
-
+import org.springframework.scheduling.annotation.Scheduled;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import java.util.Arrays;
@@ -31,6 +33,7 @@ in data).
 */
 @Configuration
 @Service
+@EnableScheduling
 public class ConsoleController {
 
     public static  BasicDataSource dataSource = new BasicDataSource();
@@ -55,9 +58,13 @@ public class ConsoleController {
     }
     public ConsoleController(){}
 
+
+    @Scheduled(fixedDelay = 2, timeUnit = TimeUnit.MINUTES)
     private void autoGenerateWeatherRecords(){
         getCurrentWeatherReadings();
     }
+
+
     public CurrentWeather getMostRecentWeather(){
         return jdbcWeatherRecord.getWeather();
     }
