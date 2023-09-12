@@ -38,7 +38,12 @@ public class Seriall {
      * @return system port path as string.
      */
     public String getComPortPath(int index) {
-        return SerialPort.getCommPorts()[index].getSystemPortPath();
+        try{
+            return SerialPort.getCommPorts()[index].getSystemPortPath();
+        }
+        catch(Exception e){
+            System.out.println("Error: likely no comm ports are active. Make sure all plugs are secure.");
+        }
     }
 
     /**
