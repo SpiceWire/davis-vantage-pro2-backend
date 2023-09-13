@@ -37,16 +37,7 @@ public class SerialSettingsService {
                 validateReadWriteTimeout(settingsDTO.getWriteTimeout())&&
                         consoleController.setPortParams(settingsDTO)
                 );
-//        CommPortModel.setBaudRate(settingsDTO.getBaud());
-//        CommPortModel.setDataBits(settingsDTO.getDataBits());
-//        CommPortModel.setStopBits(settingsDTO.getStopBits());
-//        CommPortModel.setParity(settingsDTO.getStopBits());
-//        CommPortModel.setComPortIndex(settingsDTO.getComPortIndex());
-//        CommPortModel.setCommPortList(settingsDTO.getComPortList());
-//        CommPortModel.setTimeoutMode(settingsDTO.getTimeoutMode());
-//        CommPortModel.setReadTimeout(settingsDTO.getReadTimeout());
-//        CommPortModel.setWriteTimeout(settingsDTO.getWriteTimeout());
-       // return consoleController.setPortParams(settingsDTO);
+
     }
 
     private boolean validateBaud(Integer baud){

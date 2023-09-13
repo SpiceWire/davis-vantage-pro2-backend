@@ -58,6 +58,7 @@ public class ConsoleController {
     }
     public ConsoleController(){}
 
+    boolean initializeParams = setDefaultPortParams();
 
     @Scheduled(fixedDelay = 2, timeUnit = TimeUnit.MINUTES)
     private void autoGenerateWeatherRecords(){
@@ -92,6 +93,10 @@ public class ConsoleController {
         return serialModel.setPortParams((settingsDTO));
     }
 
+    private boolean setDefaultPortParams(){
+        SerialSettingsDTO defaultSettings = new SerialSettingsDTO(19200, 8, 1, 0, 0, 0, 0, 0, new String[]{"COM4", "COM6"});
+        return serialModel.setPortParams((defaultSettings));
+    }
     /**
      * This method handles all console testing commands: TEST, RXCHECK, RXTEST, VER, RECEIVERS, NVER.
      * Console testing commands are type 1.
