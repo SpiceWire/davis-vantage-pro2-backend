@@ -22,7 +22,8 @@ public class WeatherRestController {
 
 @RequestMapping(method= RequestMethod.GET)
 public CurrentWeather get() {
-    return consoleController.getMostRecentWeather();
+    System.out.println("\nController received request for weather.\n");
+        return consoleController.getMostRecentWeather();
 }
 
 @RequestMapping(method = RequestMethod.GET, path = "/new")
