@@ -126,16 +126,12 @@ public class Loop2Reading implements DataRecord {
 
     //several values (e.g. temperatures) are sent LSB first, which means the byte order is incorrect for parsing.
     private int parseBinaryWordsAtIndex(int firstIndex) {
-        String firstBinary = getByteOrWord(firstIndex, 1);
-        String secondBinary = getByteOrWord(firstIndex + 1, 1);
-        //byte order is reversed
-        String reversedBinary = secondBinary + firstBinary;
-        return Integer.parseInt(reversedBinary, 2);
+        return Integer.parseInt(prependWord(firstIndex), 2);
     }
 
     /**
      * Given the index of a two byte word, prepends 0's onto both bytes, reverses the order of the bytes,
-     * and parses the result
+     * and returns the result
      *
      * @param firstIndex the lower index of the two bytes in the word
      * @return String for further interpretation if needed.
