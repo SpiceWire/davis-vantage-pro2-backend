@@ -11,6 +11,7 @@ public class WebsocketController {
 
     private static JdbcWeatherRecord jdbcWeatherRecord;
 
+    @MessageMapping("/getWeather")
     @SendTo("/weather/mostRecent")
     public CurrentWeather mostRecentWeather() {
         return jdbcWeatherRecord.getWeather();
