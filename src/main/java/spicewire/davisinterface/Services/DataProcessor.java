@@ -295,10 +295,11 @@ public class DataProcessor {
         int radix;
         int crc = 0;
         boolean validCRC = false;
-        if (data.length < command.getExpectedNumberOfUnitsInReply() && command.getType() == 2){
+        //subtracting 3 below accounts for the removal of the ACK message
+        if (data.length < command.getExpectedNumberOfUnitsInReply() - 3 && command.getType() == 2){
             System.out.println("DataProcessor: wrong number of packets in reply.");
             System.out.println("Packets: " + data.length + "   Command: " + command.getWord() +
-                    "  Expected length: " + command.getNumberOfDataParameters() );
+                    "  Expected length: " + command.getExpectedNumberOfUnitsInReply() );
             return false;
         }
 
@@ -336,7 +337,6 @@ public class DataProcessor {
      */
     private static String removeAckMessage(Command command, String fullData) {
         if (command.getType() == 2) {
-
             System.out.println("DP: removeAckMsg called: removed: " + fullData.substring(0,14));
             fullData = fullData.substring(14);//, fullData.length()-6
             //fullData = fullData.substring(fullData.indexOf("K")+1).trim();

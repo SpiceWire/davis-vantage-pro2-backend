@@ -142,6 +142,10 @@ public class Command {
         return payload;
     }
 
+    public void setExpectedNumberOfUnitsInReply(int expectedNumberOfUnitsInReply) {
+        this.expectedNumberOfUnitsInReply = expectedNumberOfUnitsInReply;
+    }
+
     public boolean isFixedNumberOfReplyBytes() {
         return fixedNumberOfReplyBytes;
     }
