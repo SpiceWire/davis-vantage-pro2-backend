@@ -45,7 +45,7 @@ public class DataProcessor {
     /**
      * This method receives raw data from the serial port and sends the data to appropriate
      * methods for validation based on the Command used. If data is validated, this method
-     * initiates helps make the data available for consumption by other classes. It returns a
+     * helps make the data available for consumption by other classes. It returns a
      * boolean on whether the data was validated.
      * @param rawData raw data from serial port
      * @param command A command to the console as described in Davis documentation.
@@ -230,8 +230,7 @@ public class DataProcessor {
      * @return boolean true = message passes CRC check (if any) and is proper size. False = wrong size or
      * did not pass CRC check
      */
-    public static boolean confirmMessageSize(String data, Command command) {
-
+    public static boolean validateMessageSize(String data, Command command) {
         boolean dataIsOK = false;
         int expectedNumberOfPackets = 1; //how many times LoopData was sent
         String dataForTesting = new String();
@@ -295,7 +294,14 @@ public class DataProcessor {
         int[] dataArr = new int[data.length];
         int radix;
         int crc = 0;
-        boolean validCRC;
+        boolean validCRC = false;
+        if (data.length < command.getExpectedNumberOfUnitsInReply() && command.getType() == 2){
+            System.out.println("DataProcessor: wrong number of packets in reply.");
+            System.out.println("Packets: " + data.length + "   Command: " + command.getWord() +
+                    "  Expected length: " + command.getNumberOfDataParameters() );
+            return false;
+        }
+
         radix = command.isBinaryReturnData() ? 2 : 16; //radix is 2 for binary, 16 for hex
 
         for (int i = 0; i < data.length; i++) {
