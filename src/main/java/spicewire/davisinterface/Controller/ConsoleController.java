@@ -60,7 +60,7 @@ public class ConsoleController {
 
     boolean initializeParams = setDefaultPortParams();
 
-    @Scheduled(fixedDelay = 2, timeUnit = TimeUnit.MINUTES)
+    @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.MINUTES)
     private void autoGenerateWeatherRecords(){
         getCurrentWeatherReadings();
     }
