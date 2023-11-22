@@ -10,7 +10,7 @@ public class CommPortModel {
 
     public static String getAllParams(){
         StringBuilder cpmString = new StringBuilder();
-        cpmString.append("ComPortModel says:\n");
+        cpmString.append("CommPortModel says:\n");
         cpmString.append("commPortList: ").append(getCommPortList()).append("\n");
         cpmString.append("commPortIndex: ").append(getCommPortIndex()).append("\n");
         cpmString.append("commPort: ").append(getCommPort()).append("\n");
@@ -28,7 +28,7 @@ public class CommPortModel {
         cpmString.append("Data Bits set? ").append(isDataBitsSet()).append("\n");
         cpmString.append("Stop Bits set? ").append(isStopBitsSet()).append("\n");
         cpmString.append("Parity set?    ").append(isParitySet()).append("\n");
-        cpmString.append("Com Port set?  ").append(isComPortSet()).append("\n");
+        cpmString.append("Com Port set?  ").append(isCommPortSet()).append("\n");
         return cpmString.toString();
     }
 
@@ -100,7 +100,7 @@ public class CommPortModel {
     /**
      * Boolean set by Serial Port after confirmation that the parameter was set successfully.
      */
-    private static boolean comPortSet;
+    private static boolean commPortSet;
 
     /**
      * Boolean set by Serial Port after confirmation that the parameter was set successfully.
@@ -200,8 +200,8 @@ public class CommPortModel {
     public static void setCommPortList(String[] commPortList) {
         CommPortModel.commPortList = commPortList;
 
-        System.out.println("ComPortModel: ComPortList has length of: " + commPortList.length);
-        System.out.println("ComPortModel: List is: " + Arrays.toString(commPortList));
+        System.out.println("CommPortModel: CommPortList has length of: " + commPortList.length);
+        System.out.println("CommPortModel: List is: " + Arrays.toString(commPortList));
     }
 
     public static int getCommPortIndex() {
@@ -278,12 +278,12 @@ public class CommPortModel {
         CommPortModel.commParamsSet = commParamsSet;
     }
 
-    public static boolean isComPortSet() {
-        return comPortSet;
+    public static boolean isCommPortSet() {
+        return commPortSet;
     }
 
-    public static void setComPortSet(boolean comPortSet) {
-        CommPortModel.comPortSet = comPortSet;
+    public static void setCommPortSet(boolean commPortSet) {
+        CommPortModel.commPortSet = commPortSet;
     }
 
     public static boolean isBaudSet() {
