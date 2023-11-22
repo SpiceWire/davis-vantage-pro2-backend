@@ -8,25 +8,25 @@ public class SerialSettingsDTO {
     Integer dataBits;
     Integer stopBits;
     Integer parity;
-    Integer comPortIndex;
+    Integer commPortIndex;
     Integer timeoutMode;
     Integer readTimeout;
     Integer writeTimeout;
-    String[] comPortList;
+    String[] commPortList;
 
 
     public SerialSettingsDTO(Integer baud, Integer dataBits, Integer stopBits,
-                             Integer parity, Integer comPortIndex, Integer timeoutMode,
-                             Integer readTimeout, Integer writeTimeout, String[] comPortList) {
+                             Integer parity, Integer commPortIndex, Integer timeoutMode,
+                             Integer readTimeout, Integer writeTimeout, String[] commPortList) {
         this.baud = baud;
         this.dataBits = dataBits;
         this.stopBits = stopBits;
         this.parity = parity;
-        this.comPortIndex = comPortIndex;
+        this.commPortIndex = commPortIndex;
         this.timeoutMode = timeoutMode;
         this.readTimeout = readTimeout;
         this.writeTimeout = writeTimeout;
-        this.comPortList = comPortList;
+        this.commPortList = commPortList;
     }
 
     public SerialSettingsDTO(){};
@@ -63,12 +63,12 @@ public class SerialSettingsDTO {
         this.parity = parity;
     }
 
-    public Integer getComPortIndex() {
-        return comPortIndex;
+    public Integer getCommPortIndex() {
+        return commPortIndex;
     }
 
-    public void setComPortIndex(Integer comPortIndex) {
-        this.comPortIndex = comPortIndex;
+    public void setCommPortIndex(Integer commPortIndex) {
+        this.commPortIndex = commPortIndex;
     }
 
     public Integer getTimeoutMode() {
@@ -95,11 +95,11 @@ public class SerialSettingsDTO {
         this.writeTimeout = writeTimeout;
     }
 
-    public String[] getComPortList() {
-        return comPortList;
+    public String[] getCommPortList() {
+        return commPortList;
     }
 
-    public void setComPortList(String[] comPortList) {
-        this.comPortList = comPortList;
+    public void setCommPortList(String[] commPortList) {
+        this.commPortList = commPortList;
     }
 }

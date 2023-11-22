@@ -150,7 +150,7 @@ public class Seriall {
      * @return boolean, true if all settings were successfully set.
      */
     public boolean setPortParams(SerialSettingsDTO serialDTO){
-        String comPortPath = getComPortPath(serialDTO.getComPortIndex());
+        String comPortPath = getComPortPath(serialDTO.getCommPortIndex());
         port = selectSerialPort(comPortPath);
         boolean baudSet = port.setBaudRate(serialDTO.getBaud());
         boolean numDataBitsSet = port.setNumDataBits(serialDTO.getDataBits());
@@ -168,7 +168,7 @@ public class Seriall {
      * The port.setComPortParameters method uses the parameter of useRS485Mode, defaulted as false.
      * Fazecast JserialComm library does not have a native getTimeoutMode method.
      *
-     * @param comPortIndex  comPortList's index number of the selected com port
+     * @param comPortIndex  commPortList's index number of the selected com port
      * @return boolean if params are  set successfully
      *
      */
