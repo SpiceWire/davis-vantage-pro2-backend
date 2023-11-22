@@ -229,7 +229,7 @@ public class ConsoleController {
     public void listenerFromController() {  //adds listeners to objects in the view
         view.getApplyButton().addActionListener(e -> {
             System.out.println("Console: Listener set params.");
-            serialModel.setSerialPortParameters(CommPortModel.getComPortIndex());
+            serialModel.setSerialPortParameters(CommPortModel.getCommPortIndex());
         });
         view.getLoopButton().addActionListener(e -> {
             System.out.println("Controller: loop called");

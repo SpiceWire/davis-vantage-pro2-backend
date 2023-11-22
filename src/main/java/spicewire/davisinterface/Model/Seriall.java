@@ -2,17 +2,14 @@ package spicewire.davisinterface.Model;
 
 
 import com.fazecast.jSerialComm.SerialPort;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import spicewire.davisinterface.Services.DataProcessor;
-import spicewire.davisinterface.Model.SerialSettingsDTO;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLOutput;
 import java.util.Arrays;
 
 @Component
@@ -179,7 +176,7 @@ public class Seriall {
     public boolean setSerialPortParameters(int comPortIndex) {
         String comPortPath = getComPortPath(comPortIndex);
         CommPortModel.setCommPortPath(comPortPath);
-        CommPortModel.setComPortIndex(comPortIndex);
+        CommPortModel.setCommPortIndex(comPortIndex);
         port = selectSerialPort(comPortPath);
         System.out.println(getPortSettings());
         System.out.println("serial: setSerialPortParameters called.");

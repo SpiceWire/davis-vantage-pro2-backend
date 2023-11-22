@@ -132,8 +132,8 @@ public class ComsPanes implements ViewDao {
         cmbComPort.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                CommPortModel.setComPortIndex(cmbComPort.getSelectedIndex());
-                System.out.println("View: comPortIndex set to " + CommPortModel.getComPortIndex());
+                CommPortModel.setCommPortIndex(cmbComPort.getSelectedIndex());
+                System.out.println("View: comPortIndex set to " + CommPortModel.getCommPortIndex());
                 //setComPortParameters();
             }
         });
@@ -176,13 +176,13 @@ public class ComsPanes implements ViewDao {
         }
     }
     /*    private void getComPortParameters(){
-           setComPortParameters(getComPortIndex(), getBaudRate(), getDataBits(), getStopBits(),
+           setComPortParameters(getCommPortIndex(), getBaudRate(), getDataBits(), getStopBits(),
                    getParity(), getTimeoutMode(), getWriteTimeout(), getReadTimeout());
         }*/
     public CommPortModel setComPortParameters() {
         System.out.println("view: setComPortParams triggered");
         CommPortModel.setCommPort(getComPortSelection());
-        CommPortModel.setComPortIndex(getComPortIndex());
+        CommPortModel.setCommPortIndex(getComPortIndex());
         CommPortModel.setBaudRate(getBaudRate());
         System.out.println("view: baud rate is: " + getBaudRate());
         CommPortModel.setDataBits(getDataBits());
