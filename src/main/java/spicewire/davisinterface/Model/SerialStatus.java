@@ -95,9 +95,9 @@ public class SerialStatus {
             friendlySPName.append(" ");
             System.out.println("SerialStatus: Cumulative console com port list is: " + friendlySPName);
         }
-        String[] comPortList = friendlySPName.toString().split(" ");
-        System.out.println("SerialStatus: ports are: " + Arrays.toString(comPortList));
-        return comPortList;
+        String[] commPortList = friendlySPName.toString().split(" ");
+        System.out.println("SerialStatus: ports are: " + Arrays.toString(commPortList));
+        return commPortList;
     }
 
     public Integer getWriteTimeout() {

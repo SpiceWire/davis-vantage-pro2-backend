@@ -66,7 +66,7 @@ public class Seriall {
         System.out.println("Seriall: dataSet? " + CommPortModel.isDataBitsSet());
         System.out.println("Seriall: StopSet? " + CommPortModel.isStopBitsSet());
         System.out.println("seriall: Parityset? " + CommPortModel.isParitySet());
-        System.out.println("seriall: comportset? " + CommPortModel.isCommPortSet());
+        System.out.println("seriall: commPortset? " + CommPortModel.isCommPortSet());
 
         if(CommPortModel.isCommPortSet() && CommPortModel.isBaudSet() &&
            CommPortModel.isDataBitsSet() && CommPortModel.isStopBitsSet() &&

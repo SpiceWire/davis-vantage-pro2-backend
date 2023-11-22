@@ -9,17 +9,17 @@ import spicewire.davisinterface.Model.CommPortModel;
 public interface ViewDao {
 
     /**
-     * View uses ComPortModel for items in com port list. Array must be displayed
+     * View uses CommPortModel for items in com port list. Array must be displayed
      * in order received.
      */
-    void populateComPortList();
+    void populateCommPortList();
 
     /**
      * The View returns the index number of the user-selected com port
      * from the com port list supplied by the controller.
      * @return int of index number
      */
-    int getComPortIndex();
+    int getCommPortIndex();
 
     /**
      * Returns the baud rate selected by the user. Options are:
@@ -54,18 +54,18 @@ public interface ViewDao {
     /**
      * Clears the displayed list of available com ports in preparation for a new list.
      */
-    void clearComPortList();
+    void clearCommPortList();
 
     /**
      * View sets a boolean to show if com port parameters have been set.
      */
-    boolean comPortParametersAreSet();
+    boolean commPortParametersAreSet();
 
 
     /**
      * Sets CommPortModel parameters so serial port can be set.
      *
-     *comPortIndex index number of user-selected com port from com port list.
+     *commPortIndex index number of user-selected com port from com port list.
      * baud 1200, 2400, 4800, 9600, or 19200 Davis default=19200
      * dataBits 7 0r 8. Default 8
      * stopBits index 0, 1, 2, 3 corresponding to options are {0, 1, 1.5, 2}. Default 1
@@ -74,7 +74,7 @@ public interface ViewDao {
      *  writeTimeout In milliseconds. Default 0
      * @ readTimeout In milliseconds. Default 0
      */
-     CommPortModel setComPortParameters();
+     CommPortModel setCommPortParameters();
 
 
     /**

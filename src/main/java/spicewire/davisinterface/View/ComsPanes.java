@@ -64,7 +64,7 @@ public class ComsPanes implements ViewDao {
         System.out.println("Comm panes being created.");
         this.commPortModel = new CommPortModel();
 
-        populateComPortList();
+        populateCommPortList();
 
         testButton.addActionListener(new ActionListener() {
             @Override
@@ -118,14 +118,14 @@ public class ComsPanes implements ViewDao {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("View: apply button triggered.");
-                setComPortParameters();
+                setCommPortParameters();
             }
         });
 
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                populateComPortList();
+                populateCommPortList();
             }
         });
         System.out.println("Coms pane constructor completed.");
@@ -143,7 +143,7 @@ public class ComsPanes implements ViewDao {
         return btnGetWeather;
     }
 
-    public boolean comPortParametersAreSet() {
+    public boolean commPortParametersAreSet() {
         return CommPortModel.isCommParamsSet();
     }
 
@@ -179,10 +179,10 @@ public class ComsPanes implements ViewDao {
            setComPortParameters(getCommPortIndex(), getBaudRate(), getDataBits(), getStopBits(),
                    getParity(), getTimeoutMode(), getWriteTimeout(), getReadTimeout());
         }*/
-    public CommPortModel setComPortParameters() {
+    public CommPortModel setCommPortParameters() {
         System.out.println("view: setComPortParams triggered");
         CommPortModel.setCommPort(getComPortSelection());
-        CommPortModel.setCommPortIndex(getComPortIndex());
+        CommPortModel.setCommPortIndex(getCommPortIndex());
         CommPortModel.setBaudRate(getBaudRate());
         System.out.println("view: baud rate is: " + getBaudRate());
         CommPortModel.setDataBits(getDataBits());
@@ -203,8 +203,8 @@ public class ComsPanes implements ViewDao {
     }*/
 
 
-    public void populateComPortList() {
-        clearComPortList();
+    public void populateCommPortList() {
+        clearCommPortList();
         int deleteThisLater =0;
         System.out.println("View: populateComPort triggered");
         if ( CommPortModel.getCommPortList() != null && CommPortModel.getCommPortList().length != 0 ) {
@@ -224,7 +224,7 @@ public class ComsPanes implements ViewDao {
         return mainJPanel;
     }
 
-    public int getComPortIndex() {
+    public int getCommPortIndex() {
         return cmbComPort.getSelectedIndex();
     }
 
@@ -232,7 +232,7 @@ public class ComsPanes implements ViewDao {
         return cmbComPort.getSelectedItem().toString();
     }
 
-    public void clearComPortList() {
+    public void clearCommPortList() {
         if (cmbComPort.getItemCount() > 0) {
             cmbComPort.removeAllItems();
         }
