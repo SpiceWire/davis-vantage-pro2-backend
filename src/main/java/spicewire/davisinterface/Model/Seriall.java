@@ -120,7 +120,7 @@ public class Seriall {
         }
 
         SerialPort[] commPortList = SerialPort.getCommPorts();
-
+        System.out.println("Seriall is about to make a SerialStatus object");
         SerialStatus serialStatus = new SerialStatus(systemPortName, commPortList, commPortDescription,
                 commPortPath, baudRate, dataBits, stopBits, parity, write, read);
 
@@ -140,6 +140,8 @@ public class Seriall {
         sbSettings.append("ReadTimeout (ms): " + read + "\n");
 
         System.out.println(sbSettings);
+        System.out.println("Seriall says serialStatusObject is:");
+        System.out.println(serialStatus.toString());
 
         return serialStatus;
     }

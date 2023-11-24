@@ -29,7 +29,7 @@ public class SerialStatus {
                         Integer stopBits, Integer parity) {
         this.systemPortName = systemPortName;
         this.commPortList = commPortList;
-        this.commPortIndex = findPortIndex();
+        this.commPortIndex = findPortIndex(commPortList, systemPortName);
         this.commPortDescription = commPortDescription;
         this.commPortPath = commPortPath;
         this.baudRate = baudRate;
@@ -43,7 +43,7 @@ public class SerialStatus {
                          Integer writeTimeout, Integer readTimeout) {
         this.systemPortName = systemPortName;
         this.commPortList = serialPortsAsString(commPortList);
-        this.commPortIndex = findPortIndex();
+
         this.commPortDescription = commPortDescription;
         this.commPortPath = commPortPath;
         this.baudRate = baudRate;
@@ -52,6 +52,7 @@ public class SerialStatus {
         this.parity = parity;
         this.writeTimeout = writeTimeout;
         this.readTimeout = readTimeout;
+        this.commPortIndex = findPortIndex(serialPortsAsString(commPortList), systemPortName);
     }
 
     @Override
@@ -61,7 +62,7 @@ public class SerialStatus {
                 ", commPortList=" + Arrays.toString(commPortList) +
                 ", commPortDescription='" + commPortDescription + '\'' +
                 ", commPortPath='" + commPortPath + '\'' +
-                ", commPortIndex=' " + commPortIndex +
+                ", commPortIndex= " + commPortIndex +
                 ", baudRate=" + baudRate +
                 ", dataBits=" + dataBits +
                 ", stopBits=" + stopBits +
@@ -78,7 +79,7 @@ public class SerialStatus {
      */
     public String[] serialPortsAsString (SerialPort[] spArr){
         String[] spNameArray = new String[spArr.length];
-        StringBuilder sbNameArray = new StringBuilder();
+
         System.out.println("SerialStatus: Com port length: " + spArr.length);
         if (spNameArray.length==0){
             System.out.println("no com ports found");
@@ -87,7 +88,7 @@ public class SerialStatus {
         for (int i = 0; i <= spArr.length - 1; i++) {
             spNameArray[i] = spArr[i].getSystemPortPath();
         }
-        System.out.println("com port name array: " + sbNameArray);
+
         StringBuilder friendlySPName = new StringBuilder();
         for (String sp : spNameArray) {  //strips system com port name of leading slashes, etc
             char c;
@@ -111,9 +112,12 @@ public class SerialStatus {
      * @return integer = -1 => no comm ports listed
      *                 = index of active comm port in com port list.
      */
-    private int findPortIndex() {
-        String[] portList = this.commPortList;
-        String port = this.systemPortName;
+    private int findPortIndex(String[] portList, String port) {
+        System.out.println("Find Port index triggered");
+//        System.out.println("commportlist: " + this.commPortList.toString());
+//        System.out.println("portName: " + this.systemPortName);
+//        String[] portList = this.commPortList;
+//        String port = this.systemPortName;
         int indexNum = 0;
         if(portList.length==0){
             indexNum= -1;
@@ -122,6 +126,7 @@ public class SerialStatus {
             indexNum = 0;
         }
         else indexNum = Arrays.asList(portList).indexOf(port);
+        System.out.println("indexnum is " + indexNum);
 
         return indexNum;
 
