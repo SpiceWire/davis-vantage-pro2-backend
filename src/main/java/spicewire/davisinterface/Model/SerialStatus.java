@@ -6,13 +6,15 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 /**
- * Serves as a DTO to indicate the current actual status and settings of the
- * Serial Port.
+ * Serves as a DTO from the backend to the View to indicate the current actual status
+ * and settings of the Serial Port.
+ *
  */
 @Component
 public class SerialStatus {
     String systemPortName;
     String[] commPortList;
+    int commPortIndex;
     String commPortDescription;
     String commPortPath;
     Integer baudRate;
@@ -27,6 +29,7 @@ public class SerialStatus {
                         Integer stopBits, Integer parity) {
         this.systemPortName = systemPortName;
         this.commPortList = commPortList;
+        this.commPortIndex = findPortIndex();
         this.commPortDescription = commPortDescription;
         this.commPortPath = commPortPath;
         this.baudRate = baudRate;
@@ -40,6 +43,7 @@ public class SerialStatus {
                          Integer writeTimeout, Integer readTimeout) {
         this.systemPortName = systemPortName;
         this.commPortList = serialPortsAsString(commPortList);
+        this.commPortIndex = findPortIndex();
         this.commPortDescription = commPortDescription;
         this.commPortPath = commPortPath;
         this.baudRate = baudRate;
@@ -57,6 +61,7 @@ public class SerialStatus {
                 ", commPortList=" + Arrays.toString(commPortList) +
                 ", commPortDescription='" + commPortDescription + '\'' +
                 ", commPortPath='" + commPortPath + '\'' +
+                ", commPortIndex=' " + commPortIndex +
                 ", baudRate=" + baudRate +
                 ", dataBits=" + dataBits +
                 ", stopBits=" + stopBits +
@@ -98,6 +103,28 @@ public class SerialStatus {
         String[] commPortList = friendlySPName.toString().split(" ");
         System.out.println("SerialStatus: ports are: " + Arrays.toString(commPortList));
         return commPortList;
+    }
+
+    /**
+     * Helper method for the constructor. Finds the index of the active comm port in
+     * the commPortList.
+     * @return integer = -1 => no comm ports listed
+     *                 = index of active comm port in com port list.
+     */
+    private int findPortIndex() {
+        String[] portList = this.commPortList;
+        String port = this.systemPortName;
+        int indexNum = 0;
+        if(portList.length==0){
+            indexNum= -1;
+        }
+        else if (portList.length==1) {
+            indexNum = 0;
+        }
+        else indexNum = Arrays.asList(portList).indexOf(port);
+
+        return indexNum;
+
     }
 
     public Integer getWriteTimeout() {
