@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class SerialStatus {
     String systemPortName;
     String[] commPortList;
-    int commPortIndex;
+    Integer commPortIndex;
     String commPortDescription;
     String commPortPath;
     Integer baudRate;
@@ -24,26 +24,25 @@ public class SerialStatus {
     Integer writeTimeout;
     Integer readTimeout;
 
-    public SerialStatus(String systemPortName, String[] commPortList,
+//    public SerialStatus(String systemPortName, String[] commPortList,
+//                        String commPortDescription, String commPortPath, Integer baudRate, Integer dataBits,
+//                        Integer stopBits, Integer parity) {
+//        this.systemPortName = systemPortName;
+//        this.commPortList = commPortList;
+//        this.commPortIndex = findPortIndex(commPortList, systemPortName);
+//        this.commPortDescription = commPortDescription;
+//        this.commPortPath = commPortPath;
+//        this.baudRate = baudRate;
+//        this.dataBits = dataBits;
+//        this.stopBits = stopBits;
+//        this.parity = parity;
+//    }
+
+    public SerialStatus(String systemPortName, String[] commPortList, int commPortIndex,
                         String commPortDescription, String commPortPath, Integer baudRate, Integer dataBits,
-                        Integer stopBits, Integer parity) {
+                        Integer stopBits, Integer parity,  Integer writeTimeout, Integer readTimeout) {
         this.systemPortName = systemPortName;
         this.commPortList = commPortList;
-        this.commPortIndex = findPortIndex(commPortList, systemPortName);
-        this.commPortDescription = commPortDescription;
-        this.commPortPath = commPortPath;
-        this.baudRate = baudRate;
-        this.dataBits = dataBits;
-        this.stopBits = stopBits;
-        this.parity = parity;
-    }
-
-    public SerialStatus(String systemPortName, SerialPort[] commPortList,  String commPortDescription,
-                        String commPortPath, Integer baudRate, Integer dataBits, Integer stopBits, Integer parity,
-                         Integer writeTimeout, Integer readTimeout) {
-        this.systemPortName = systemPortName;
-        this.commPortList = serialPortsAsString(commPortList);
-
         this.commPortDescription = commPortDescription;
         this.commPortPath = commPortPath;
         this.baudRate = baudRate;
@@ -52,8 +51,32 @@ public class SerialStatus {
         this.parity = parity;
         this.writeTimeout = writeTimeout;
         this.readTimeout = readTimeout;
-        this.commPortIndex = findPortIndex(serialPortsAsString(commPortList), systemPortName);
+        this.commPortIndex = commPortIndex;
     }
+
+//    public SerialStatus(String systemPortName, SerialPort[] commPortList,  String commPortDescription,
+//                        String commPortPath, Integer baudRate, Integer dataBits, Integer stopBits, Integer parity,
+//                         Integer writeTimeout, Integer readTimeout) {
+//        this.systemPortName = systemPortName;
+//        this.commPortList = serialPortsAsString(commPortList);
+//        this.commPortDescription = commPortDescription;
+//        this.commPortPath = commPortPath;
+//        this.baudRate = baudRate;
+//        this.dataBits = dataBits;
+
+    public Integer getCommPortIndex() {
+        return commPortIndex;
+    }
+
+    public void setCommPortIndex(Integer commPortIndex) {
+        this.commPortIndex = commPortIndex;
+    }
+//        this.stopBits = stopBits;
+//        this.parity = parity;
+//        this.writeTimeout = writeTimeout;
+//        this.readTimeout = readTimeout;
+//        this.commPortIndex = findPortIndex(serialPortsAsString(commPortList), systemPortName);
+//    }
 
     @Override
     public String toString() {

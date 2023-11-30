@@ -119,10 +119,14 @@ public class Seriall {
             read = port.getReadTimeout();
         }
 
-        SerialPort[] commPortList = SerialPort.getCommPorts();
+
+//        SerialPort[] commPortList = SerialPort.getCommPorts();
+        String[] commPortList = stringifyPortList(SerialPort.getCommPorts());
+        int commPortIndex = findComPortIndex(commPortList, systemPortName);
+
         System.out.println("Seriall is about to make a SerialStatus object");
-        SerialStatus serialStatus = new SerialStatus(systemPortName, commPortList, commPortDescription,
-                commPortPath, baudRate, dataBits, stopBits, parity, write, read);
+        SerialStatus serialStatus = new SerialStatus(systemPortName, commPortList, commPortIndex,
+                commPortDescription, commPortPath, baudRate, dataBits, stopBits, parity, write, read);
 
 
         StringBuilder sbSettings = new StringBuilder();
@@ -146,6 +150,46 @@ public class Seriall {
         return serialStatus;
     }
 
+    private static int findComPortIndex(String[] portList, String port){
+        int indexNum = 0;
+        if(portList.length==0){
+            indexNum= -1;
+        }
+        else if (portList.length==1) {
+            indexNum = 0;
+        }
+        else indexNum = Arrays.asList(portList).indexOf(port);
+        System.out.println("indexnum is " + indexNum);
+
+        return indexNum;
+    }
+
+    private static String[] stringifyPortList(SerialPort[] spArr) {
+        String[] spNameArray = new String[spArr.length];
+        if (spNameArray.length==0){
+            System.out.println("no com ports found");
+            return new String[]{"NO_COM_PORTS_FOUND"};
+        }
+        for (int i = 0; i <= spArr.length - 1; i++) {
+            spNameArray[i] = spArr[i].getSystemPortPath();
+        }
+
+        StringBuilder friendlySPName = new StringBuilder();
+        for (String sp : spNameArray) {  //strips system com port name of leading slashes, etc
+            char c;
+            for (int i = 0; i < sp.length(); i++) {
+                c = sp.charAt(i);
+                if (Character.isAlphabetic(c) || Character.isDigit(c)){
+                    friendlySPName.append(c);
+                }
+            }
+            friendlySPName.append(" ");
+
+        }
+        String[] commPortList = friendlySPName.toString().split(" ");
+        System.out.println("Seriall: ports are: " + Arrays.toString(commPortList));
+        return commPortList;
+    }
     /**
      * Sets the serial port based on user's submitted parameters. Uses a DTO.
      * @param serialDTO
