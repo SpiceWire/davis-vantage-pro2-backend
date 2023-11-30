@@ -90,7 +90,7 @@ public class ConsoleController {
     }
 
     private boolean setDefaultPortParams(){
-        SerialSettingsDTO defaultSettings = new SerialSettingsDTO(19200, 8, 1, 0, 0, 0, 0, 0, new String[]{"COM4", "COM6"});
+        SerialSettingsDTO defaultSettings = new SerialSettingsDTO(19200, 0, 0, 0, 0, new String[]{"COM4", "COM6"});
         return serialModel.setPortParams((defaultSettings));
     }
     /**

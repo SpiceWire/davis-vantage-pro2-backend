@@ -199,9 +199,9 @@ public class Seriall {
         String commPortPath = getCommPortPath(serialDTO.getCommPortIndex());
         port = selectSerialPort(commPortPath);
         boolean baudSet = port.setBaudRate(serialDTO.getBaud());
-        boolean numDataBitsSet = port.setNumDataBits(serialDTO.getDataBits());
-        boolean numStopBitsSet = port.setNumStopBits(serialDTO.getStopBits());
-        boolean paritySet = port.setParity(serialDTO.getParity());
+        boolean numDataBitsSet = port.setNumDataBits(8);
+        boolean numStopBitsSet = port.setNumStopBits(1);
+        boolean paritySet = port.setParity(0);
         boolean timeoutsSet = port.setComPortTimeouts(serialDTO.getTimeoutMode(),
                 serialDTO.getReadTimeout(),serialDTO.getWriteTimeout());
         setCommPortModel(baudSet, numDataBitsSet, numStopBitsSet, paritySet, timeoutsSet);

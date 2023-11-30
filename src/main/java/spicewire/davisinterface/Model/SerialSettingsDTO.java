@@ -5,9 +5,6 @@ package spicewire.davisinterface.Model;
  */
 public class SerialSettingsDTO {
     Integer baud;
-    Integer dataBits;
-    Integer stopBits;
-    Integer parity;
     Integer commPortIndex;
     Integer timeoutMode;
     Integer readTimeout;
@@ -15,13 +12,9 @@ public class SerialSettingsDTO {
     String[] commPortList;
 
 
-    public SerialSettingsDTO(Integer baud, Integer dataBits, Integer stopBits,
-                             Integer parity, Integer commPortIndex, Integer timeoutMode,
+    public SerialSettingsDTO(Integer baud, Integer commPortIndex, Integer timeoutMode,
                              Integer readTimeout, Integer writeTimeout, String[] commPortList) {
         this.baud = baud;
-        this.dataBits = dataBits;
-        this.stopBits = stopBits;
-        this.parity = parity;
         this.commPortIndex = commPortIndex;
         this.timeoutMode = timeoutMode;
         this.readTimeout = readTimeout;
@@ -37,30 +30,6 @@ public class SerialSettingsDTO {
 
     public void setBaud(Integer baud) {
         this.baud = baud;
-    }
-
-    public Integer getDataBits() {
-        return dataBits;
-    }
-
-    public void setDataBits(Integer dataBits) {
-        this.dataBits = dataBits;
-    }
-
-    public Integer getStopBits() {
-        return stopBits;
-    }
-
-    public void setStopBits(Integer stopBits) {
-        this.stopBits = stopBits;
-    }
-
-    public Integer getParity() {
-        return parity;
-    }
-
-    public void setParity(Integer parity) {
-        this.parity = parity;
     }
 
     public Integer getCommPortIndex() {

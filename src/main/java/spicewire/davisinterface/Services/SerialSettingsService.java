@@ -29,9 +29,6 @@ public class SerialSettingsService {
         messageToViewFromSerial.setLength(0); //erases StringBuilder
         return (
                 validateBaud(settingsDTO.getBaud()) &&
-                validateDataBits(settingsDTO.getDataBits()) &&
-                validateParity(settingsDTO.getParity()) &&
-                validateStopBits(settingsDTO.getStopBits()) &&
                 validateTimeoutMode(settingsDTO.getTimeoutMode()) &&
                 validateReadWriteTimeout(settingsDTO.getReadTimeout()) &&
                 validateReadWriteTimeout(settingsDTO.getWriteTimeout())&&
@@ -54,25 +51,7 @@ public class SerialSettingsService {
         }
         return baudValid;
     }
-    private boolean validateDataBits(Integer data){
-        if (data !=8 ){
-            messageToViewFromSerial.append("Invalid data bits value. Value should be 8.\n");
-        }
-        return data == 8;
-    }
-    private boolean validateStopBits(Integer stop){
-        if (stop != 1){
-            messageToViewFromSerial.append("Invalid stop bits value. Value should be 1.\n");
-        }
-         return stop == 1;
-    }
-    private boolean validateParity(Integer parity){
-        if (parity != 0){
-            messageToViewFromSerial.append("Invalid parity value. Value should be 0, 1, 2, 3 or 4 " +
-                    "(none, odd, even, mark, space)\n");
-        }
-        return parity == 0;
-    }
+
 
     private boolean validateComPortIndex(Integer index){
         if (index == null){

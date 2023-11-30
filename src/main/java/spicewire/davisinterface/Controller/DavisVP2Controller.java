@@ -36,7 +36,7 @@ public class DavisVP2Controller  {
             return serialSettingsService.getCurrentSettings();
         } catch (HttpMessageNotReadableException e) {
             System.out.println("New settings are blank.");
-            newSettings = new SerialSettingsDTO(19200, 8, 1, 0,
+            newSettings = new SerialSettingsDTO(19200,
                     0, 0, 0, 0,
                     new String[]{"COM4"});
             boolean consoleParamsSet = serialSettingsService.applySettings(newSettings);
