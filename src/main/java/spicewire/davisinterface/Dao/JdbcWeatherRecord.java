@@ -68,7 +68,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "FROM record " +
                 "WHERE for_export = 'TRUE'  AND data_source = 'DavisVP2L2' " +
                 "ORDER BY entry DESC LIMIT 1";
-        System.out.println("jdbctemplate = " + jdbcTemplate.toString());
+//        System.out.println("jdbctemplate = " + jdbcTemplate.toString());
         SqlRowSet loop1Srs = jdbcTemplate.queryForRowSet(consoleSqlLoop1);
         SqlRowSet loop2Srs = jdbcTemplate.queryForRowSet(consoleSqlLoop2);
         while (loop1Srs.next()){
@@ -132,7 +132,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 l1.getSoilMoisture3(), l1.getSoilMoisture4(), l1.getLeafWetness1(), l1.getLeafWetness2(),
                 l1.getLeafWetness3(),
                 l1.getLeafWetness4(), l1.getForecastIcon());
-        System.out.println("Loop1 database entry created. Get outTemp = " + l1.getOutsideTemperature());
+//        System.out.println("Loop1 database entry created. Get outTemp = " + l1.getOutsideTemperature());
     }
 
     private void createLoop2Record(Loop2Reading l2) {
@@ -158,7 +158,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 l2.getRainRate(), l2.getUv(), l2.getSolarRadiation(), l2.getStormRain(), l2.getStartDateOfCurrentStorm(),
                 l2.getDayRain(), l2.getLast15MinRain(), l2.getLastHourRain(), l2.getDayET(), l2.getLast24HourRain(),
                 l2.getPacketType());
-        System.out.println("Loop2 database entry created");
+//        System.out.println("Loop2 database entry created");
     }
 
 
@@ -238,7 +238,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
         currentWeather.setLeafWetness4(l1srs.getInt("leaf_wetness4"));
         currentWeather.setForecastIcon(l1srs.getInt("forecast_icon"));
 
-        System.out.println("l1srs date: " + l1srs.getDate("entry_date"));
+//        System.out.println("l1srs date: " + l1srs.getDate("entry_date"));
     }
 
     private void mapL2RowToDavis(SqlRowSet l2srs, CurrentWeather currentWeather){

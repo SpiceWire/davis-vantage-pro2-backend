@@ -43,12 +43,12 @@ public class ConsoleController {
 
 
     public ConsoleController(Seriall serialModel, ComsPanes view, JdbcWeatherRecord jdbcWeatherRecord) {
-        System.out.println("Console controller started.");
+//        System.out.println("Console controller started.");
         this.serialModel = serialModel;
         this.view = view;
         this.jdbcWeatherRecord = jdbcWeatherRecord;
         Seriall.getSerialPortList();
-        System.out.println("Console controller started.");
+//        System.out.println("Console controller started.");
         listenerFromController();
         System.out.println();
     }
@@ -86,6 +86,7 @@ public class ConsoleController {
      * @return  boolean true if settings are set successfully.
      */
     public boolean setPortParams(SerialSettingsDTO settingsDTO ){
+        System.out.println("COnsoleController: setPortParams called");
         return serialModel.setPortParams((settingsDTO));
     }
 
@@ -118,7 +119,7 @@ public class ConsoleController {
     private String getSerialData(Command command) {
         ViewDTO.setLastCommandSent(command.getWord());
         sendCommandToConsole(command);
-        System.out.println("Controller: getSerialData called with " + command.getWord());
+//        System.out.println("Controller: getSerialData called with " + command.getWord());
         if (command.getType()==2) {
             ViewDTO.setCurrentDataText(DataProcessor.getSerialData());
         }
@@ -134,7 +135,7 @@ public class ConsoleController {
     private void createLoopRecord(Command command) {
 
         if (confirmCommandClass(command, 2)) {
-            System.out.println("Controller: CreateLoopRecord called with " + command.getWord());
+//            System.out.println("Controller: CreateLoopRecord called with " + command.getWord());
             if (DataProcessor.getSerialData().length() > 0) {
                 if (command.getWord().equalsIgnoreCase("LOOP")) {
                     Loop1Reading l1Reading = new Loop1Reading(DataProcessor.getSerialData());
@@ -166,7 +167,7 @@ public class ConsoleController {
      */
     private boolean confirmCommandClass (Command command, int commandType){
         boolean commandIsCorrectType = (command.getType()==commandType);
-        System.out.println("Controller: confirmCommandClass called with " + command.getWord());
+//        System.out.println("Controller: confirmCommandClass called with " + command.getWord());
         if (!commandIsCorrectType){
             System.out.println("Internal error. Command " + command.getWord() +
                     " of type " + command.getType() + " was sent where only type " +
@@ -228,11 +229,11 @@ public class ConsoleController {
 
     public void listenerFromController() {  //adds listeners to objects in the view
         view.getApplyButton().addActionListener(e -> {
-            System.out.println("Console: Listener set params.");
+//            System.out.println("Console: Listener set params.");
             serialModel.setSerialPortParameters(CommPortModel.getCommPortIndex());
         });
         view.getLoopButton().addActionListener(e -> {
-            System.out.println("Controller: loop called");
+//            System.out.println("Controller: loop called");
             checkIfCommPortParametersAreSet();
 
             if (checkIfCommPortParametersAreSet()) {
@@ -241,7 +242,7 @@ public class ConsoleController {
             }
         });
         view.getLPSButton().addActionListener(e -> {
-            System.out.println("Controller: LPS called. Com check: " + checkIfCommPortParametersAreSet());
+//            System.out.println("Controller: LPS called. Com check: " + checkIfCommPortParametersAreSet());
             checkIfCommPortParametersAreSet();
             if (checkIfCommPortParametersAreSet()) {
                 getSerialData(command.getLps());
@@ -252,7 +253,7 @@ public class ConsoleController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 updateCommPortList();
-                System.out.println("consoleController: Refresh called.");
+//                System.out.println("consoleController: Refresh called.");
             }
         });
         view.getTestButton().addActionListener(e -> runConsoleTest(command.getTest()));

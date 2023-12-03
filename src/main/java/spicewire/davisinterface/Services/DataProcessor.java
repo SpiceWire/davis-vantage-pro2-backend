@@ -58,8 +58,8 @@ public class DataProcessor {
             System.out.println("Data processor received blank rawData to process.");
             return false;
         }
-        System.out.println("Dataprocessor: raw data is: " + rawData);
-        System.out.println("Dataprocessor: Command is: " + command.getWord());
+//        System.out.println("Dataprocessor: raw data is: " + rawData);
+//        System.out.println("Dataprocessor: Command is: " + command.getWord());
         switch (command.getWord()) {
             case "LOOP": case "LPS": dataIsValid=validateLoop(command,rawData);
             break;
@@ -107,7 +107,7 @@ public class DataProcessor {
 
     private static boolean validateLoop( Command command, String rawData){
         String noAckMsg = removeAckMessage(command, rawData);
-        System.out.println("DP: ValidateLoop called. NoAck =" + noAckMsg);
+//        System.out.println("DP: ValidateLoop called. NoAck =" + noAckMsg);
         boolean validData = crcCheck(noAckMsg.split(" "), command);
         createEvalMsg(command, validData);
         return validData;
@@ -140,12 +140,12 @@ public class DataProcessor {
 
     private static boolean validateRxcheck(Command command, String rawData){
         boolean validData = false;
-        System.out.println("Dataprocessor: validateRxCheck called.");
+//        System.out.println("Dataprocessor: validateRxCheck called.");
         int charCount = 0;
         int spaceCount = 0;
         String ackRemoved = "";
         if(validateOK(rawData)) {
-            System.out.println("Dataprocessor: validateOK called and passed.");
+//            System.out.println("Dataprocessor: validateOK called and passed.");
             ackRemoved = removeOKForValidation(rawData);
         } else {
             System.out.println("Dataprocessor: validateOK called and did NOT pass.");
@@ -160,7 +160,7 @@ public class DataProcessor {
                     spaceCount ++;
             }
         }
-        System.out.println("dataprocessor: RxCheck: char, space: " + charCount + " " + spaceCount);
+//        System.out.println("dataprocessor: RxCheck: char, space: " + charCount + " " + spaceCount);
             if (charCount == ackRemoved.length() && spaceCount == 4) {
                 validData = true;
 
@@ -182,15 +182,15 @@ public class DataProcessor {
 
     private static boolean validateOK(String rawData){
         //return Pattern.compile("OK").matcher(rawData.substring(0,2)).matches();
-        System.out.println("validateOKdata is: " + rawData.substring(0,6));
-        System.out.println("validateOKrawData is: " + rawData);
+//        System.out.println("validateOKdata is: " + rawData.substring(0,6));
+//        System.out.println("validateOKrawData is: " + rawData);
         return rawData.substring(0,6).trim().equalsIgnoreCase("OK");
     }
 
     private static String removeOKForValidation(String rawData){
-        System.out.println("removeOK raw data " + rawData );
-        System.out.println("remove ok trimmed " +
-                rawData.substring(rawData.indexOf("K")+1).trim());
+//        System.out.println("removeOK raw data " + rawData );
+//        System.out.println("remove ok trimmed " +
+//                rawData.substring(rawData.indexOf("K")+1).trim());
         return rawData.substring(rawData.indexOf("K")+1).trim();
 
     }
@@ -253,7 +253,7 @@ public class DataProcessor {
         //Catch the wrong number of bytes before any CRC check.
         String[] dataStrArr = dataForTesting.split(" ");
         int expectedMessageSize = command.getExpectedNumberOfUnitsInReply() * expectedNumberOfPackets;
-        System.out.println("Dataprocessor: expected size: " + expectedMessageSize);
+//        System.out.println("Dataprocessor: expected size: " + expectedMessageSize);
         if (dataStrArr.length != expectedMessageSize) {
             System.out.println("Dataprocessor: msg is not expected size");
             if (command.getWord().equalsIgnoreCase("RXCHECK")) {
@@ -269,7 +269,7 @@ public class DataProcessor {
                 return crcCheck(dataStrArr, command);
             } else dataIsOK = true;
         }
-        System.out.println("Data validated? " + dataIsOK);
+//        System.out.println("Data validated? " + dataIsOK);
         return dataIsOK;
     }
         /*      The CRC method below does not directly follow the Davis protocol nor use the Java CRC32 utility.
@@ -297,9 +297,9 @@ public class DataProcessor {
         boolean validCRC = false;
         //subtracting 3 below accounts for the removal of the ACK message
         if (data.length < command.getExpectedNumberOfUnitsInReply() - 3 && command.getType() == 2){
-            System.out.println("DataProcessor: wrong number of packets in reply.");
-            System.out.println("Packets: " + data.length + "   Command: " + command.getWord() +
-                    "  Expected length: " + command.getExpectedNumberOfUnitsInReply() );
+//            System.out.println("DataProcessor: wrong number of packets in reply.");
+//            System.out.println("Packets: " + data.length + "   Command: " + command.getWord() +
+//                    "  Expected length: " + command.getExpectedNumberOfUnitsInReply() );
             return false;
         }
 
@@ -337,7 +337,7 @@ public class DataProcessor {
      */
     private static String removeAckMessage(Command command, String fullData) {
         if (command.getType() == 2) {
-            System.out.println("DP: removeAckMsg called: removed: " + fullData.substring(0,14));
+//            System.out.println("DP: removeAckMsg called: removed: " + fullData.substring(0,14));
             fullData = fullData.substring(14);//, fullData.length()-6
             //fullData = fullData.substring(fullData.indexOf("K")+1).trim();
         }

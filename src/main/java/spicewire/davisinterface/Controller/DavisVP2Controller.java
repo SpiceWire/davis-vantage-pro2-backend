@@ -12,7 +12,7 @@ import spicewire.davisinterface.Services.SerialSettingsService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/vp2")
+@RequestMapping("/vp2/settings")
 public class DavisVP2Controller  {
     @Autowired
     private ConsoleController consoleController;
@@ -20,14 +20,17 @@ public class DavisVP2Controller  {
     @Autowired
     private SerialSettingsService serialSettingsService;
 
-    @GetMapping(path = "/settings")
+    @GetMapping(path = "/{val}")
     public SerialStatus getComPortSettings(){
+        System.out.println("DavisVP2COntroller: getComPortSettings called from remote");
         return serialSettingsService.getCurrentSettings();
     }
 
-    @PostMapping(path= "/settings")
+    @PostMapping(path= "/{val}")
     public SerialStatus setSettings(@RequestBody SerialSettingsDTO newSettings)  {
         try {
+            System.out.println("DavisVP2Controller: remote is trying to change settings with:");
+            System.out.println(newSettings);
             boolean consoleParamsSet = serialSettingsService.applySettings(newSettings);
             if (!consoleParamsSet) {
                 throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Settings were not applied, " +

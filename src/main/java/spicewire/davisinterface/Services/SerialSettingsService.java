@@ -27,6 +27,8 @@ public class SerialSettingsService {
      */
     public boolean applySettings(SerialSettingsDTO settingsDTO){
         messageToViewFromSerial.setLength(0); //erases StringBuilder
+        System.out.println("serialSettngsService called with settingsDTO of ");
+        System.out.println(settingsDTO.toString());
         return (
                 validateBaud(settingsDTO.getBaud()) &&
                 validateTimeoutMode(settingsDTO.getTimeoutMode()) &&
@@ -38,6 +40,7 @@ public class SerialSettingsService {
     }
 
     private boolean validateBaud(Integer baud){
+        System.out.println("SerialSettingsService: validateBaud called");
         boolean baudValid = false;
         switch(baud) {
             case 1200: case 2400: case 4800: case 9600: case 14400: case 19200:
@@ -49,6 +52,7 @@ public class SerialSettingsService {
             }
             break;
         }
+        System.out.println("baudValid? " + baudValid);
         return baudValid;
     }
 
@@ -60,6 +64,7 @@ public class SerialSettingsService {
         return (index != null);
     }
     private boolean validateTimeoutMode(Integer mode){
+        System.out.println("SerialSettingsService: validateTimeoutMode called");
         boolean timeoutModeValid = false;
         switch (mode){
             case 0: case 1: case 16: case 256: case 4096:

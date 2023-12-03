@@ -156,7 +156,7 @@ public class Loop1Reading implements LoopReading {
         this.leafWetness4 = setLeafWetness4();
         this.forecastIcon = setForecastIcon();
         this.dataSource = "DavisVP2L1";
-        System.out.println("Loop1 Reading object created. Inside temp is: " + getInsideTemperature());
+//        System.out.println("Loop1 Reading object created. Inside temp is: " + getInsideTemperature());
         //jdbcWeatherRecord.createRecord(this);
     }
 
