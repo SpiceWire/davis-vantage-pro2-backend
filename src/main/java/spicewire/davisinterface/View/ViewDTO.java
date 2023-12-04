@@ -44,6 +44,14 @@ public class ViewDTO {
         return lastCommandSent;
     }
 
+    public static final String ERRORWRONGTYPE = "The Command sent was the wrong type for the operation.";
+    public static final String ERRORUNKNOWNTYPE = "The Command sent did not use a valid word, was unknown, " +
+            "or not yet implemented";
+    public static final String ERRORWRONGPARAMS = "The Command sent had missing or invalid parameters.";
+    public static final String ERRORNOCONNECTION = "The console did not have a working connection to the backend.";
+    public static final String ERRORUNKNOWN = "An unexpected error occurred.";
+
+
     public static void setLastCommandSent(String lastCommandSent) {
         ViewDTO.lastCommandSent = lastCommandSent;
     }

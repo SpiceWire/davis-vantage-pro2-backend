@@ -95,7 +95,8 @@ public class ConsoleController {
         return serialModel.setPortParams((defaultSettings));
     }
     /**
-     * This method handles all console testing commands: TEST, RXCHECK, RXTEST, VER, RECEIVERS, NVER.
+     * This method handles all console testing commands: TEST, RXCHECK, RXTEST, VER, RECEIVERS, NVER
+     * sent from the Swing form.
      * Console testing commands are type 1.
      * @param command of the Command class (i.e. type 1)
      */
@@ -109,6 +110,24 @@ public class ConsoleController {
         }
     }
 
+    /**
+     * Handles console testing commands from frontend. Accepts a String (a Command class word
+     * like "LOOP" or "RXCheck" and implements it.
+     * @param commandWord
+     * @return ViewDTO, an object that has the "text results" from the Command.
+     */
+    private ViewDTO sendConsoleTest(String commandWord) {
+        ViewDTO viewDTO = new ViewDTO();
+        command = command.matchCommandWithWord(commandWord);
+        if(confirmCommandClass(command, 1)){
+            viewDTO.setTestingRawText(getSerialData(command));
+            viewDTO.setTestingDescription(command.getDescription());
+            viewDTO.setTestingFriendlyText(TextAreas.consoleFriendlyText(command));
+            viewDTO.setLastCommandSent(command.getWord());
+        }
+
+         return viewDTO;
+    }
     /**
      * Sends a single command to the Davis console and returns the sanitized and validated
      * serial data it generates. It can be used with LOOP and LPS commands before making a LOOP record.

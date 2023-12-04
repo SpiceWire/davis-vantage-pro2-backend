@@ -21,6 +21,8 @@ package spicewire.davisinterface.Model;
  *      7) Configuration
  *
  *      At present, the first two categories are at least partially implemented by this software.
+ *
+ *      To use a command, use the associated getter. E.g. gerRxCheck will return the Command rxCheck.
  */
 
 public class Command {
@@ -145,6 +147,31 @@ public class Command {
     public void setExpectedNumberOfUnitsInReply(int expectedNumberOfUnitsInReply) {
         this.expectedNumberOfUnitsInReply = expectedNumberOfUnitsInReply;
     }
+
+    /**
+     * Accepts a string with any casing and returns a corresponding Command if the word matches
+     * a command's name.
+     * @param word String
+     * @return Command class object
+     */
+    public Command matchCommandWithWord(String word){
+        String ucWord = word.toUpperCase();
+        switch (ucWord){
+            case "TEST": return test;
+            case "RXCHECK": return rxCheck;
+            case "RXTEST": return rxTest;
+            case "VER": return ver;
+            case "NVER": return nver;
+            case "RECEIVERS": return receivers;
+            case "LOOP" : return loop;
+            case "LPS" :return lps;
+            case "HILOWS" : return hilows;
+            case "PUTRAIN" : return putrain;
+            case "PUTET" : return putet;
+            default: return new Command();
+        }
+    }
+
 
     public boolean isFixedNumberOfReplyBytes() {
         return fixedNumberOfReplyBytes;
