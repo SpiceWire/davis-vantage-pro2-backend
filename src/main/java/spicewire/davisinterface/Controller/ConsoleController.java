@@ -125,6 +125,7 @@ public class ConsoleController {
             viewDTO.setTestingFriendlyText(TextAreas.consoleFriendlyText(command));
             viewDTO.setLastCommandSent(command.getWord());
         }
+        else ViewDTO.setErrorMessage(1);
 
          return viewDTO;
     }
