@@ -149,32 +149,32 @@ public class ComsPanes implements ViewDao {
 
 
     public void runCommand(String command) {
-        updateView(command); //todo
+//        updateView(command); //todo
     }
 
     public CommPortModel getComPortSettings() {
         return new CommPortModel();
 
     }
-
-    private void updateView(String command){
-        consoleFriendlyTextArea.setText(ViewDTO.getTestingFriendlyText());
-        consoleRawTextArea.setText(ViewDTO.getTestingRawText());
-        testDescriptionTextArea.setText(ViewDTO.getTestingDescription());
-        currentDataTextArea.setText(ViewDTO.getCurrentDataText());
-        tfEval.setText(ViewDTO.getCurrentDataEvalText());
-        //populateComPortList();
-        switch (command){
-            case "loop": case "lps": {
-                System.out.println("View: update view called with loop or lps");
-               textFieldCurrentDataCommand.setText(command.toUpperCase());
-               break;
-            }
-                default:{
-                textFieldTestName.setText(command.toUpperCase());
-            }
-        }
-    }
+//
+//    private void updateView(String command){
+//        consoleFriendlyTextArea.setText(ViewDTO.getTestingFriendlyText());
+//        consoleRawTextArea.setText(ViewDTO.getTestingRawText());
+//        testDescriptionTextArea.setText(ViewDTO.getTestingDescription());
+//        currentDataTextArea.setText(ViewDTO.getCurrentDataText());
+//        tfEval.setText(ViewDTO.getCurrentDataEvalText());
+//        //populateComPortList();
+//        switch (command){
+//            case "loop": case "lps": {
+//                System.out.println("View: update view called with loop or lps");
+//               textFieldCurrentDataCommand.setText(command.toUpperCase());
+//               break;
+//            }
+//                default:{
+//                textFieldTestName.setText(command.toUpperCase());
+//            }
+//        }
+//    }
     /*    private void getComPortParameters(){
            setComPortParameters(getCommPortIndex(), getBaudRate(), getDataBits(), getStopBits(),
                    getParity(), getTimeoutMode(), getWriteTimeout(), getReadTimeout());
