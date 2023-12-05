@@ -1,8 +1,17 @@
 package spicewire.davisinterface.View;
 
 /**
- * Data Transfer Object for the View's text fields. Particularly relevant for Davis Command categories of Testing and
- * Current Data.
+ * Data Transfer Object for the View's text fields for Testing and Current Data commands.
+ *
+ * The Class does not have a constructor. Relevant attributes are given values by the Console Controller
+ * and the instantiated object is sent to the Console Testing Controller to be sent to the View.
+ *
+ * Davis Test Commands (TEST, RXCHECK, RXTEST, VER, NVER, RECEIVERS) sent to the controller generate
+ * two text fields: testingRawText and testingFriendlyText.
+ *
+ * Davis Current Data commands (LOOP, LPS) sent to the controller generate text for fields currentDataText
+ * (usually binary data) and currentDataEvalText (whether the binary passed CRC, validation, etc).
+ *
  */
 public class ViewDTO {
     public ViewDTO(){}
@@ -37,9 +46,14 @@ public class ViewDTO {
      * Davis Command category: Testing
      */
     private  String testingDescription;
-
+    /**
+     * Identifies the command that generated the ViewDTO object.
+     */
     private  String lastCommandSent;
 
+    /**
+     * Carries an error message, if any, to the view.
+     */
     private  String errorMessage;
 
     public  String getErrorMessage() {

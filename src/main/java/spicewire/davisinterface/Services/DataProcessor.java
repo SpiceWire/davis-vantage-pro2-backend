@@ -38,9 +38,11 @@ public class DataProcessor {
 
 
     private static StringBuilder serialData = new StringBuilder();  //sanitized data from the serial port
-    public static String evaluationMessage(Command command, boolean validData, String msg){
-        return msg;
-    }
+    public static String evaluationMessage;
+
+
+
+
 
     /**
      * This method receives raw data from the serial port and sends the data to appropriate
@@ -176,7 +178,7 @@ public class DataProcessor {
         eval.append("The response to command ").append(command.getWord());
         eval.append(data? " passed": " did not pass");
         eval.append(" data validation.");
-        evaluationMessage(command, data, eval.toString());
+        setEvaluationMessage(eval.toString());
     }
 
 
@@ -380,4 +382,12 @@ public class DataProcessor {
             0xef1f, 0xff3e, 0xcf5d, 0xdf7c, 0xaf9b, 0xbfba, 0x8fd9, 0x9ff8,
             0x6e17, 0x7e36, 0x4e55, 0x5e74, 0x2e93, 0x3eb2, 0xed1, 0x1ef0,
     };
+
+    public static String getEvaluationMessage() {
+        return evaluationMessage;
+    }
+
+    private static void setEvaluationMessage(String evaluationMessage) {
+        DataProcessor.evaluationMessage = evaluationMessage;
+    }
 }

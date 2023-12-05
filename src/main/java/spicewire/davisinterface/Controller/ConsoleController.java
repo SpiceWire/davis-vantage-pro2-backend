@@ -37,7 +37,7 @@ public class ConsoleController {
     private Seriall serialModel = new Seriall();
     @Autowired
     private ComsPanes view = new ComsPanes();
-    private Command command = new Command();
+    private Command command = new Command();  //todo is this really needed here? Or at all?
     private JdbcWeatherRecord jdbcWeatherRecord = new JdbcWeatherRecord(dataSource);
     private final Logger logger = Logger.getLogger(ConsoleController.class.getName());
 
@@ -102,32 +102,53 @@ public class ConsoleController {
      */
     private void runConsoleTest(Command command) {
         //todo refactor so there is a com port params check with any button press
-        if (confirmCommandClass(command, 1)) {
-            ViewDTO.setTestingRawText(getSerialData(command));
-            ViewDTO.setTestingDescription(command.getDescription());
-            ViewDTO.setTestingFriendlyText(TextAreas.consoleFriendlyText(command));
-            ViewDTO.setLastCommandSent(command.getWord());
-        }
-    }
-
-    /**
-     * Handles console testing commands from frontend. Accepts a String (a Command class word
-     * like "LOOP" or "RXCheck" and implements it.
-     * @param commandWord
-     * @return ViewDTO, an object that has the "text results" from the Command.
-     */
-    private ViewDTO sendConsoleTest(String commandWord) {
         ViewDTO viewDTO = new ViewDTO();
-        command = command.matchCommandWithWord(commandWord);
-        if(confirmCommandClass(command, 1)){
+        if (confirmCommandClass(command, 1)) {
             viewDTO.setTestingRawText(getSerialData(command));
             viewDTO.setTestingDescription(command.getDescription());
             viewDTO.setTestingFriendlyText(TextAreas.consoleFriendlyText(command));
             viewDTO.setLastCommandSent(command.getWord());
         }
-        else ViewDTO.setErrorMessage(1);
+    }
+
+    /**
+     * Handles console testing commands from frontend. Accepts a String (a Command class word
+     * like "TEST" or "RXCHECK", implements it, and returns the result in a DTO to the View.
+     * @param commandWord type 1 (TEST, RXTEST, RXCHECK, RECEIVERS, VER, NVER)
+     * @return ViewDTO, an object that has the "text results" from the Command.
+     */
+    public ViewDTO getConsoleTest(String commandWord) {
+        ViewDTO viewDTO = new ViewDTO();
+        command = command.matchCommandWithWord(commandWord);
+        viewDTO.setLastCommandSent(command.getWord());
+        if(confirmCommandClass(command, 1)){
+            viewDTO.setTestingRawText(getSerialData(command));
+            viewDTO.setTestingDescription(command.getDescription());
+            viewDTO.setTestingFriendlyText(TextAreas.consoleFriendlyText(command));
+        }
+        else viewDTO.setErrorMessage(1);
 
          return viewDTO;
+    }
+
+    /**
+     * Handles Current Data commands from the frontend. Accepts a String(a Command class word
+     * like "LOOP" or "LPS", implements it, and returns a DTO to the View.
+     * @param commandWord LOOP and LPS are implemented
+     * @return ViewDTO, an object that has the "text results" from the Command.
+     */
+    public ViewDTO getCurrentData(String commandWord){
+        ViewDTO viewDTO = new ViewDTO();
+        command = command.matchCommandWithWord(commandWord);
+        viewDTO.setLastCommandSent(command.getWord());
+        getSerialData(command);
+        if(confirmCommandClass(command, 2)){
+            viewDTO.setCurrentDataText(DataProcessor.getSerialData());
+            viewDTO.setCurrentDataEvalText(DataProcessor.getEvaluationMessage());
+        }
+        else viewDTO.setErrorMessage(1);
+
+        return viewDTO;
     }
     /**
      * Sends a single command to the Davis console and returns the sanitized and validated
@@ -137,12 +158,8 @@ public class ConsoleController {
      * @return String from DataProcessor
      */
     private String getSerialData(Command command) {
-        ViewDTO.setLastCommandSent(command.getWord());
         sendCommandToConsole(command);
 //        System.out.println("Controller: getSerialData called with " + command.getWord());
-        if (command.getType()==2) {
-            ViewDTO.setCurrentDataText(DataProcessor.getSerialData());
-        }
         return DataProcessor.getSerialData();
     }
 
@@ -173,7 +190,7 @@ public class ConsoleController {
      * initialSending is default true. The Serial class changes this to "false" if the serial data has errors.
      * @param command from the Command class
      */
-    public void sendCommandToConsole(Command command) {
+    private void sendCommandToConsole(Command command) {
         serialModel.sendCommand(command, true);
     }
 
