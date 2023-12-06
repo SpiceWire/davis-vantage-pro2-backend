@@ -2,21 +2,22 @@ package spicewire.davisinterface.View;
 
 /**
  * Data Transfer Object for the View's text fields for Testing and Current Data commands.
- *
+ * <p>
  * The Class does not have a constructor. Relevant attributes are given values by the Console Controller
  * and the instantiated object is sent to the Console Testing Controller to be sent to the View.
- *
+ * <p>
  * Davis Test Commands (TEST, RXCHECK, RXTEST, VER, NVER, RECEIVERS) sent to the controller generate
  * two text fields: testingRawText and testingFriendlyText.
- *
+ * <p>
  * Davis Current Data commands (LOOP, LPS) sent to the controller generate text for fields currentDataText
  * (usually binary data) and currentDataEvalText (whether the binary passed CRC, validation, etc).
- *
  */
 public class ViewDTO {
-    public ViewDTO(){}
+    public ViewDTO() {
+    }
+
     public static final String WRONG_TYPE = "The Command sent was the wrong type for the operation.";
-    public  static final String UNKNOWN_TYPE = "The Command sent did not use a valid word, was unknown, " +
+    public static final String UNKNOWN_TYPE = "The Command sent did not use a valid word, was unknown, " +
             "or not yet implemented";
     public static final String WRONG_PARAMS = "The Command sent had missing or invalid parameters.";
     public static final String NO_CONNECTION = "The console did not have a working connection to the backend.";
@@ -27,82 +28,75 @@ public class ViewDTO {
      * Holds binary results from Davis Loop and LPS commands.
      * Davis Command category: Current Data
      */
-    private  String currentDataText;
+    private String currentDataText;
 
     /**
      * Holds Controller's response to Loop and LPS commands.
      * Davis Command category: Current Data
      */
-    private  String currentDataEvalText;
+    private String currentDataEvalText;
 
     /**
      * Holds raw Davis Console results from testing commands: Test, RxCheck, RxTest, Ver, Nver, Receivers
      * Davis Command category: Testing
      */
-    private  String testingRawText;
+    private String testingRawText;
 
     /**
      * Holds Controller-interpreted Davis Console results from testing commands: Test,
      * RxCheck, RxTest, Ver, Nver, Receivers
      * Davis Command category: Testing
      */
-    private  String testingFriendlyText;
+    private String testingFriendlyText;
 
     /**
      * Holds description of the current Davis Testing command.
      * Davis Command category: Testing
      */
-    private  String testingDescription;
+    private String testingDescription;
     /**
      * Identifies the command that generated the ViewDTO object.
      */
-    private  String lastCommandSent;
+    private String lastCommandSent;
 
     /**
      * Carries an error message, if any, to the view.
      */
-    private  String errorMessage;
+    private String errorMessage;
 
-    public  String getErrorMessage() {
-        System.out.println("ViewDTO getErrorMessage called");
+    public String getErrorMessage() {
+
         return errorMessage;
     }
 
-    public  void setErrorMessage(String errorMessage) {
-        System.out.println("At first, ViewDTO thinks error message is: " + this.errorMessage);
-        System.out.println("ViewDTO setErrorMessage called with "+ errorMessage) ;
+    public void setErrorMessage(String errorMessage) {
+
         this.errorMessage = errorMessage;
-        System.out.println("Later, ViewDTO thinks error message is: " + this.errorMessage);
     }
 
-//    public  void setErrorMessage(int errorMessageNumber) {
-//        this.errorMessage = getErrorMessage(errorMessageNumber);
-//    }
-    public  String getLastCommandSent() {
-        System.out.println("ViewDTO lastCommandSent set with "+ lastCommandSent);
+    public String getLastCommandSent() {
+
         return lastCommandSent;
     }
 
 
-
-
-    public  void setLastCommandSent(String lastCommandSent) {
+    public void setLastCommandSent(String lastCommandSent) {
         this.lastCommandSent = lastCommandSent;
     }
 
-    public  void setCurrentDataText(String currentDataText) {
+    public void setCurrentDataText(String currentDataText) {
         this.currentDataText = currentDataText;
     }
 
-    public  String getCurrentDataText() {
+    public String getCurrentDataText() {
         return currentDataText;
     }
 
-    public  String getCurrentDataEvalText() {
+    public String getCurrentDataEvalText() {
         return currentDataEvalText;
     }
 
-    public  void setCurrentDataEvalText(String currentDataEvalText) {
+    public void setCurrentDataEvalText(String currentDataEvalText) {
         this.currentDataEvalText = currentDataEvalText;
     }
 
@@ -127,28 +121,28 @@ public class ViewDTO {
 //        return errorMsgAry[errorNumber];
 //    }
 
-    public  String getTestingRawText() {
+    public String getTestingRawText() {
         return testingRawText;
     }
 
-    public  void setTestingRawText(String testingRawText) {
+    public void setTestingRawText(String testingRawText) {
         System.out.println("ViewDTO setTestingRawText called with " + testingRawText);
         this.testingRawText = testingRawText;
     }
 
-    public  String getTestingFriendlyText() {
+    public String getTestingFriendlyText() {
         return testingFriendlyText;
     }
 
-    public  void setTestingFriendlyText(String testingFriendlyText) {
+    public void setTestingFriendlyText(String testingFriendlyText) {
         this.testingFriendlyText = testingFriendlyText;
     }
 
-    public  String getTestingDescription() {
+    public String getTestingDescription() {
         return testingDescription;
     }
 
-    public  void setTestingDescription(String testingDescription) {
+    public void setTestingDescription(String testingDescription) {
         System.out.println("ViewDTO testingDescription called with " + testingDescription);
         this.testingDescription = testingDescription;
     }

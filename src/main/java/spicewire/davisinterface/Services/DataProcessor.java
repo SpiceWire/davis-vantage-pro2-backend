@@ -60,8 +60,8 @@ public class DataProcessor {
             System.out.println("Data processor received blank rawData to process.");
             return false;
         }
-//        System.out.println("Dataprocessor: raw data is: " + rawData);
-//        System.out.println("Dataprocessor: Command is: " + command.getWord());
+        System.out.println("Dataprocessor: raw data is: " + rawData);
+        System.out.println("Dataprocessor: Command is: " + command.getWord());
         switch (command.getWord()) {
             case "LOOP": case "LPS": dataIsValid=validateLoop(command,rawData);
             break;
@@ -75,6 +75,8 @@ public class DataProcessor {
             break;
             case "RXCHECK": dataIsValid=validateRxcheck(command, rawData);
             break;
+            case "RECEIVERS": dataIsValid=true;
+                System.out.println("DP says RECEIVERS: raw data: ");
             default:
                 System.out.println("Command not yet implemented");
                 break;

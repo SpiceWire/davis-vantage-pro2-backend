@@ -117,7 +117,7 @@ public class Command {
             true,  false, null);
 
     private static final Command receivers = new Command("RECEIVERS", 0, LINE_FEED,
-            RECEIVERS_DESCRIPTION, false, 1, false, 14,
+            RECEIVERS_DESCRIPTION, true, 1, false, 25,
             true, false, null);
 
     private static final Command loop = new Command("LOOP", 1, LINE_FEED, LOOP_DESCRIPTION,

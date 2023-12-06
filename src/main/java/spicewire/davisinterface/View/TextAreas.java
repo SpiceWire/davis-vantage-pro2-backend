@@ -34,10 +34,14 @@ public class TextAreas {
                 break;
             case "RECEIVERS":
                 friendlyText.append("You are listening to station number: ");
-                String msg = getSerialData().substring(CONSOLE_OK_MESSAGE.length());
-                for (char c : msg.toCharArray()) {
-                    friendlyText.append(Integer.toBinaryString(c));
-                }
+//                String msg = getSerialData().substring(CONSOLE_OK_MESSAGE.length());
+//                String msg = getSerialData();
+//                System.out.println("TA: serial data is: " + msg);
+//                for (char c : msg.toCharArray()) {
+//                    friendlyText.append(Integer.toBinaryString(c));
+//                }
+
+                friendlyText.append(extractReceivers(getSerialData()));
                 break;  //todo capture binary info and extract assigned receivers
             case "VER":
                 friendlyText.append("Successful if a date is returned.\n");
@@ -67,5 +71,19 @@ public class TextAreas {
     }
     private static String removeOKMessage(String serialData){
         return serialData.substring(serialData.indexOf("K")+1).trim();
+    }
+
+    /**
+     * Extracts the Davis station number from raw data received. Davis manual indicates the following
+     * as an example command/response.
+     * >"RECEIVERS"<LF>
+     * <<LF><CR>"OK"<LF><CR><0x01>
+     * @param serialData (raw serial data)
+     * @return station ID as integer
+     */
+    private static String extractReceivers(String serialData){
+        int lastCarriageReturn = serialData.lastIndexOf("1101");
+        return serialData.substring(lastCarriageReturn+5);
+
     }
 }
