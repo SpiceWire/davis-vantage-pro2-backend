@@ -118,6 +118,7 @@ public class ConsoleController {
      * @return ViewDTO, an object that has the "text results" from the Command.
      */
     public ViewDTO getConsoleTest(String commandWord) {
+        System.out.println("ConsoleController getConsoleTest called.");
         ViewDTO viewDTO = new ViewDTO();
         command = command.matchCommandWithWord(commandWord);
         viewDTO.setLastCommandSent(command.getWord());
@@ -125,10 +126,12 @@ public class ConsoleController {
             viewDTO.setTestingRawText(getSerialData(command));
             viewDTO.setTestingDescription(command.getDescription());
             viewDTO.setTestingFriendlyText(TextAreas.consoleFriendlyText(command));
+            viewDTO.setErrorMessage(viewDTO.NO_ERROR);
         }
-        else viewDTO.setErrorMessage(1);
-
-         return viewDTO;
+        else viewDTO.setErrorMessage(viewDTO.WRONG_TYPE);
+        System.out.println("ConsoleController getConsoleTest called. obj returned is" + viewDTO);
+        System.out.println("and the object's error message is " + viewDTO.getErrorMessage());
+        return viewDTO;
     }
 
     /**
@@ -146,7 +149,7 @@ public class ConsoleController {
             viewDTO.setCurrentDataText(DataProcessor.getSerialData());
             viewDTO.setCurrentDataEvalText(DataProcessor.getEvaluationMessage());
         }
-        else viewDTO.setErrorMessage(1);
+        else viewDTO.setErrorMessage(viewDTO.WRONG_TYPE);
 
         return viewDTO;
     }

@@ -15,7 +15,14 @@ package spicewire.davisinterface.View;
  */
 public class ViewDTO {
     public ViewDTO(){}
-
+    public static final String WRONG_TYPE = "The Command sent was the wrong type for the operation.";
+    public  static final String UNKNOWN_TYPE = "The Command sent did not use a valid word, was unknown, " +
+            "or not yet implemented";
+    public static final String WRONG_PARAMS = "The Command sent had missing or invalid parameters.";
+    public static final String NO_CONNECTION = "The console did not have a working connection to the backend.";
+    public static final String UNKNOWN = "An unexpected error occurred.";
+    public static final String CRC_ERROR = "An unresolvable CRC error occurred.";
+    public static final String NO_ERROR = "No error was found.";
     /**
      * Holds binary results from Davis Loop and LPS commands.
      * Davis Command category: Current Data
@@ -57,27 +64,27 @@ public class ViewDTO {
     private  String errorMessage;
 
     public  String getErrorMessage() {
+        System.out.println("ViewDTO getErrorMessage called");
         return errorMessage;
     }
 
     public  void setErrorMessage(String errorMessage) {
+        System.out.println("At first, ViewDTO thinks error message is: " + this.errorMessage);
+        System.out.println("ViewDTO setErrorMessage called with "+ errorMessage) ;
         this.errorMessage = errorMessage;
+        System.out.println("Later, ViewDTO thinks error message is: " + this.errorMessage);
     }
 
-    public  void setErrorMessage(int errorMessageNumber) {
-        this.errorMessage = getErrorMessage(errorMessageNumber);
-    }
+//    public  void setErrorMessage(int errorMessageNumber) {
+//        this.errorMessage = getErrorMessage(errorMessageNumber);
+//    }
     public  String getLastCommandSent() {
+        System.out.println("ViewDTO lastCommandSent set with "+ lastCommandSent);
         return lastCommandSent;
     }
 
-    public  final String WRONG_TYPE = "The Command sent was the wrong type for the operation.";
-    public  final String UNKNOWN_TYPE = "The Command sent did not use a valid word, was unknown, " +
-            "or not yet implemented";
-    public  final String WRONG_PARAMS = "The Command sent had missing or invalid parameters.";
-    public  final String NO_CONNECTION = "The console did not have a working connection to the backend.";
-    public  final String UNKNOWN = "An unexpected error occurred.";
-    public  final String CRC_ERROR = "An unresolvable CRC error occurred.";
+
+
 
     public  void setLastCommandSent(String lastCommandSent) {
         this.lastCommandSent = lastCommandSent;
@@ -99,32 +106,33 @@ public class ViewDTO {
         this.currentDataEvalText = currentDataEvalText;
     }
 
-    /**
-     * Uses an index number to include an error message to the this.
-     * Index is:       0 WRONG_TYPE,
-     *                 1 UNKNOWN_TYPE,
-     *                 2 WRONG_PARAMS,
-     *                 3 NO_CONNECTION,
-     *                 4 UNKNOWN,
-     * @param errorNumber
-     * @return
-     */
-    public  String getErrorMessage(int errorNumber){
-        String[] errorMsgAry = new String[] {
-                WRONG_TYPE,
-                UNKNOWN_TYPE,
-                WRONG_PARAMS,
-                NO_CONNECTION,
-                UNKNOWN,
-        };
-        return errorMsgAry[errorNumber];
-    }
+//    /**
+//     * Uses an index number to include an error message to the this.
+//     * Index is:       0 WRONG_TYPE,
+//     *                 1 UNKNOWN_TYPE,
+//     *                 2 WRONG_PARAMS,
+//     *                 3 NO_CONNECTION,
+//     *                 4 UNKNOWN,
+//     * @param errorNumber
+//     * @return
+//     */
+//    public  String getErrorMessage(int errorNumber){
+//        String[] errorMsgAry = new String[] {
+//                WRONG_TYPE,
+//                UNKNOWN_TYPE,
+//                WRONG_PARAMS,
+//                NO_CONNECTION,
+//                UNKNOWN,
+//        };
+//        return errorMsgAry[errorNumber];
+//    }
 
     public  String getTestingRawText() {
         return testingRawText;
     }
 
     public  void setTestingRawText(String testingRawText) {
+        System.out.println("ViewDTO setTestingRawText called with " + testingRawText);
         this.testingRawText = testingRawText;
     }
 
@@ -141,6 +149,7 @@ public class ViewDTO {
     }
 
     public  void setTestingDescription(String testingDescription) {
+        System.out.println("ViewDTO testingDescription called with " + testingDescription);
         this.testingDescription = testingDescription;
     }
 }

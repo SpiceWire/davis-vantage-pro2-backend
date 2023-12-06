@@ -17,8 +17,11 @@ public class ConsoleTestingController {
 
     @GetMapping(value="/{cmdWord}/{nonce}")
     public ViewDTO getUnique(@PathVariable String cmdWord, String nonce) {
+        System.out.println("\nController received unique request for testing with word= \n" + cmdWord);
         System.out.println("\nController received unique request for testing with id= \n" + nonce);
-        return consoleController.getConsoleTest(cmdWord);
+        ViewDTO viewDTO = consoleController.getConsoleTest(cmdWord);
+        System.out.println("CTC thinks viewDTO emsg is " + viewDTO.getErrorMessage());
+        return viewDTO;
     }
 
 
