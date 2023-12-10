@@ -142,10 +142,13 @@ public class ConsoleController {
      */
     public ViewDTO getCurrentData(String commandWord){
         ViewDTO viewDTO = new ViewDTO();
+        System.out.println("Console Controller getCurrentData called.");
         command = command.matchCommandWithWord(commandWord);
         viewDTO.setLastCommandSent(command.getWord());
         getSerialData(command);
+        createLoopRecord(command);
         if(confirmCommandClass(command, 2)){
+            System.out.println("Console Controller confirmCommandClass called.");
             viewDTO.setCurrentDataText(DataProcessor.getSerialData());
             viewDTO.setCurrentDataEvalText(DataProcessor.getEvaluationMessage());
         }

@@ -85,6 +85,7 @@ public class ViewDTO {
     }
 
     public void setCurrentDataText(String currentDataText) {
+        System.out.println("ViewDTO setCurrentDataText called with " + currentDataText);
         this.currentDataText = currentDataText;
     }
 
@@ -97,6 +98,8 @@ public class ViewDTO {
     }
 
     public void setCurrentDataEvalText(String currentDataEvalText) {
+        System.out.println("ViewDTO setCurrentDataEvalText called with " + currentDataEvalText);
+
         this.currentDataEvalText = currentDataEvalText;
     }
 

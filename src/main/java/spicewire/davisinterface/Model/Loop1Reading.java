@@ -3,20 +3,23 @@ package spicewire.davisinterface.Model;
 import spicewire.davisinterface.Dao.JdbcWeatherRecord;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class is similar to a C struct. It accepts a 99 byte string and parses it into values to assign to parameters.
- * It then sends the data to the JBDCWeatherEvent so that the information can be logged into a table.
+ * It then sends data to the JBDCWeatherEvent so that the information can be logged into a table.
  * The parameters in this class are different from those in the Loop2Reading, although there is some overlap.
  * Because its parameter values are set by parsing an incoming string, this class does not have public setters.
  *
  * The passed LoopData string has already been stripped of the ACK message (binary 110) and confirmed accurate
- * by a Cyclic Redundancy Check.
+ * by a Cyclic Redundancy Check by the DataProcessor service.
  *
- * The LoopData's initial values are always 1001100 1001111 1001111 ("L O O"). "L" is considered index 0.
+ * The LoopData's first three values are always 1001100 1001111 1001111 ("L O O"). "L" is considered index 0.
  *
  * As implemented by Davis, LoopData packets have two formats, LOOP1 and LOOP2.
- * The Loop Type is encoded in byte offset 4. 0 = LOOP1  1 = LOOP2.
+ * The format type is encoded in byte offset 4. 0 = LOOP1  1 = LOOP2.
+ *
  * Loop1 and Loop2 have different parameters (eg. only Loop1 contains alarms, only Loop 2 contains calibration data)
  * but have some overlap (both have a Ten Minute Average Wind Speed, but Loop1 uses an integer type while
  * Loop2 uses a double). The parameters in common do not necessarily have the same index in the LoopData array.
@@ -27,10 +30,8 @@ import java.time.LocalDate;
  */
 
 
-//todo resolve inside  and outside alarms
-
 public class Loop1Reading implements LoopReading {
-    //private JdbcWeatherRecord jdbcWeatherRecord;
+
     private TempHumStation station = new TempHumStation();
 
     private String[] loopRecord;
@@ -87,16 +88,19 @@ public class Loop1Reading implements LoopReading {
     private Integer leafWetness2;
     private Integer leafWetness3;
     private Integer leafWetness4;
-    private int insideAlarms;
-    private int rainAlarms;
-    private int outsideAlarmsB1;
-    private int outsideAlarmsB2;
+    private Integer insideAlarms;
+    private Integer rainAlarms;
+    private Integer outsideAlarms;
+    private Integer extraTempHumAlarms;
+    private Integer soilLeafAlarms;
     private int transmitterBatteryStatus;
-    private double consoleBatteryVoltage;
+    private int consoleBatteryVoltage;
     private int forecastIcon;
+    private int forecastRuleNumber;
     private int timeOfSunrise;
     private int timeOfSunset;
     private String dataSource;
+
 
     public Loop1Reading(String loopData) {
 
@@ -155,6 +159,7 @@ public class Loop1Reading implements LoopReading {
         this.leafWetness3 = setLeafWetness3();
         this.leafWetness4 = setLeafWetness4();
         this.forecastIcon = setForecastIcon();
+
         this.dataSource = "DavisVP2L1";
 //        System.out.println("Loop1 Reading object created. Inside temp is: " + getInsideTemperature());
         //jdbcWeatherRecord.createRecord(this);
@@ -168,7 +173,7 @@ public class Loop1Reading implements LoopReading {
         return loopData.split(" ");
     }
 
-    //returns one or more elements of the loopRecord array
+    //returns one or more elements of the loopRecord array. "Length" is measured by bytes.
     private String getByteOrWord(int offset, int length) {
         StringBuilder byteOrWord = new StringBuilder();
         for (int i = 0; i < length; i++) {
@@ -523,43 +528,93 @@ public class Loop1Reading implements LoopReading {
         return checkForNullAtIndex(69);
     }
 
-    private int setInsideAlarms() {
-        return parseBinaryNumberAtIndex(70);
+    private Map<String, Boolean> setInsideAlarms() {
+        return makeBinaryMap(new String[]{"Falling Bar Trend", "Rising Bar Trend", "Low Inside Temp",
+                        "High Inside Temp", "Low Inside Hum", "High Inside Hum"},
+                prependZerosToBinaryNumber(getByteOrWord(70, 1)));
     }
 
-    private int setRainAlarms() {
-        return parseBinaryNumberAtIndex(71);
+    private Map<String, Boolean> setRainAlarms() {
+        return makeBinaryMap(new String[]{"High Rain Rate", "15Min Rain", "24 Hour Rain", "Storm Total"},
+                prependZerosToBinaryNumber(getByteOrWord(71, 1)));
+
     }
 
-    private int setOutsideAlarmsB1() {
-        return parseBinaryNumberAtIndex(72);
+    private Map<String, Boolean> setOutsideAlarmsB1() {
+        return makeBinaryMap(new String[]{"Low Outside Temp", "High Outside Temp", "Wind Speed", "10 Min Avg Speed",
+                        "Low Dewpoint", "High Dewpoint", "Low Wind Chill"},
+                prependZerosToBinaryNumber(getByteOrWord(72, 1)));
     }
 
-    private int setOutsideAlarmsB2() {
-        return parseBinaryNumberAtIndex(73);
+    private Map<String, Boolean> setOutsideAlarmsB2() {
+        return makeBinaryMap(new String[]{"High THSW", "High Solar Rad", "High UV", "UV Dose", "UV Dose Enabled"},
+                prependZerosToBinaryNumber(getByteOrWord(73, 1)));
+    }
+
+    private Map<String, Boolean> setOutsideHumidityAlarms() {
+        return makeBinaryMap(new String[]{"Low Humidity", "High Humidity"},
+                prependZerosToBinaryNumber(getByteOrWord(74, 1)));
+    }
+
+    /**
+     * Makes a Map from a String[] and a binary String, returning true/false for each
+     * key in the String[]. As intended, the method accepts a String[] of alarm names and the
+     * corresponding binary string, returning whether those alarms are "currently active" or not.
+     *
+     * @param nameArr
+     * @param binString
+     * @return
+     */
+    private Map<String, Boolean> makeBinaryMap(String[] nameArr, String binString) {
+        Map<String, Boolean> stringBoolMap = new HashMap<>();
+        StringBuilder binReverse = new StringBuilder(binString).reverse();
+        for (int i = nameArr.length - 1; i >= 0; i--) {
+            stringBoolMap.put(nameArr[i], binReverse.charAt(i) == '1');
+        }
+        return stringBoolMap;
     }
 
 
-/*    From Davis manual: "Bytes 75-81: Each byte contains four alarm bits (0 – 3) for a single extra
-    Temp/Hum station. Bits (4 – 7) are not used and reserved for future use.
-    Use the temperature and humidity sensor numbers, as
-    described in Section XIV.4 to locate which byte contains the
-    appropriate alarm bits. In particular, the humidity and
-    temperature alarms for a single station will be found in
-    different bytes.
-    Field               Bit
-    Low temp X alarm    0
-    High temp X alarm   1
-    Low hum X alarm     2
-    High hum X alarm    3"
+    /*    From Davis manual: "Bytes 75-81: Each byte contains four alarm bits (0 – 3) for a single extra
+        Temp/Hum station. Bits (4 – 7) are not used and reserved for future use.
+        Use the temperature and humidity sensor numbers, as
+        described in Section XIV.4 to locate which byte contains the
+        appropriate alarm bits. In particular, the humidity and
+        temperature alarms for a single station will be found in
+        different bytes.
+        Field               Bit
+        Low temp X alarm    0
+        High temp X alarm   1
+        Low hum X alarm     2
+        High hum X alarm    3"
 
-    */
+        */
+    private Map[] setExtraAlarms() {
+        String[] alarmNames = new String[]{"Low Temp", "High Temp", "Low Hum", "High Hum"};
+        Map<String, Boolean> alarm1Map = makeBinaryMap(alarmNames,
+                prependZerosToBinaryNumber(getByteOrWord(75, 1)));
+        Map<String, Boolean> alarm2Map = makeBinaryMap(alarmNames,
+                prependZerosToBinaryNumber(getByteOrWord(76, 1)));
+        Map<String, Boolean> alarm3Map = makeBinaryMap(alarmNames,
+                prependZerosToBinaryNumber(getByteOrWord(77, 1)));
+        Map<String, Boolean> alarm4Map = makeBinaryMap(alarmNames,
+                prependZerosToBinaryNumber(getByteOrWord(78, 1)));
+        Map<String, Boolean> alarm5Map = makeBinaryMap(alarmNames,
+                prependZerosToBinaryNumber(getByteOrWord(79, 1)));
+        Map<String, Boolean> alarm6Map = makeBinaryMap(alarmNames,
+                prependZerosToBinaryNumber(getByteOrWord(80, 1)));
+        Map<String, Boolean> alarm7Map = makeBinaryMap(alarmNames,
+                prependZerosToBinaryNumber(getByteOrWord(81, 1)));
+        return new Map[]{alarm1Map, alarm2Map, alarm3Map, alarm4Map, alarm5Map,
+                alarm6Map, alarm7Map};
+    }
 
-    private void setExtraTempHumAlarms() {
-//        int[] temperatureHumidityAlarms = new int[8];
-//        for (int i = 0; i<=8; i++){
-//            temperatureHumidityAlarms[i] = parseBinaryNumberAtIndex(75+i);
-//        }
+    /**
+     * Creates and populates Temperature/Humidity stations from Loop data. Not
+     * yet tested as hardware is unavailable.
+     */
+    private void setExtraTempHumStations() {
+
         String[] temperatureHumidityAlarms = new String[8];
         for (int i = 0; i <= 7; i++) {
             temperatureHumidityAlarms[i] = getByteOrWord(75 + i, 1);
@@ -586,6 +641,11 @@ public class Loop1Reading implements LoopReading {
 
     }
 
+    /**
+     * Sets console battery voltage from Loop data. Formula is from Davis documentation.
+     *
+     * @return voltage reading
+     */
     private double setConsoleBatteryVoltage() {
         int voltData = parseBinaryWordsAtIndex(87);
         double voltage = ((voltData * 300) / 512) / 100.0;
@@ -850,13 +910,6 @@ public class Loop1Reading implements LoopReading {
         return rainRate;
     }
 
-    public int getOutsideAlarmsB1() {
-        return outsideAlarmsB1;
-    }
-
-    public int getOutsideAlarmsB2() {
-        return outsideAlarmsB2;
-    }
 
     public int getTransmitterBatteryStatus() {
         return transmitterBatteryStatus;

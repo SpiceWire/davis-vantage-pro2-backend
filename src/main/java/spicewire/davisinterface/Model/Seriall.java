@@ -343,7 +343,7 @@ public class Seriall {
             port.writeBytes(WAKE_UP,WAKE_UP_LENGTH);
             Thread.sleep(500);
             port.writeBytes(cmdBytes, cmdBytes.length);
-//            System.out.println("\nSerial Model: command sent: " + cmdString);
+            System.out.println("\nSerial Model: command sent: " + cmdString);
 
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -360,12 +360,12 @@ public class Seriall {
      * @param command an object of the Command class with payloads or parameters set
      */
     public void listenForData(Command command) {
-//        System.out.println("Serial Model: listenForData called");
+        System.out.println("Serial Model: listenForData called");
         if (!port.isOpen()) {  //port is not auto-closable, can not be used in "try-with-resources"
             port.openPort();
         }
         rawData.setLength(0); //erases StringBuilder rawData
-//        System.out.println("Seriall: RawData StringBuilder reset");
+        System.out.println("Seriall: RawData StringBuilder reset");
         int inputCount = 0;
         try {
             Thread.sleep(500);  //Delay is necessary. Console needs time to "wake up" to a command
@@ -373,7 +373,7 @@ public class Seriall {
             System.out.println(e.getMessage());
         }
         try (InputStream in = port.getInputStream()) {
-//            System.out.println("Seriall: inputstream called");
+            System.out.println("Seriall: inputstream called");
             while (port.bytesAvailable() >= 1 && inputCount < command.getExpectedNumberOfUnitsInReply()) {
                 if(command.isFixedNumberOfReplyCharacters()){
                     inputCount ++;
@@ -392,8 +392,8 @@ public class Seriall {
             port.flushIOBuffers();
             port.closePort();
         }
-//        System.out.println("Serial model: raw data is: " + rawData.toString());
-//        System.out.println("Character or byte count is: " + inputCount);
+        System.out.println("Serial model: raw data is: " + rawData.toString());
+        System.out.println("Character or byte count is: " + inputCount);
 
         System.out.println("Seriall: listenForData Port opened? "+ port.isOpen());
         confirmData(rawData.toString(), command);

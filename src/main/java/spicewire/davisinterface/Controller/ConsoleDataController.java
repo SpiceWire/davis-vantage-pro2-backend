@@ -15,8 +15,9 @@ public class ConsoleDataController {
     }
 
     @GetMapping(value="/{cmdWord}/{nonce}")
-    public ViewDTO getUnique(@PathVariable String cmdWord, int nonce) {
-        System.out.println("\nController received unique request for testing with id= \n" + nonce);
+    public ViewDTO getUnique(@PathVariable String cmdWord, Integer nonce) {
+        System.out.println("\nController received unique request for data with id= \n" + nonce);
+        System.out.println("\nController received unique request for data with word= \n" + cmdWord);
         return consoleController.getCurrentData(cmdWord);
     }
 }
