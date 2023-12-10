@@ -7,12 +7,12 @@ import java.time.LocalDate;
 
 /**
  * Given a binary Loop2 data structure, this class interprets the data, populates
- * its variables, and automatically exports into the JDBC to be entered into
+ * its variables, and automatically exports into the weatherJDBC to be entered into
  * the database.
  */
 
 public class Loop2Reading implements DataRecord {
-    //private JdbcWeatherRecord jdbcWeatherRecord;
+
     private String[] loopRecord;
     private int barTrend;
     private int packetType;
@@ -107,7 +107,7 @@ public class Loop2Reading implements DataRecord {
         return loopData.split(" ");
     }
 
-    private String getByteOrWord(int offset, int length) { //todo this method is a duplicate from loop1
+    private String getByteOrWord(int offset, int length) {
         StringBuilder byteOrWord = new StringBuilder();
         for (int i = 0; i < length; i++) {
             byteOrWord.append(loopRecord[offset + i] + " ");
@@ -282,7 +282,7 @@ public class Loop2Reading implements DataRecord {
         /* Per Davis manual:  "Bit 15 to bit 12 is the month, bit 11 to bit 7 is the day and bit 6 to
         bit 0 is the year offset by 2000."
 
-        10111 1011101 is an example of binaries (LOOP offsets 48 and 49).
+        10111 1011101 is an example of binary strings in raw data (LOOP offsets 48 and 49).
         Byte 48 must be prepended with 0's and placed after byte 49 for the date to be parsed.
         After bytes are rearranged, bit index 0 is rightmost. Example rearranges to
          01011101 00010111, parses to date 2023-05-26.
@@ -503,5 +503,49 @@ public class Loop2Reading implements DataRecord {
 
     public String getDataSource() {
         return dataSource;
+    }
+
+    public Integer getUV() {
+        return UV;
+    }
+
+    public int getNextTenMinWindSpeedGraphPointer() {
+        return nextTenMinWindSpeedGraphPointer;
+    }
+
+    public int getNextFifteenMinWindSpeedGraphPointer() {
+        return nextFifteenMinWindSpeedGraphPointer;
+    }
+
+    public int getNextHourlyWindSpeedGraphPointer() {
+        return nextHourlyWindSpeedGraphPointer;
+    }
+
+    public int getNextDailyWindSpeedGraphPointer() {
+        return nextDailyWindSpeedGraphPointer;
+    }
+
+    public int getNextMinuteRainGraphPointer() {
+        return nextMinuteRainGraphPointer;
+    }
+
+    public int getNextRainStormGraphPointer() {
+        return nextRainStormGraphPointer;
+    }
+
+    public int getIndexToTheMinuteWithinAnHour() {
+        return indexToTheMinuteWithinAnHour;
+    }
+
+    public int getNextMonthlyRain() {
+        return nextMonthlyRain;
+    }
+
+    public int getNextYearlyRain() {
+        return nextYearlyRain;
+    }
+
+    public int getNextSeasonalRain() {
+        return nextSeasonalRain;
     }
 }
