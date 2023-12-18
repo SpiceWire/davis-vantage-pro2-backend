@@ -5,8 +5,8 @@ import java.time.LocalDate;
 /**
  * CurrentWeather is a Data Transfer Object (DTO). It contains variables
  * related to current weather and aggregate data that is
- *  incidentally collected from a DavisVP2 console as part of
- *  a Davis Loop or LPS reading (e.g. dayRain).
+ *  incidentally collected (e.g. dayRain) from a DavisVP2 console as part of
+ *  a Davis LOOP1 or LOOP2 reading.
  *  It excludes:
  *    1) aggregated data that must be calculated from the database
  *         (e.g. average temp this week),

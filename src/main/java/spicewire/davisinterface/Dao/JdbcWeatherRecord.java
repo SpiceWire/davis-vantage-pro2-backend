@@ -22,11 +22,20 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDate;
+import java.util.Date;
 import java.util.Properties;
 
 /**
- * Class uses JDBC to create and retrieve weather records from a database. The createRecord method
- * accepts a WeatherRecord object and uses the getPacketType method on it to determine how to enter
+ * Class uses JDBC to create a database entry from LOOP1 or LOOP2 data, and also pulls
+ * most recent LOOP1 and LOOP2 data from the database to create a CurrentWeather object.
+ *
+ * The
+ */
+
+/**
+ * Class uses JDBC to create and retrieve current weather records from a database. The createRecord method
+ * accepts a WeatherRecord object and uses the getPacketType method to determine how to enter
  * it into the database.
  *
  * Class populates and returns a CurrentWeather DTO.
@@ -255,6 +264,110 @@ public class JdbcWeatherRecord implements WeatherRecord {
         currentWeather.setLastHourRain(l2srs.getDouble("last_hour_rain"));
         currentWeather.setLast24HourRain(l2srs.getDouble("last_24_hour_rain"));
     }
+
+    private LocalDate yesterdayDate(){
+        return getDatestamp().minusDays(1);
+    }
+    private void getPreviousTemperatureHigh(int daysOffset){
+
+        String previousTempHighSql = " SELECT MAX(outside_temperature)\n" +
+                "                FROM record\n" +
+                "                WHERE     for_export = 'TRUE'\n" +
+                "        AND entry_date = " +
+                getDatestamp().minusDays(daysOffset);
+
+    }
+
+    private void getPreviousTemperatureLow(int daysOffset){
+
+        String previousTempLowSql = " SELECT MIN(outside_temperature)\n" +
+                "                FROM record\n" +
+                "                WHERE     for_export = 'TRUE'\n" +
+                "        AND entry_date = " +
+                getDatestamp().minusDays(daysOffset);
+
+    }
+    private void getPreviousTemperatureAvg(int daysOffset){
+
+        String previousTempSql = " SELECT AVG(outside_temperature)\n" +
+                "                FROM record\n" +
+                "                WHERE     for_export = 'TRUE'\n" +
+                "        AND entry_date = " +
+                getDatestamp().minusDays(daysOffset);
+
+    }
+    private void getPreviousTemperatureChange(int daysOffset){
+        String previousTempChange =
+        "SELECT(SELECT MAX(outside_temperature) " +
+                "FROM public.record "+
+                "WHERE for_export = 'TRUE' "+
+        "AND entry_date =" + getDatestamp().minusDays(daysOffset) +
+                "-(SELECT MIN(outside_temperature) " +
+        "FROM record "+
+               "WHERE for_export = 'TRUE' "+
+        "AND entry_date =" +getDatestamp().minusDays(daysOffset);
+    }
+
+    private void getPreviousHumidityAvg(int daysOffset){
+
+        String previousHumAvgSql = " SELECT AVG(outside_humidity)\n" +
+                "                FROM record\n" +
+                "                WHERE for_export = 'TRUE'\n" +
+                "        AND entry_date = " +
+                getDatestamp().minusDays(daysOffset);
+
+    }
+    private void getPreviousHumidityHigh(int daysOffset){
+
+        String previousHumHighSql = " SELECT MAX(outside_humidity)\n" +
+                "                FROM record\n" +
+                "                WHERE for_export = 'TRUE'\n" +
+                "        AND entry_date = " +
+                getDatestamp().minusDays(daysOffset);
+
+    }
+
+    private void getPreviousHumidityLow(int daysOffset){
+        String previousHumLowSql = " SELECT MIN(outside_humidity)\n" +
+                "                FROM record\n" +
+                "                WHERE for_export = 'TRUE'\n" +
+                "        AND entry_date = " +
+                getDatestamp().minusDays(daysOffset);
+    }
+
+    private void getPreviousTotalRain(int daysOffset){
+        String previousRain = "SELECT MAX(day_rain) FROM record WHERE WHERE for_export = 'TRUE'"+
+                "        AND entry_date = " +
+                getDatestamp().minusDays(daysOffset);
+    }
+
+    private void getPreviousBarometerHigh(int daysOffset){
+        String previousBarHighSql = " SELECT MAX(outside_humidity)\n" +
+                "                FROM record\n" +
+                "                WHERE for_export = 'TRUE'\n" +
+                "        AND entry_date = " +
+                getDatestamp().minusDays(daysOffset);
+    }
+    private void getPreviousBarometerLow(int daysOffset){
+        String previousBarLowSql = " SELECT MIN(outside_humidity)\n" +
+                "                FROM record\n" +
+                "                WHERE for_export = 'TRUE'\n" +
+                "        AND entry_date = " +
+                getDatestamp().minusDays(daysOffset);
+    }
+    private void getPreviousWindHigh(int daysOffset){
+        String previousWindHighSql = " SELECT MAX(wind_speed)\n" +
+                "                FROM record\n" +
+                "                WHERE for_export = 'TRUE'\n" +
+                "        AND entry_date = " +
+                getDatestamp().minusDays(daysOffset);
+    }
+    private void getAvgWindSpeed(int daysOffset){
+        String previousAvgWindSpeed = "SELECT Round(Avg(wind_speed),2) " +
+                " FROM record WHERE entry_date = "+
+                getDatestamp().minusDays(daysOffset);
+    }
+
 
 /*    Vars:
 

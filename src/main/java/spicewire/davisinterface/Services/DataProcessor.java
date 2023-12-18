@@ -1,7 +1,17 @@
 package spicewire.davisinterface.Services;
 
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import org.springframework.context.i18n.SimpleTimeZoneAwareLocaleContext;
 import spicewire.davisinterface.Model.Command;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 
@@ -36,12 +46,38 @@ import java.util.regex.Pattern;
 
 public class DataProcessor {
 
-
     private static StringBuilder serialData = new StringBuilder();  //sanitized data from the serial port
     public static String evaluationMessage;
 
 
+    private static void makeFile() {
+        try {
+            File myObj = new File("DataProcessorRawData.txt");
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
 
+    private static void writeToFile(String str){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        try {
+
+            FileWriter rawLoopData = new FileWriter("DataProcessorRawData.txt", true);
+            rawLoopData.append(LocalDateTime.now().format(formatter));
+            rawLoopData.append("  | " + str + "\n\n");
+            rawLoopData.close();
+
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to DataProcessor log.");
+            e.printStackTrace();
+        }
+    }
 
 
     /**
@@ -56,10 +92,13 @@ public class DataProcessor {
 
     public static boolean processRawData(Command command, String rawData) {
         boolean dataIsValid = false;
+
         if(rawData.length()==0){
             System.out.println("Data processor received blank rawData to process.");
             return false;
         }
+//        makeFile();
+        writeToFile(rawData);
         System.out.println("Dataprocessor: raw data is: " + rawData);
         System.out.println("Dataprocessor: Command is: " + command.getWord());
         switch (command.getWord()) {
