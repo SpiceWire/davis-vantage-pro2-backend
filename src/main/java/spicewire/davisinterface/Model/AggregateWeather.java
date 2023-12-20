@@ -13,8 +13,8 @@ private int duration;
 private double temperatureHigh;
 private double temperatureLow;
 private double temperatureAvg;
-private int temperatureChange;
-private int humidityAvg;
+private double temperatureChange;
+private double humidityAvg;
 private int humidityLow;
 private int humidityHigh;
 private double totalRain;
@@ -52,19 +52,19 @@ private int windAvg;
         this.temperatureAvg = temperatureAvg;
     }
 
-    public int getTemperatureChange() {
+    public double getTemperatureChange() {
         return temperatureChange;
     }
 
-    public void setTemperatureChange(int temperatureChange) {
+    public void setTemperatureChange(double temperatureChange) {
         this.temperatureChange = temperatureChange;
     }
 
-    public int getHumidityAvg() {
+    public double getHumidityAvg() {
         return humidityAvg;
     }
 
-    public void setHumidityAvg(int humidityAvg) {
+    public void setHumidityAvg(double humidityAvg) {
         this.humidityAvg = humidityAvg;
     }
 

@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.chrono.ChronoLocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Properties;
 
@@ -268,24 +269,70 @@ public class JdbcWeatherRecord implements WeatherRecord {
     private LocalDate yesterdayDate(){
         return getDatestamp().minusDays(1);
     }
-    private void getPreviousTemperatureHigh(int daysOffset){
 
+    public AggregateWeather getYesterdayWeather(){
+        return getPreviousWeather(1);
+    }
+    public AggregateWeather getEreyesterdayWeather(){
+        return getPreviousWeather(2);
+    }
+    public AggregateWeather getThreeDaysAgoWeather(){
+        return getPreviousWeather(3);
+    }
+
+    private AggregateWeather getPreviousWeather(int daysOffset) {
+        AggregateWeather aggregateWeather = new AggregateWeather();
+        aggregateWeather.setTemperatureHigh(daysOffset);
+        aggregateWeather.setTemperatureLow(daysOffset);
+        aggregateWeather.setTemperatureAvg(daysOffset);
+        aggregateWeather.setTemperatureChange(daysOffset);
+        aggregateWeather.setBarometerHigh(daysOffset);
+        aggregateWeather.setBarometerLow(daysOffset);
+        aggregateWeather.setBarometerDerivative(daysOffset);
+        aggregateWeather.setHumidityHigh(daysOffset);
+        aggregateWeather.setHumidityLow(daysOffset);
+        aggregateWeather.setTotalRain(daysOffset);
+        aggregateWeather.setWindAvg(daysOffset);
+        aggregateWeather.setWindHigh(daysOffset);
+        return aggregateWeather;
+    }
+    private AggregateWeather getTotalRain(LocalDate date){
+        AggregateWeather aggregateWeather= new AggregateWeather();
+        int totalDays = (int) ChronoUnit.DAYS.between(getDatestamp(), date);
+        double totalRain = 0;
+        for (int i=0; i<=totalDays; i++){
+            totalRain=+getPreviousTotalRain(i);
+        }
+        aggregateWeather.setTotalRain(totalRain);
+        return aggregateWeather;
+    }
+
+    private double getPreviousTemperatureHigh(int daysOffset){
+        double temperatureHigh =0;
         String previousTempHighSql = " SELECT MAX(outside_temperature)\n" +
                 "                FROM record\n" +
                 "                WHERE     for_export = 'TRUE'\n" +
                 "        AND entry_date = " +
                 getDatestamp().minusDays(daysOffset);
-
+        SqlRowSet previousTempHighSrs = jdbcTemplate.queryForRowSet(previousTempHighSql);
+        while (previousTempHighSrs.next()){
+            temperatureHigh =previousTempHighSrs.getDouble("max");
+        }
+        return temperatureHigh;
     }
 
-    private void getPreviousTemperatureLow(int daysOffset){
-
+    private double getPreviousTemperatureLow(int daysOffset){
+        double temperatureLow =0;
         String previousTempLowSql = " SELECT MIN(outside_temperature)\n" +
                 "                FROM record\n" +
                 "                WHERE     for_export = 'TRUE'\n" +
                 "        AND entry_date = " +
                 getDatestamp().minusDays(daysOffset);
-
+        SqlRowSet previousTempLowSrs = jdbcTemplate.queryForRowSet(previousTempLowSql);
+        while (previousTempLowSrs.next()){
+            temperatureLow =previousTempLowSrs.getDouble("outside_temperature");
+        }
+        return temperatureLow;
     }
     private void getPreviousTemperatureAvg(int daysOffset){
 
@@ -335,10 +382,16 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 getDatestamp().minusDays(daysOffset);
     }
 
-    private void getPreviousTotalRain(int daysOffset){
-        String previousRain = "SELECT MAX(day_rain) FROM record WHERE WHERE for_export = 'TRUE'"+
+    private double getPreviousTotalRain(int daysOffset){
+        double previousRain = 0;
+        String previousRainSql = "SELECT MAX(day_rain) FROM record WHERE WHERE for_export = 'TRUE'"+
                 "        AND entry_date = " +
                 getDatestamp().minusDays(daysOffset);
+        SqlRowSet previousRainSrs = jdbcTemplate.queryForRowSet(previousRainSql);
+        while (previousRainSrs.next()){
+            previousRain =previousRainSrs.getDouble("day_rain");
+        }
+        return previousRain;
     }
 
     private void getPreviousBarometerHigh(int daysOffset){
