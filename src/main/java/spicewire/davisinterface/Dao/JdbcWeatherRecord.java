@@ -296,11 +296,20 @@ public class JdbcWeatherRecord implements WeatherRecord {
         aggregateWeather.setWindHigh(daysOffset);
         return aggregateWeather;
     }
-    private AggregateWeather getTotalRain(LocalDate date){
+    public AggregateWeather getTotalRainByDate(LocalDate date){
         AggregateWeather aggregateWeather= new AggregateWeather();
         int totalDays = (int) ChronoUnit.DAYS.between(getDatestamp(), date);
         double totalRain = 0;
         for (int i=0; i<=totalDays; i++){
+            totalRain=+getPreviousTotalRain(i);
+        }
+        aggregateWeather.setTotalRain(totalRain);
+        return aggregateWeather;
+    }
+    public AggregateWeather getTotalRainByDays(int days){
+        AggregateWeather aggregateWeather= new AggregateWeather();
+        double totalRain = 0;
+        for (int i=0; i<=days; i++){
             totalRain=+getPreviousTotalRain(i);
         }
         aggregateWeather.setTotalRain(totalRain);
@@ -382,7 +391,8 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 getDatestamp().minusDays(daysOffset);
     }
 
-    private double getPreviousTotalRain(int daysOffset){
+    public double getPreviousTotalRain(int daysOffset){
+        AggregateWeather aggregateWeather= new AggregateWeather();
         double previousRain = 0;
         String previousRainSql = "SELECT MAX(day_rain) FROM record WHERE WHERE for_export = 'TRUE'"+
                 "        AND entry_date = " +

@@ -269,7 +269,9 @@ public class ConsoleController {
         return Seriall.getPortSettings();
     }
 
-
+    public AggregateWeather getTotalRain(int days){
+        return jdbcWeatherRecord.getTotalRainByDays(days);
+    }
     public void listenerFromController() {  //adds listeners to objects in the view
         view.getApplyButton().addActionListener(e -> {
 //            System.out.println("Console: Listener set params.");
