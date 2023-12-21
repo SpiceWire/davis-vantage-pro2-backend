@@ -392,13 +392,32 @@ public class Seriall {
             port.flushIOBuffers();
             port.closePort();
         }
+
         System.out.println("Serial model: raw data is: " + rawData.toString());
         System.out.println("Character or byte count is: " + inputCount);
 
         System.out.println("Seriall: listenForData Port opened? "+ port.isOpen());
+        if (command.getType()==2){
+            initialSizeCheck(command, rawData);
+        }
         confirmData(rawData.toString(), command);
     }
 
+    /**
+     * Before CRC, checks to see if the number of received bytes matches the Command's
+     * required size.
+     * @param command Instance of Command class type 2 (i.e. LOOP and LPS commands)
+     * @param testData StringBuilder of raw serial data
+     * @return void. Re-sends Command to console if data length is too short
+     */
+    private void initialSizeCheck(Command command, StringBuilder testData){
+        long count = testData.codePoints().filter(ch -> ch == 32).count();
+        if (command.getType()==2){
+            if (command.getExpectedNumberOfUnitsInReply()<count-2){
+                sendCommand(command, false);
+            }
+        }
+    }
     /**
      * Sends raw data to DataProcessor for validation. If data fails validation, a delay is added and
      * the command is re-sent to the console. Delay is increased with repeated failures. Process ends after

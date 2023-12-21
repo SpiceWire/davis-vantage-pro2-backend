@@ -10,9 +10,13 @@ import spicewire.davisinterface.Model.AggregateWeather;
 public class RecordRestController {
     private ConsoleController consoleController;
 
+    public RecordRestController(ConsoleController consoleController) {
+        this.consoleController = consoleController;
+    }
 
     @GetMapping(value= "/rain/{val}")
     private AggregateWeather yesterdayWeather(@PathVariable int val){
+        System.out.println("Console received request for past weather.");
         return consoleController.getTotalRain(val);
 
     }

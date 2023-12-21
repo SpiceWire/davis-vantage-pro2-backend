@@ -149,6 +149,7 @@ public class DataProcessor {
     }
 
     private static boolean validateLoop( Command command, String rawData){
+
         String noAckMsg = removeAckMessage(command, rawData);
 //        System.out.println("DP: ValidateLoop called. NoAck =" + noAckMsg);
         boolean validData = crcCheck(noAckMsg.split(" "), command);

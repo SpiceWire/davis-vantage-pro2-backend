@@ -15,14 +15,14 @@ private double temperatureLow;
 private double temperatureAvg;
 private double temperatureChange;
 private double humidityAvg;
-private int humidityLow;
-private int humidityHigh;
+private double humidityLow;
+private double humidityHigh;
 private double totalRain;
 private double barometerHigh;
 private double barometerLow;
 private double barometerDerivative;
-private int windHigh;
-private int windAvg;
+private double windHigh;
+private double windAvg;
 
 
     public AggregateWeather() {
@@ -68,19 +68,19 @@ private int windAvg;
         this.humidityAvg = humidityAvg;
     }
 
-    public int getHumidityLow() {
+    public double getHumidityLow() {
         return humidityLow;
     }
 
-    public void setHumidityLow(int humidityLow) {
+    public void setHumidityLow(double humidityLow) {
         this.humidityLow = humidityLow;
     }
 
-    public int getHumidityHigh() {
+    public double getHumidityHigh() {
         return humidityHigh;
     }
 
-    public void setHumidityHigh(int humidityHigh) {
+    public void setHumidityHigh(double humidityHigh) {
         this.humidityHigh = humidityHigh;
     }
 
@@ -116,19 +116,19 @@ private int windAvg;
         this.barometerDerivative = barometerDerivative;
     }
 
-    public int getWindHigh() {
+    public double getWindHigh() {
         return windHigh;
     }
 
-    public void setWindHigh(int windHigh) {
+    public void setWindHigh(double windHigh) {
         this.windHigh = windHigh;
     }
 
-    public int getWindAvg() {
+    public double getWindAvg() {
         return windAvg;
     }
 
-    public void setWindAvg(int windAvg) {
+    public void setWindAvg(double windAvg) {
         this.windAvg = windAvg;
     }
 
