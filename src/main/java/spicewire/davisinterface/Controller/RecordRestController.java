@@ -31,9 +31,9 @@ public class RecordRestController {
 //    }
 
     @GetMapping(value= "/rain/{val}")
-    private AggregateWeather yesterdayWeather(@PathVariable int val){
+    private AggregateWeather previousRain(@PathVariable Integer offset){
         System.out.println("Console received request for past weather.");
-        return consoleController.getTotalRain(val);
+        return consoleController.getPreviousWeatherbyDay(offset);
 
     }
 }

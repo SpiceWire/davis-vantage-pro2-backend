@@ -9,7 +9,7 @@ import java.util.Date;
  */
 public class AggregateWeather {
 
-private int duration;
+
 private double temperatureHigh;
 private double temperatureLow;
 private double temperatureAvg;
@@ -23,6 +23,16 @@ private double barometerLow;
 private double barometerDerivative;
 private double windHigh;
 private double windAvg;
+
+    public double getAccumulatedRain() {
+        return accumulatedRain;
+    }
+
+    public void setAccumulatedRain(double accumulatedRain) {
+        this.accumulatedRain = accumulatedRain;
+    }
+
+    private double accumulatedRain;
 
 
     public AggregateWeather() {

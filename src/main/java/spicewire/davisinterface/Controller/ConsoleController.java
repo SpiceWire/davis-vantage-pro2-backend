@@ -270,11 +270,9 @@ public class ConsoleController {
     }
 
     public AggregateWeather getPreviousWeatherbyDay(Integer offset){
-        jdbcWeatherRecord.getPreviousWeather(offset);
+        return jdbcWeatherRecord.getPreviousWeather(offset);
     }
-    public AggregateWeather getTotalRain(Integer days){
-        return jdbcWeatherRecord.getTotalRainByDays(days);
-    }
+
     public void listenerFromController() {  //adds listeners to objects in the view
         view.getApplyButton().addActionListener(e -> {
 //            System.out.println("Console: Listener set params.");

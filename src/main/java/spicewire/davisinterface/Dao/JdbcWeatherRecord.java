@@ -296,32 +296,27 @@ public class JdbcWeatherRecord implements WeatherRecord {
         aggregateWeather.setBarometerLow(getPreviousBarometerLow(daysOffset));
         aggregateWeather.setHumidityHigh(getPreviousHumidityHigh(daysOffset));
         aggregateWeather.setHumidityLow(getPreviousHumidityLow(daysOffset));
+        aggregateWeather.setHumidityAvg(getPreviousHumidityAvg(daysOffset));
         aggregateWeather.setTotalRain(getPreviousTotalRain(daysOffset));
         aggregateWeather.setWindAvg(getAvgWindSpeed(daysOffset));
         aggregateWeather.setWindHigh(getPreviousWindHigh(daysOffset));
+        aggregateWeather.setAccumulatedRain(getAccumulatedRainByDays(daysOffset));
         return aggregateWeather;
     }
 
-    public AggregateWeather getTotalRainByDate(LocalDate date){
-        AggregateWeather aggregateWeather= new AggregateWeather();
-        int totalDays = (int) ChronoUnit.DAYS.between(getDatestamp(), date);
-        double totalRain = 0;
-        for (int i=0; i<=totalDays; i++){
-            totalRain=+getPreviousTotalRain(i);
+
+    /**
+     * Returns accumulated rain (each day's rain, summed) from a day offset from now();
+     * @param days number of days offset from today's date
+     * @return double, sum of all days' rain since offset.
+     */
+    public double getAccumulatedRainByDays(int days){
+        double accumulatedRain = 0;
+        for (int i=0; i<=days; i++){
+            accumulatedRain=+getPreviousTotalRain(i);
         }
-        aggregateWeather.setTotalRain(totalRain);
-        return aggregateWeather;
+        return accumulatedRain;
     }
-
-//    public double getAccumulatedRainByDays(int days){
-//        AggregateWeather aggregateWeather= new AggregateWeather();
-//        double accumulatedRain = 0;
-//        for (int i=0; i<=days; i++){
-//            accumulatedRain=+getPreviousTotalRain(i);
-//        }
-//        aggregateWeather.setTotalRain(accumulatedRain);
-//        return aggregateWeather;
-//    }
 
     private double getPreviousTemperatureHigh(int daysOffset){
         double temperatureHigh =0;
@@ -384,15 +379,16 @@ public class JdbcWeatherRecord implements WeatherRecord {
     }
 
     private double getPreviousHumidityAvg(int daysOffset){
+
         double humidityAvg = 0;
-        String previousHumAvgSql = " SELECT AVG(outside_humidity)\n" +
+        String previousHumAvgSql = " SELECT ROUND(AVG(outside_humidity),2)\n" +
                 "                FROM record\n" +
                 "                WHERE for_export = 'TRUE'\n" +
                 "        AND entry_date = '" +
                 getDatestamp().minusDays(daysOffset) + "'";
         SqlRowSet previousHumidityAvgSrs= jdbcTemplate.queryForRowSet(previousHumAvgSql);
         while (previousHumidityAvgSrs.next()){
-            humidityAvg = previousHumidityAvgSrs.getDouble("avg");
+            humidityAvg = previousHumidityAvgSrs.getDouble("round");
         }
         return humidityAvg;
     }
@@ -480,12 +476,12 @@ public class JdbcWeatherRecord implements WeatherRecord {
     }
     private double getAvgWindSpeed(int daysOffset){
         double windAvg = 0;
-        String previousAvgWindSpeedSql = "SELECT Round(Avg(wind_speed),2) " +
+        String previousAvgWindSpeedSql = "SELECT ROUND(AVG(wind_speed),2) " +
                 " FROM record WHERE entry_date = '"+
                 getDatestamp().minusDays(daysOffset) + "'";;
         SqlRowSet previousAvgWindSpeedSrs= jdbcTemplate.queryForRowSet(previousAvgWindSpeedSql);
         while (previousAvgWindSpeedSrs.next()){
-            windAvg = previousAvgWindSpeedSrs.getDouble("max");
+            windAvg = previousAvgWindSpeedSrs.getDouble("round");
         }
         return windAvg;
     }
