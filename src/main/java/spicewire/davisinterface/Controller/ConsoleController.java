@@ -269,7 +269,10 @@ public class ConsoleController {
         return Seriall.getPortSettings();
     }
 
-    public AggregateWeather getTotalRain(int days){
+    public AggregateWeather getPreviousWeatherbyDay(Integer offset){
+        jdbcWeatherRecord.getPreviousWeather(offset);
+    }
+    public AggregateWeather getTotalRain(Integer days){
         return jdbcWeatherRecord.getTotalRainByDays(days);
     }
     public void listenerFromController() {  //adds listeners to objects in the view
