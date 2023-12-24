@@ -313,7 +313,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
     public double getAccumulatedRainByDays(int days){
         double accumulatedRain = 0;
         for (int i=0; i<=days; i++){
-            accumulatedRain=+getPreviousTotalRain(i);
+            accumulatedRain+=getPreviousTotalRain(i);
         }
         return accumulatedRain;
     }
@@ -348,14 +348,14 @@ public class JdbcWeatherRecord implements WeatherRecord {
 
     private double getPreviousTemperatureAvg(int daysOffset){
         double temperatureAvg = 0;
-        String previousTempSql = " SELECT AVG(outside_temperature)\n" +
+        String previousTempSql = " SELECT ROUND(AVG(outside_temperature),1)\n" +
                 "                FROM record\n" +
                 "                WHERE     for_export = 'TRUE'\n" +
                 "        AND entry_date = '" +
                 getDatestamp().minusDays(daysOffset) + "'";
         SqlRowSet previousTemperatureAvgSrs= jdbcTemplate.queryForRowSet(previousTempSql);
         while (previousTemperatureAvgSrs.next()){
-            temperatureAvg = previousTemperatureAvgSrs.getDouble("avg");
+            temperatureAvg = previousTemperatureAvgSrs.getDouble("round");
         }
         return temperatureAvg;
     }
@@ -363,14 +363,14 @@ public class JdbcWeatherRecord implements WeatherRecord {
         double temperatureChange = 0;
         String previousTempChange =
         "SELECT(SELECT MAX(outside_temperature) " +
-                "FROM public.record "+
+                "FROM record "+
                 "WHERE for_export = 'TRUE' "+
-        "AND entry_date =" + getDatestamp().minusDays(daysOffset) +
-                "-(SELECT MIN(outside_temperature) " +
+        "AND entry_date = '" + getDatestamp().minusDays(daysOffset) +
+                "')-(SELECT MIN(outside_temperature) " +
         "FROM record "+
                "WHERE for_export = 'TRUE' "+
-                "        AND entry_date = '" +
-                getDatestamp().minusDays(daysOffset) + "' AS difference";
+                "AND entry_date = '" +
+                getDatestamp().minusDays(daysOffset) + "') AS difference";
         SqlRowSet previousTempChangeSrs= jdbcTemplate.queryForRowSet(previousTempChange);
         while (previousTempChangeSrs.next()){
             temperatureChange = previousTempChangeSrs.getDouble("difference");
@@ -381,7 +381,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
     private double getPreviousHumidityAvg(int daysOffset){
 
         double humidityAvg = 0;
-        String previousHumAvgSql = " SELECT ROUND(AVG(outside_humidity),2)\n" +
+        String previousHumAvgSql = " SELECT ROUND(AVG(outside_humidity),0)\n" +
                 "                FROM record\n" +
                 "                WHERE for_export = 'TRUE'\n" +
                 "        AND entry_date = '" +
@@ -436,7 +436,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
 
     private double getPreviousBarometerHigh(int daysOffset){
         double barHigh =0;
-        String previousBarHighSql = " SELECT MAX(outside_humidity)\n" +
+        String previousBarHighSql = " SELECT MAX(barometer)\n" +
                 "                FROM record\n" +
                 "                WHERE for_export = 'TRUE'\n" +
                 "        AND entry_date = '" +
@@ -450,7 +450,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
     }
     private double getPreviousBarometerLow(int daysOffset){
         double barLow =0;
-        String previousBarLowSql = " SELECT MIN(outside_humidity)\n" +
+        String previousBarLowSql = " SELECT MIN(barometer)\n" +
                 "                FROM record\n" +
                 "                WHERE for_export = 'TRUE'\n" +
                 "        AND entry_date = '" +
