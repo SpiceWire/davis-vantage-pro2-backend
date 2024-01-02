@@ -21,11 +21,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
+
+import static java.time.LocalTime.now;
 
 /**
  * Class uses JDBC to create a database entry from LOOP1 or LOOP2 data, and also pulls
@@ -178,7 +183,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
     }
     @Override
     public LocalTime getTimestamp() {
-        return LocalTime.now();
+        return now();
     }
 
     private void mapL1RowToDavis(SqlRowSet l1srs, CurrentWeather currentWeather){
@@ -378,8 +383,8 @@ public class JdbcWeatherRecord implements WeatherRecord {
         return temperatureChange;
     }
 
-    private double getPreviousHumidityAvg(int daysOffset){
 
+    private double getPreviousHumidityAvg(int daysOffset){
         double humidityAvg = 0;
         String previousHumAvgSql = " SELECT ROUND(AVG(outside_humidity),0)\n" +
                 "                FROM record\n" +
@@ -392,6 +397,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
         }
         return humidityAvg;
     }
+
     private double getPreviousHumidityHigh(int daysOffset){
         double humidityHigh = 0;
         String previousHumHighSql = " SELECT MAX(outside_humidity)\n" +
@@ -448,6 +454,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
         }
         return barHigh;
     }
+
     private double getPreviousBarometerLow(int daysOffset){
         double barLow =0;
         String previousBarLowSql = " SELECT MIN(barometer)\n" +
@@ -474,6 +481,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
         }
         return windHigh;
     }
+
     private double getAvgWindSpeed(int daysOffset){
         double windAvg = 0;
         String previousAvgWindSpeedSql = "SELECT ROUND(AVG(wind_speed),2) " +
@@ -485,6 +493,41 @@ public class JdbcWeatherRecord implements WeatherRecord {
         }
         return windAvg;
     }
+
+    /**
+     * Given the name of a table header, returns the column's first entry of each hour of the past 24 hours.
+     * @param tableHeader valid name of a table header
+     * @return Hashmap of entry time as key, corresponding value of tableheader at entry time as value
+     */
+    public HashMap<LocalDateTime, String>  getMapOfTimeAndHeaderValue(String tableHeader){
+        HashMap<LocalDateTime, String> headerMap = new HashMap<>();
+        LocalDateTime rightNow = LocalDateTime.from(now());
+        for (int i=0; i<25; i++){
+            LocalDateTime backThen = rightNow.minusHours(i);
+            String headerValByHour = getSqlDataByHeader(backThen, tableHeader);
+            headerMap.put(backThen, headerValByHour);
+        }
+        return headerMap;
+    }
+
+    private String getSqlDataByHeader(LocalDateTime dateTime, String headerName){
+        LocalDate searchDate = LocalDate.from(dateTime);
+        LocalTime searchTime = LocalTime.from(dateTime);
+        int searchHour = searchTime.getHour();
+        double headerVal = 0;
+        String previousHeaderDataSql = "SELECT " + headerName + ", entry_time " +
+                "FROM record " +
+                "WHERE (EXTRACT (hour FROM entry_time))= " + searchHour +
+                "AND entry_date = '" +  searchDate + "' " +
+                "ORDER by entry_time " +
+                "LIMIT 1";
+        SqlRowSet previousHeaderDataSrs = jdbcTemplate.queryForRowSet(previousHeaderDataSql);
+        while (previousHeaderDataSrs.next()){
+            headerVal = previousHeaderDataSrs.getDouble(2);
+        }
+        return Double.toString(headerVal);
+    }
+
 
 
 /*    Vars:

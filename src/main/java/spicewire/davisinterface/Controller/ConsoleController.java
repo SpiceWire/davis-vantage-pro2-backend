@@ -15,6 +15,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -271,6 +273,15 @@ public class ConsoleController {
 
     public AggregateWeather getPreviousWeatherbyDay(Integer offset){
         return jdbcWeatherRecord.getPreviousWeather(offset);
+    }
+
+    /**
+     * Given the name of a table header, returns that column's first entry of each hour of the past 24 hours.
+     * @param headerName valid name of a table header
+     * @return Hashmap of entrytime as key, corresponding value of tableheader at entry time as value
+     */
+    public HashMap<LocalDateTime, String> get24HoursOfHeaderData (String headerName){
+        return jdbcWeatherRecord.getMapOfTimeAndHeaderValue(headerName);
     }
 
     public void listenerFromController() {  //adds listeners to objects in the view

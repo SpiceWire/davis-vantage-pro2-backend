@@ -4,6 +4,9 @@ package spicewire.davisinterface.Controller;
 import org.springframework.web.bind.annotation.*;
 import spicewire.davisinterface.Model.AggregateWeather;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/record")
@@ -35,5 +38,12 @@ public class RecordRestController {
         System.out.println("Console received request for past weather.");
         return consoleController.getPreviousWeatherbyDay(offset);
 
+    }
+
+    @GetMapping(value= "/header/{val}")
+    private HashMap<LocalDateTime, String> headerData24Hours(@PathVariable String headerName){
+        System.out.println("Console received request for 24 hours of hourly data in a category " +
+                "called " + headerName);
+        return consoleController.get24HoursOfHeaderData(headerName);
     }
 }
