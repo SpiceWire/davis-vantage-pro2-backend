@@ -88,7 +88,7 @@ public class ConsoleController {
      * @return  boolean true if settings are set successfully.
      */
     public boolean setPortParams(SerialSettingsDTO settingsDTO ){
-        System.out.println("COnsoleController: setPortParams called");
+        System.out.println("ConsoleController: setPortParams called");
         return serialModel.setPortParams((settingsDTO));
     }
 
