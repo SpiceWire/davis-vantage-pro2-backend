@@ -10,6 +10,13 @@ import spicewire.davisinterface.Model.SerialSettingsDTO;
 import spicewire.davisinterface.Model.SerialStatus;
 import spicewire.davisinterface.Services.SerialSettingsService;
 
+/**
+ * This class maps frontend requests for console settings or frontend attempts to set
+ * console settings. It uses SerialSettingsDTO (Data Transfer Object) to apply the View's
+ * settings to the console, and SerialStatus as a DTO to communicate the console's
+ * settings to the View.
+ */
+
 @CrossOrigin
 @RestController
 @RequestMapping("/vp2/settings")
