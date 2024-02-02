@@ -2,17 +2,18 @@ package spicewire.davisinterface.View;
 
 /**
  * Data Transfer Object for the View's text fields for Testing and Current Data commands.
- * <p>
+ *
  * The Class does not have a constructor. Relevant attributes are given values by the Console Controller
  * and the instantiated object is sent to the Console Testing Controller to be sent to the View.
- * <p>
+ *
  * Davis Test Commands (TEST, RXCHECK, RXTEST, VER, NVER, RECEIVERS) sent to the controller generate
  * two text fields: testingRawText and testingFriendlyText.
- * <p>
+ *
  * Davis Current Data commands (LOOP, LPS) sent to the controller generate text for fields currentDataText
  * (usually binary data) and currentDataEvalText (whether the binary passed CRC, validation, etc).
  */
 public class ViewDTO {
+    //todo apply other error types
     public ViewDTO() {
     }
 
@@ -24,6 +25,7 @@ public class ViewDTO {
     public static final String UNKNOWN = "An unexpected error occurred.";
     public static final String CRC_ERROR = "An unresolvable CRC error occurred.";
     public static final String NO_ERROR = "No error was found.";
+
     /**
      * Holds binary results from Davis Loop and LPS commands.
      * Davis Command category: Current Data
@@ -54,6 +56,7 @@ public class ViewDTO {
      * Davis Command category: Testing
      */
     private String testingDescription;
+
     /**
      * Identifies the command that generated the ViewDTO object.
      */
@@ -65,17 +68,14 @@ public class ViewDTO {
     private String errorMessage;
 
     public String getErrorMessage() {
-
         return errorMessage;
     }
 
     public void setErrorMessage(String errorMessage) {
-
         this.errorMessage = errorMessage;
     }
 
     public String getLastCommandSent() {
-
         return lastCommandSent;
     }
 

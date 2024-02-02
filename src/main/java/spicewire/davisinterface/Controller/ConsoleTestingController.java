@@ -4,6 +4,12 @@ package spicewire.davisinterface.Controller;
 import org.springframework.web.bind.annotation.*;
 import spicewire.davisinterface.View.ViewDTO;
 
+/**
+ * This class maps a request from frontend for Davis console tests. These
+ * are Davis commands type 1 (TEST, RXTEST, RXCHECK, RECEIVERS,
+ * VER, NVER). The class returns a Data Transfer Object for the View's text fields.
+ */
+
 @CrossOrigin
 @RestController
 @RequestMapping("/vp2/testing")

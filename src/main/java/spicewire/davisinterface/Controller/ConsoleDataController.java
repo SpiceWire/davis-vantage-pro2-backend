@@ -3,6 +3,10 @@ package spicewire.davisinterface.Controller;
 import org.springframework.web.bind.annotation.*;
 import spicewire.davisinterface.View.ViewDTO;
 
+/**
+ * This class maps a request for current data (e.g. "LOOP" or "LPS"). It returns a
+ * Data Transfer Object for the View's text fields.
+ */
 @CrossOrigin
 @RestController
 @RequestMapping("/vp2/currentData")
