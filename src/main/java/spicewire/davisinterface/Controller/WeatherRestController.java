@@ -1,15 +1,16 @@
 package spicewire.davisinterface.Controller;
-
-
 import org.springframework.web.bind.annotation.*;
 import spicewire.davisinterface.Model.CurrentWeather;
 
+/**
+ * This class maps frontend requests for current weather. It returns a serialized
+ * JSON object with weather fields and values.
+ *
+ */
 @CrossOrigin
 @RestController
 @RequestMapping("/weather")
 public class WeatherRestController {
-    //@RequestBody deserializes incoming data into a java object
-    //@ResponseBody maps an object into Json
     private CurrentWeather currentWeather;
     private ConsoleController consoleController;
 

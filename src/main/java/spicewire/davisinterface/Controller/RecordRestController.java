@@ -9,7 +9,8 @@ import java.util.HashMap;
 
 /**
  * This class maps frontend requests for weather records. It can handle
- * requests for a specific day's weather,
+ * requests for a specific day's weather or a header's value for each of the past
+ * 24 hours.
  */
 
 @CrossOrigin
