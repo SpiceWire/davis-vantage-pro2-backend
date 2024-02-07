@@ -20,7 +20,6 @@ private double humidityHigh;
 private double totalRain;
 private double barometerHigh;
 private double barometerLow;
-private double barometerDerivative;
 private double windHigh;
 private double windAvg;
 
@@ -116,14 +115,6 @@ private double windAvg;
 
     public void setBarometerLow(double barometerLow) {
         this.barometerLow = barometerLow;
-    }
-
-    public double getBarometerDerivative() {
-        return barometerDerivative;
-    }
-
-    public void setBarometerDerivative(double barometerDerivative) {
-        this.barometerDerivative = barometerDerivative;
     }
 
     public double getWindHigh() {

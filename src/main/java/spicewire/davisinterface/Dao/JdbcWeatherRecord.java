@@ -1,46 +1,23 @@
 package spicewire.davisinterface.Dao;
-
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.hateoas.mediatype.PropertyUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
-
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RestController;
 import spicewire.davisinterface.DavisinterfaceApplication;
 import spicewire.davisinterface.Model.*;
 
-import javax.sql.DataSource;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.chrono.ChronoLocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
+
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+
 
 import static java.time.LocalTime.now;
 
 /**
- * Class uses JDBC to create a database entry from LOOP1 or LOOP2 data, and also pulls
- * most recent LOOP1 and LOOP2 data from the database to create a CurrentWeather object.
- *
- * The
- */
-
-/**
- * Class uses JDBC to create and retrieve current weather records from a database. The createRecord method
+ * Class uses JDBC to create and retrieve weather database records. The createRecord method
  * accepts a WeatherRecord object and uses the getPacketType method to determine how to enter
  * it into the database.
  *
@@ -50,10 +27,8 @@ import static java.time.LocalTime.now;
 public class JdbcWeatherRecord implements WeatherRecord {
 
     private final JdbcTemplate jdbcTemplate;
+    private DecimalFormat df = new DecimalFormat("#.##");
 
-//    @Autowired
-//    BasicDataSource dataSource = new BasicDataSource();
-//    BasicDataSource dataSource = DavisinterfaceApplication.getDatasource();
     public JdbcWeatherRecord(BasicDataSource dataSource) {
         dataSource = DavisinterfaceApplication.getDatasource();
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -83,7 +58,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "FROM record " +
                 "WHERE for_export = 'TRUE'  AND data_source = 'DavisVP2L2' " +
                 "ORDER BY entry DESC LIMIT 1";
-//        System.out.println("jdbctemplate = " + jdbcTemplate.toString());
+
         SqlRowSet loop1Srs = jdbcTemplate.queryForRowSet(consoleSqlLoop1);
         SqlRowSet loop2Srs = jdbcTemplate.queryForRowSet(consoleSqlLoop2);
         while (loop1Srs.next()){
@@ -311,7 +286,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
 
 
     /**
-     * Returns accumulated rain (each day's rain, summed) from a day offset from now();
+     * Returns accumulated rain (each day's rain total, summed) from a day offset from now();
      * @param days number of days offset from today's date
      * @return double, sum of all days' rain since offset.
      */
@@ -320,7 +295,8 @@ public class JdbcWeatherRecord implements WeatherRecord {
         for (int i=0; i<=days; i++){
             accumulatedRain+=getPreviousTotalRain(i);
         }
-        return accumulatedRain;
+        df.setRoundingMode(RoundingMode.HALF_UP);
+        return Double.valueOf(df.format(accumulatedRain));
     }
 
     private double getPreviousTemperatureHigh(int daysOffset){
@@ -364,6 +340,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
         }
         return temperatureAvg;
     }
+
     private double getPreviousTemperatureChange(int daysOffset){
         double temperatureChange = 0;
         String previousTempChange =
@@ -437,7 +414,9 @@ public class JdbcWeatherRecord implements WeatherRecord {
         while (previousRainSrs.next()){
             previousRain =previousRainSrs.getDouble("max");
         }
-        return previousRain;
+
+        df.setRoundingMode(RoundingMode.HALF_UP);
+        return Double.parseDouble(df.format(previousRain)) ;
     }
 
     private double getPreviousBarometerHigh(int daysOffset){
@@ -468,6 +447,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
         }
         return barLow;
     }
+
     private double getPreviousWindHigh(int daysOffset){
         double windHigh = 0;
         String previousWindHighSql = " SELECT MAX(wind_speed)\n" +
