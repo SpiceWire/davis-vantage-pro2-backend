@@ -246,22 +246,9 @@ public class JdbcWeatherRecord implements WeatherRecord {
         currentWeather.setLast24HourRain(l2srs.getDouble("last_24_hour_rain"));
     }
 
-    private LocalDate yesterdayDate(){
-        return getDatestamp().minusDays(1);
-    }
-
-    public AggregateWeather getYesterdayWeather(){
-        return getPreviousWeather(1);
-    }
-    public AggregateWeather getEreyesterdayWeather(){
-        return getPreviousWeather(2);
-    }
-    public AggregateWeather getThreeDaysAgoWeather(){
-        return getPreviousWeather(3);
-    }
 
     /**
-     * Returns an AggregateWeather object containing high/low/avg weather data one
+     * Returns an AggregateWeather object containing high/low/avg weather data of one
      * day, identified by the days offset from today.
      * @param daysOffset
      * @return
@@ -481,7 +468,8 @@ public class JdbcWeatherRecord implements WeatherRecord {
      */
     public HashMap<LocalDateTime, String>  getMapOfTimeAndHeaderValue(String tableHeader){
         HashMap<LocalDateTime, String> headerMap = new HashMap<>();
-        LocalDateTime rightNow = LocalDateTime.from(now());
+        LocalDateTime rightNow = LocalDateTime.now();
+
         for (int i=0; i<25; i++){
             LocalDateTime backThen = rightNow.minusHours(i);
             String headerValByHour = getSqlDataByHeader(backThen, tableHeader);
@@ -497,13 +485,13 @@ public class JdbcWeatherRecord implements WeatherRecord {
         double headerVal = 0;
         String previousHeaderDataSql = "SELECT " + headerName + ", entry_time " +
                 "FROM record " +
-                "WHERE (EXTRACT (hour FROM entry_time))= " + searchHour +
+                "WHERE (EXTRACT (hour FROM entry_time))= " + searchHour + " " +
                 "AND entry_date = '" +  searchDate + "' " +
                 "ORDER by entry_time " +
                 "LIMIT 1";
         SqlRowSet previousHeaderDataSrs = jdbcTemplate.queryForRowSet(previousHeaderDataSql);
         while (previousHeaderDataSrs.next()){
-            headerVal = previousHeaderDataSrs.getDouble(2);
+            headerVal = previousHeaderDataSrs.getDouble(1);
         }
         return Double.toString(headerVal);
     }

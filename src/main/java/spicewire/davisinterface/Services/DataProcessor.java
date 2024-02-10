@@ -94,13 +94,13 @@ public class DataProcessor {
         boolean dataIsValid = false;
 
         if(rawData.length()==0){
-            System.out.println("Data processor received blank rawData to process.");
+            //System.out.println("Data processor received blank rawData to process.");
             return false;
         }
 //        makeFile();
         writeToFile(rawData);
-        System.out.println("Dataprocessor: raw data is: " + rawData);
-        System.out.println("Dataprocessor: Command is: " + command.getWord());
+        //System.out.println("Dataprocessor: raw data is: " + rawData);
+        //System.out.println("Dataprocessor: Command is: " + command.getWord());
         switch (command.getWord()) {
             case "LOOP": case "LPS": dataIsValid=validateLoop(command,rawData);
             break;
@@ -115,7 +115,7 @@ public class DataProcessor {
             case "RXCHECK": dataIsValid=validateRxcheck(command, rawData);
             break;
             case "RECEIVERS": dataIsValid=true;
-                System.out.println("DP says RECEIVERS: raw data: ");
+               // System.out.println("DP says RECEIVERS: raw data: ");
             default:
                 System.out.println("Command not yet implemented");
                 break;
@@ -184,15 +184,15 @@ public class DataProcessor {
 
     private static boolean validateRxcheck(Command command, String rawData){
         boolean validData = false;
-        System.out.println("Dataprocessor: validateRxCheck called.");
+        //System.out.println("Dataprocessor: validateRxCheck called.");
         int charCount = 0;
         int spaceCount = 0;
         String ackRemoved = "";
         if(validateOK(rawData)) {
-            System.out.println("Dataprocessor: validateOK called and passed.");
+            //System.out.println("Dataprocessor: validateOK called and passed.");
             ackRemoved = removeOKForValidation(rawData);
         } else {
-            System.out.println("Dataprocessor: validateOK called and did NOT pass.");
+            //System.out.println("Dataprocessor: validateOK called and did NOT pass.");
             return false;
         }
 
@@ -204,7 +204,7 @@ public class DataProcessor {
                     spaceCount ++;
             }
         }
-        System.out.println("dataprocessor: RxCheck: char, space: " + charCount + " " + spaceCount);
+        //System.out.println("dataprocessor: RxCheck: char, space: " + charCount + " " + spaceCount);
             if (charCount == ackRemoved.length() && spaceCount == 4) {
                 validData = true;
 
@@ -232,9 +232,9 @@ public class DataProcessor {
     }
 
     private static String removeOKForValidation(String rawData){
-        System.out.println("removeOK raw data " + rawData );
-        System.out.println("remove ok trimmed " +
-                rawData.substring(rawData.indexOf("K")+1).trim());
+        //System.out.println("removeOK raw data " + rawData );
+        //System.out.println("remove ok trimmed " +
+                //rawData.substring(rawData.indexOf("K")+1).trim());
         return rawData.substring(rawData.indexOf("K")+1).trim();
 
     }
@@ -364,10 +364,10 @@ public class DataProcessor {
         }
 
         if (crc != 0) {
-            System.out.println("Error in data. CRC = " + crc);
+           // System.out.println("Error in data. CRC = " + crc);
             validCRC = false;
         } else {
-            System.out.println("Data is clean.");
+           // System.out.println("Data is clean.");
             clearSerialDataString();
             validCRC = true;
         }
@@ -387,7 +387,7 @@ public class DataProcessor {
      */
     private static String removeAckMessage(Command command, String fullData) {
         if (command.getType() == 2) {
-            System.out.println("DP: removeAckMsg called: removed: " + fullData.substring(0,14));
+            //System.out.println("DP: removeAckMsg called: removed: " + fullData.substring(0,14));
             fullData = fullData.substring(14);//, fullData.length()-6
             //fullData = fullData.substring(fullData.indexOf("K")+1).trim();
         }

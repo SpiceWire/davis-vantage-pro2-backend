@@ -59,7 +59,7 @@ public class RecordRestController {
      * @param headerName valid name for header
      * @return serialized hashmap of past 24 hours and header value at each hour
      */
-    @GetMapping(value= "/header/{val}")
+    @GetMapping(value= "/header/{headerName}")
     private HashMap<LocalDateTime, String> headerData24Hours(@PathVariable String headerName){
         System.out.println("Console received request for 24 hours of hourly data in a category " +
                 "called " + headerName);
