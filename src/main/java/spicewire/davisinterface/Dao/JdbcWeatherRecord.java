@@ -11,6 +11,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 
 
@@ -473,7 +475,8 @@ public class JdbcWeatherRecord implements WeatherRecord {
         for (int i=0; i<25; i++){
             LocalDateTime backThen = rightNow.minusHours(i);
             String headerValByHour = getSqlDataByHeader(backThen, tableHeader);
-            headerMap.put(backThen, headerValByHour);
+            LocalDateTime adjustedTime = backThen.with(ChronoField.MINUTE_OF_HOUR, 0).truncatedTo(ChronoUnit.MINUTES);
+            headerMap.put(adjustedTime, headerValByHour);
         }
         return headerMap;
     }

@@ -281,6 +281,7 @@ public class ConsoleController {
      * @return Hashmap of entrytime as key, corresponding value of tableheader at entry time as value
      */
     public HashMap<LocalDateTime, String> get24HoursOfHeaderData (String headerName){
+        System.out.println("Console controller: rec'd request for 24hours header data");
         return jdbcWeatherRecord.getMapOfTimeAndHeaderValue(headerName);
     }
 
@@ -295,7 +296,6 @@ public class ConsoleController {
 
             if (checkIfCommPortParametersAreSet()) {
                 getSerialData(command.getLoop());
-
             }
         });
         view.getLPSButton().addActionListener(e -> {

@@ -63,6 +63,7 @@ public class RecordRestController {
     private HashMap<LocalDateTime, String> headerData24Hours(@PathVariable String headerName){
         System.out.println("Console received request for 24 hours of hourly data in a category " +
                 "called " + headerName);
+
         return consoleController.get24HoursOfHeaderData(headerName);
     }
 }
