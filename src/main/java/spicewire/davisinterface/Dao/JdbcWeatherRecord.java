@@ -474,6 +474,9 @@ public class JdbcWeatherRecord implements WeatherRecord {
         for (int i=0; i<25; i++){
             LocalDateTime backThen = rightNow.minusHours(i);
             String headerValByHour = getSqlDataByHeader(backThen, tableHeader);
+            if (tableHeader.equalsIgnoreCase("barometer")){
+                headerValByHour += getBarTrendDescription(backThen);
+            }
             LocalDateTime adjustedTime = backThen.with(ChronoField.MINUTE_OF_HOUR, 0).truncatedTo(ChronoUnit.MINUTES);
             headerMap.put(adjustedTime, headerValByHour);
         }
@@ -512,6 +515,29 @@ public class JdbcWeatherRecord implements WeatherRecord {
         }
         return Double.toString(headerVal);
     }
+
+    private String getBarTrendDescription(LocalDateTime dateTime){
+        String barTrendStr = getSqlDataByHeader(dateTime, "bar_trend");
+        int barTrendInt = (int)Double.parseDouble(barTrendStr);
+        String friendlyBarTrend;
+        switch (barTrendInt){
+            case -60: friendlyBarTrend = "Falling Rapidly";
+                break;
+            case -20: friendlyBarTrend = "Falling Slowly";
+                break;
+            case 0: friendlyBarTrend = "Steady";
+                break;
+            case 20: friendlyBarTrend = "Rising Slowly";
+                break;
+            case 60: friendlyBarTrend = "Rising Rapidly";
+                break;
+            default: friendlyBarTrend = "No info";
+                break;
+        }
+        System.out.println("bar trend string: " + barTrendStr);
+        return "  " + friendlyBarTrend;
+    }
+
 
     private boolean headerNameInLoop2(String headerName){
         List<String> L2HeaderNames = Arrays.asList(
