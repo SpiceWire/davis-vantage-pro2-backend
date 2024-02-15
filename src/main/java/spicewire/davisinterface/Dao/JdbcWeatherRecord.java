@@ -13,7 +13,9 @@ import java.time.LocalTime;
 
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 
 import static java.time.LocalTime.now;
@@ -25,7 +27,7 @@ import static java.time.LocalTime.now;
  *
  * Class populates and returns a CurrentWeather DTO.
  */
-
+//todo make string list of L1 and L2 var names, concat it for the JDBC query, use it as a lookup table
 public class JdbcWeatherRecord implements WeatherRecord {
 
     private final JdbcTemplate jdbcTemplate;
@@ -349,7 +351,6 @@ public class JdbcWeatherRecord implements WeatherRecord {
         return temperatureChange;
     }
 
-
     private double getPreviousHumidityAvg(int daysOffset){
         double humidityAvg = 0;
         String previousHumAvgSql = " SELECT ROUND(AVG(outside_humidity),0)\n" +
@@ -393,12 +394,10 @@ public class JdbcWeatherRecord implements WeatherRecord {
     }
 
     public double getPreviousTotalRain(int daysOffset){
-        AggregateWeather aggregateWeather= new AggregateWeather();
         double previousRain = 0;
         String previousRainSql = "SELECT MAX(day_rain) FROM record WHERE for_export = 'TRUE'"+
                 "        AND entry_date = '" +
                 getDatestamp().minusDays(daysOffset) + "'";
-
         SqlRowSet previousRainSrs = jdbcTemplate.queryForRowSet(previousRainSql);
         while (previousRainSrs.next()){
             previousRain =previousRainSrs.getDouble("max");
@@ -478,25 +477,56 @@ public class JdbcWeatherRecord implements WeatherRecord {
             LocalDateTime adjustedTime = backThen.with(ChronoField.MINUTE_OF_HOUR, 0).truncatedTo(ChronoUnit.MINUTES);
             headerMap.put(adjustedTime, headerValByHour);
         }
+        System.out.println(headerMap);
         return headerMap;
     }
 
+    /**
+     * Returns a value of a table header when given a time. Because some table headers may contain
+     * blank rows, sql query specifies whether the table header is in LOOP1 or LOOP2 data.
+     * @param dateTime
+     * @param headerName
+     * @return table header value
+     */
     private String getSqlDataByHeader(LocalDateTime dateTime, String headerName){
         LocalDate searchDate = LocalDate.from(dateTime);
         LocalTime searchTime = LocalTime.from(dateTime);
         int searchHour = searchTime.getHour();
         double headerVal = 0;
-        String previousHeaderDataSql = "SELECT " + headerName + ", entry_time " +
+        StringBuilder previousHeaderDataSql = new StringBuilder(
+         "SELECT " + headerName + ", entry_time " +
                 "FROM record " +
                 "WHERE (EXTRACT (hour FROM entry_time))= " + searchHour + " " +
-                "AND entry_date = '" +  searchDate + "' " +
-                "ORDER by entry_time " +
-                "LIMIT 1";
-        SqlRowSet previousHeaderDataSrs = jdbcTemplate.queryForRowSet(previousHeaderDataSql);
+                "AND entry_date = '" +  searchDate + "' ") ;
+        if(headerNameInLoop2(headerName)){
+            previousHeaderDataSql.append("AND packet_type = '1' ");
+        } else{
+            previousHeaderDataSql.append("AND packet_type = '0' ");
+        }
+            previousHeaderDataSql.append("ORDER by entry_time " +
+                    "LIMIT 1");
+
+        SqlRowSet previousHeaderDataSrs = jdbcTemplate.queryForRowSet(String.valueOf(previousHeaderDataSql));
         while (previousHeaderDataSrs.next()){
             headerVal = previousHeaderDataSrs.getDouble(1);
         }
         return Double.toString(headerVal);
+    }
+
+    private boolean headerNameInLoop2(String headerName){
+        List<String> L2HeaderNames = Arrays.asList(
+                "two_min_avg_wind_speed",
+                "ten_min_wind_gust",
+                "wind_direction_for_the_ten_minute_wind_gust",
+                "dew_point",
+                "heat_index",
+                "wind_chill",
+                "thsw_index",
+                "last_fifteen_min_rain",
+                "last_hour_rain",
+                "last_24_hour_rain"
+        );
+        return L2HeaderNames.contains(headerName);
     }
 
 
