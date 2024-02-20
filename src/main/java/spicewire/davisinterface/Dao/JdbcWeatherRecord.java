@@ -131,8 +131,25 @@ public class JdbcWeatherRecord implements WeatherRecord {
     }
     private void createLoop1Alarms(Loop1Reading l1) {
         String loop1SqlAlarms = "INSERT INTO alarm (entry_date, entry_time, for_export, data_source, " +
-    }           "indoor, humidity, "
-
+                "inside, rain, outside_alarms1, outside_alarms2, outside_humidity_alarms, " +
+                "extra_temp_hum_alarms1, extra_temp_hum_alarms2, extra_temp_hum_alarms3, extra_temp_hum_alarms4," +
+                "extra_temp_hum_alarms5," +
+                "extra_temp_hum_alarms6, extra_temp_hum_alarms7, soil_leaf_alarms1, soil_leaf_alarms2, soil_leaf_alarms3," +
+                "soil_leaf_alarms4) " +
+                "VALUES (?,?,?,?," +
+                "?,?,?,?,?," +
+                "?,?,?,?,?," +
+                "?,?,?,?,?," +
+                "?)";
+        jdbcTemplate.update(loop1SqlAlarms, getDatestamp(), getTimestamp(), true, "DavisVP2L1",
+                l1.getInsideAlarms(), l1.getRainAlarms(), l1.getOutsideAlarms1(), l1.getOutsideAlarms2(),
+                l1.getOutsideHumidityAlarms(),
+                l1.getExtraTempHumAlarms1(),l1.getExtraTempHumAlarms2(),l1.getExtraTempHumAlarms3(),
+                l1.getExtraTempHumAlarms4(),l1.getExtraTempHumAlarms5(),
+                l1.getExtraTempHumAlarms6(),l1.getExtraTempHumAlarms7(), l1.getSoilLeafAlarms1(),
+                l1.getSoilLeafAlarms2(),l1.getSoilLeafAlarms3(),
+                l1.getSoilLeafAlarms4());
+    }
     private void createLoop2Record(Loop2Reading l2) {
         String loop2Sql = "INSERT INTO record (entry_date, entry_time, for_export, data_source, bar_trend," +
                 "barometer, inside_temperature, inside_humidity, outside_temperature, wind_speed," +
