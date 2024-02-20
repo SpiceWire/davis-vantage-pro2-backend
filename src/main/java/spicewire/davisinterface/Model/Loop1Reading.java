@@ -1,7 +1,5 @@
 package spicewire.davisinterface.Model;
 
-import spicewire.davisinterface.Dao.JdbcWeatherRecord;
-
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +27,7 @@ import java.util.Map;
  * the JdbcWeatherRecord class so a weather event can be constructed from the Loop1Record object.
  */
 
+//todo implement remaining variables
 
 public class Loop1Reading implements LoopReading {
 
@@ -90,12 +89,23 @@ public class Loop1Reading implements LoopReading {
     private Integer leafWetness4;
     private Integer insideAlarms;
     private Integer rainAlarms;
-    private Integer outsideAlarms;
-    private Integer extraTempHumAlarms;
-    private Integer soilLeafAlarms;
+    private Integer outsideAlarms1;
+    private Integer outsideAlarms2;
+    private Integer outsideHumidityAlarms;
+    private Integer extraTempHumAlarms1;
+    private Integer extraTempHumAlarms2;
+    private Integer extraTempHumAlarms3;
+    private Integer extraTempHumAlarms4;
+    private Integer extraTempHumAlarms5;
+    private Integer extraTempHumAlarms6;
+    private Integer extraTempHumAlarms7;
+    private Integer soilLeafAlarms1;
+    private Integer soilLeafAlarms2;
+    private Integer soilLeafAlarms3;
+    private Integer soilLeafAlarms4;
     private int transmitterBatteryStatus;
-    private int consoleBatteryVoltage;
-    private int forecastIcon;
+    private Double consoleBatteryVoltage;
+    private int forecastIcons;
     private int forecastRuleNumber;
     private int timeOfSunrise;
     private int timeOfSunset;
@@ -158,11 +168,34 @@ public class Loop1Reading implements LoopReading {
         this.leafWetness2 = setLeafWetness2();
         this.leafWetness3 = setLeafWetness3();
         this.leafWetness4 = setLeafWetness4();
-        this.forecastIcon = setForecastIcon();
 
+        this.insideAlarms = setInsideAlarms();
+        this.rainAlarms = setRainAlarms();
+        this.outsideAlarms1 = setOutsideAlarms1();
+        this.outsideAlarms2 = setOutsideAlarms2();
+
+        this.outsideHumidityAlarms = setOutsideHumidityAlarms();
+        this.extraTempHumAlarms1 = setExtraTempHumAlarms1();
+        this.extraTempHumAlarms2 = setExtraTempHumAlarms2();
+        this.extraTempHumAlarms3 = setExtraTempHumAlarms3();
+        this.extraTempHumAlarms4 = setExtraTempHumAlarms4();
+        this.extraTempHumAlarms5 = setExtraTempHumAlarms5();
+        this.extraTempHumAlarms6 = setExtraTempHumAlarms6();
+        this.extraTempHumAlarms7 = setExtraTempHumAlarms7();
+
+       this.soilLeafAlarms1 = setSoilLeafAlarms1();
+       this.soilLeafAlarms2 = setSoilLeafAlarms2();
+       this.soilLeafAlarms3 = setSoilLeafAlarms3();
+       this.soilLeafAlarms4 = setSoilLeafAlarms4();
+
+       this.transmitterBatteryStatus = setTransmitterBatteryStatus();
+       this.consoleBatteryVoltage = setConsoleBatteryVoltage();
+
+        this.forecastIcons = setForecastIcon();
+        this.forecastRuleNumber = setForecastRuleNumber();
+        this.insideAlarms = setInsideAlarms();
         this.dataSource = "DavisVP2L1";
-//        System.out.println("Loop1 Reading object created. Inside temp is: " + getInsideTemperature());
-        //jdbcWeatherRecord.createRecord(this);
+
     }
 
     public Loop1Reading() {
@@ -198,7 +231,7 @@ public class Loop1Reading implements LoopReading {
 
     /**
      * Given the index of a two byte word, prepends 0's onto both bytes, reverses the order of the bytes,
-     * and returns the result
+     * and returns the result still as binary.
      *
      * @param firstIndex the lower index of the two bytes in the word
      * @return String for further interpretation if needed.
@@ -243,9 +276,8 @@ public class Loop1Reading implements LoopReading {
                 barometerTrend = 80; //no trend info is available
                 break;
             default:
-                barometerTrend = 999;//three hours of bar data is not available
+                barometerTrend = 999;//three hours of bar data is not available, or firmware Rev A is active
         }
-
         return barometerTrend;
     }
 
@@ -263,7 +295,6 @@ public class Loop1Reading implements LoopReading {
     }
 
     private int setInsideHumidity() {
-
         return parseBinaryNumberAtIndex(11);
     }
 
@@ -528,37 +559,89 @@ public class Loop1Reading implements LoopReading {
         return checkForNullAtIndex(69);
     }
 
-    private Map<String, Boolean> setInsideAlarms() {
-        return makeBinaryMap(new String[]{"Falling Bar Trend", "Rising Bar Trend", "Low Inside Temp",
-                        "High Inside Temp", "Low Inside Hum", "High Inside Hum"},
-                prependZerosToBinaryNumber(getByteOrWord(70, 1)));
+    private Integer setInsideAlarms(){
+        return parseBinaryNumberAtIndex(70);
+    }
+    private Integer setRainAlarms(){
+        return parseBinaryNumberAtIndex(71);
+    }
+    private Integer setOutsideAlarms1(){
+        return parseBinaryNumberAtIndex(72);
+    }
+    private Integer setOutsideAlarms2(){
+        return parseBinaryNumberAtIndex(73);
+    }
+    private Integer setOutsideHumidityAlarms(){
+        return parseBinaryNumberAtIndex(74);
+    }
+    private Integer setExtraTempHumAlarms1(){
+        return parseBinaryNumberAtIndex(75);
+    }
+    private Integer setExtraTempHumAlarms2(){
+        return parseBinaryNumberAtIndex(76);
+    }
+    private Integer setExtraTempHumAlarms3(){
+        return parseBinaryNumberAtIndex(77);
+    }
+    private Integer setExtraTempHumAlarms4(){
+        return parseBinaryNumberAtIndex(78);
+    }
+    private Integer setExtraTempHumAlarms5(){
+        return parseBinaryNumberAtIndex(79);
+    }
+    private Integer setExtraTempHumAlarms6(){
+        return parseBinaryNumberAtIndex(80);
+    }
+    private Integer setExtraTempHumAlarms7(){
+        return parseBinaryNumberAtIndex(81);
     }
 
-    private Map<String, Boolean> setRainAlarms() {
-        return makeBinaryMap(new String[]{"High Rain Rate", "15Min Rain", "24 Hour Rain", "Storm Total"},
-                prependZerosToBinaryNumber(getByteOrWord(71, 1)));
-
+    private Integer setSoilLeafAlarms1(){
+        return parseBinaryNumberAtIndex(82);
     }
-
-    private Map<String, Boolean> setOutsideAlarmsB1() {
-        return makeBinaryMap(new String[]{"Low Outside Temp", "High Outside Temp", "Wind Speed", "10 Min Avg Speed",
-                        "Low Dewpoint", "High Dewpoint", "Low Wind Chill"},
-                prependZerosToBinaryNumber(getByteOrWord(72, 1)));
+    private Integer setSoilLeafAlarms2(){
+        return parseBinaryNumberAtIndex(83);
     }
-
-    private Map<String, Boolean> setOutsideAlarmsB2() {
-        return makeBinaryMap(new String[]{"High THSW", "High Solar Rad", "High UV", "UV Dose", "UV Dose Enabled"},
-                prependZerosToBinaryNumber(getByteOrWord(73, 1)));
+    private Integer setSoilLeafAlarms3(){
+        return parseBinaryNumberAtIndex(84);
     }
-
-    private Map<String, Boolean> setOutsideHumidityAlarms() {
-        return makeBinaryMap(new String[]{"Low Humidity", "High Humidity"},
-                prependZerosToBinaryNumber(getByteOrWord(74, 1)));
+    private Integer setSoilLeafAlarms4(){
+        return parseBinaryNumberAtIndex(85);
     }
+    private Integer setForecastRuleNumber(){
+        return parseBinaryNumberAtIndex(90);
+    }
+//    private Map<String, Boolean> setInsideAlarms() {
+//        return makeBinaryMap(new String[]{"Falling Bar Trend", "Rising Bar Trend", "Low Inside Temp",
+//                        "High Inside Temp", "Low Inside Hum", "High Inside Hum"},
+//                prependZerosToBinaryNumber(getByteOrWord(70, 1)));
+//    }
+//
+//    private Map<String, Boolean> setRainAlarms() {
+//        return makeBinaryMap(new String[]{"High Rain Rate", "15Min Rain", "24 Hour Rain", "Storm Total"},
+//                prependZerosToBinaryNumber(getByteOrWord(71, 1)));
+//
+//    }
+//
+//    private Map<String, Boolean> setOutsideAlarmsB1() {
+//        return makeBinaryMap(new String[]{"Low Outside Temp", "High Outside Temp", "Wind Speed", "10 Min Avg Speed",
+//                        "Low Dewpoint", "High Dewpoint", "Low Wind Chill"},
+//                prependZerosToBinaryNumber(getByteOrWord(72, 1)));
+//    }
+//
+//    private Map<String, Boolean> setOutsideAlarmsB2() {
+//        return makeBinaryMap(new String[]{"High THSW", "High Solar Rad", "High UV", "UV Dose", "UV Dose Enabled"},
+//                prependZerosToBinaryNumber(getByteOrWord(73, 1)));
+//    }
+//
+//    private Map<String, Boolean> setOutsideHumidityAlarms() {
+//        return makeBinaryMap(new String[]{"Low Humidity", "High Humidity"},
+//                prependZerosToBinaryNumber(getByteOrWord(74, 1)));
+//    }
 
     /**
      * Makes a Map from a String[] and a binary String, returning true/false for each
-     * key in the String[]. As intended, the method accepts a String[] of alarm names and the
+     * key in the String[].  The method accepts a String[] of alarm names and the
      * corresponding binary string, returning whether those alarms are "currently active" or not.
      *
      * @param nameArr
@@ -589,25 +672,25 @@ public class Loop1Reading implements LoopReading {
         High hum X alarm    3"
 
         */
-    private Map[] setExtraAlarms() {
-        String[] alarmNames = new String[]{"Low Temp", "High Temp", "Low Hum", "High Hum"};
-        Map<String, Boolean> alarm1Map = makeBinaryMap(alarmNames,
-                prependZerosToBinaryNumber(getByteOrWord(75, 1)));
-        Map<String, Boolean> alarm2Map = makeBinaryMap(alarmNames,
-                prependZerosToBinaryNumber(getByteOrWord(76, 1)));
-        Map<String, Boolean> alarm3Map = makeBinaryMap(alarmNames,
-                prependZerosToBinaryNumber(getByteOrWord(77, 1)));
-        Map<String, Boolean> alarm4Map = makeBinaryMap(alarmNames,
-                prependZerosToBinaryNumber(getByteOrWord(78, 1)));
-        Map<String, Boolean> alarm5Map = makeBinaryMap(alarmNames,
-                prependZerosToBinaryNumber(getByteOrWord(79, 1)));
-        Map<String, Boolean> alarm6Map = makeBinaryMap(alarmNames,
-                prependZerosToBinaryNumber(getByteOrWord(80, 1)));
-        Map<String, Boolean> alarm7Map = makeBinaryMap(alarmNames,
-                prependZerosToBinaryNumber(getByteOrWord(81, 1)));
-        return new Map[]{alarm1Map, alarm2Map, alarm3Map, alarm4Map, alarm5Map,
-                alarm6Map, alarm7Map};
-    }
+//    private Map[] setExtraAlarms() {
+//        String[] alarmNames = new String[]{"Low Temp", "High Temp", "Low Hum", "High Hum"};
+//        Map<String, Boolean> alarm1Map = makeBinaryMap(alarmNames,
+//                prependZerosToBinaryNumber(getByteOrWord(75, 1)));
+//        Map<String, Boolean> alarm2Map = makeBinaryMap(alarmNames,
+//                prependZerosToBinaryNumber(getByteOrWord(76, 1)));
+//        Map<String, Boolean> alarm3Map = makeBinaryMap(alarmNames,
+//                prependZerosToBinaryNumber(getByteOrWord(77, 1)));
+//        Map<String, Boolean> alarm4Map = makeBinaryMap(alarmNames,
+//                prependZerosToBinaryNumber(getByteOrWord(78, 1)));
+//        Map<String, Boolean> alarm5Map = makeBinaryMap(alarmNames,
+//                prependZerosToBinaryNumber(getByteOrWord(79, 1)));
+//        Map<String, Boolean> alarm6Map = makeBinaryMap(alarmNames,
+//                prependZerosToBinaryNumber(getByteOrWord(80, 1)));
+//        Map<String, Boolean> alarm7Map = makeBinaryMap(alarmNames,
+//                prependZerosToBinaryNumber(getByteOrWord(81, 1)));
+//        return new Map[]{alarm1Map, alarm2Map, alarm3Map, alarm4Map, alarm5Map,
+//                alarm6Map, alarm7Map};
+//    }
 
     /**
      * Creates and populates Temperature/Humidity stations from Loop data. Not
@@ -641,6 +724,9 @@ public class Loop1Reading implements LoopReading {
 
     }
 
+    private Integer setTransmitterBatteryStatus(){
+        return parseBinaryNumberAtIndex(86);
+    }
     /**
      * Sets console battery voltage from Loop data. Formula is from Davis documentation.
      *
@@ -919,8 +1005,8 @@ public class Loop1Reading implements LoopReading {
         return consoleBatteryVoltage;
     }
 
-    public int getForecastIcon() {
-        return forecastIcon;
+    public int getForecastIcons() {
+        return forecastIcons;
     }
 
     public int getTimeOfSunrise() {
@@ -933,5 +1019,65 @@ public class Loop1Reading implements LoopReading {
 
     public String getDataSource() {
         return dataSource;
+    }
+
+    public Integer getOutsideAlarms1() {
+        return outsideAlarms1;
+    }
+
+    public Integer getOutsideAlarms2() {
+        return outsideAlarms2;
+    }
+
+    public Integer getOutsideHumidityAlarms() {
+        return outsideHumidityAlarms;
+    }
+
+    public Integer getExtraTempHumAlarms1() {
+        return extraTempHumAlarms1;
+    }
+
+    public Integer getExtraTempHumAlarms2() {
+        return extraTempHumAlarms2;
+    }
+
+    public Integer getExtraTempHumAlarms3() {
+        return extraTempHumAlarms3;
+    }
+
+    public Integer getExtraTempHumAlarms4() {
+        return extraTempHumAlarms4;
+    }
+
+    public Integer getExtraTempHumAlarms5() {
+        return extraTempHumAlarms5;
+    }
+
+    public Integer getExtraTempHumAlarms6() {
+        return extraTempHumAlarms6;
+    }
+
+    public Integer getExtraTempHumAlarms7() {
+        return extraTempHumAlarms7;
+    }
+
+    public Integer getSoilLeafAlarms1() {
+        return soilLeafAlarms1;
+    }
+
+    public Integer getSoilLeafAlarms2() {
+        return soilLeafAlarms2;
+    }
+
+    public Integer getSoilLeafAlarms3() {
+        return soilLeafAlarms3;
+    }
+
+    public Integer getSoilLeafAlarms4() {
+        return soilLeafAlarms4;
+    }
+
+    public int getForecastRuleNumber() {
+        return forecastRuleNumber;
     }
 }

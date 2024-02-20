@@ -28,6 +28,7 @@ import static java.time.LocalTime.now;
  * Class populates and returns a CurrentWeather DTO.
  */
 //todo make string list of L1 and L2 var names, concat it for the JDBC query, use it as a lookup table
+//todo add combined wind direction, speed to hourly search
 public class JdbcWeatherRecord implements WeatherRecord {
 
     private final JdbcTemplate jdbcTemplate;
@@ -125,9 +126,12 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 l1.getDayET(), l1.getMonthET(), l1.getYearET(), l1.getSoilMoisture1(), l1.getSoilMoisture2(),
                 l1.getSoilMoisture3(), l1.getSoilMoisture4(), l1.getLeafWetness1(), l1.getLeafWetness2(),
                 l1.getLeafWetness3(),
-                l1.getLeafWetness4(), l1.getForecastIcon());
+                l1.getLeafWetness4(), l1.getForecastIcons());
 //        System.out.println("Loop1 database entry created. Get outTemp = " + l1.getOutsideTemperature());
     }
+    private void createLoop1Alarms(Loop1Reading l1) {
+        String loop1SqlAlarms = "INSERT INTO alarm (entry_date, entry_time, for_export, data_source, " +
+    }           "indoor, humidity, "
 
     private void createLoop2Record(Loop2Reading l2) {
         String loop2Sql = "INSERT INTO record (entry_date, entry_time, for_export, data_source, bar_trend," +
