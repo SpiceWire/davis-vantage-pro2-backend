@@ -28,7 +28,7 @@ import java.util.Map;
  * the JdbcWeatherRecord class so a weather event can be constructed from the Loop1Record object.
  */
 
-//todo implement remaining variables
+
 
 public class Loop1Reading implements LoopReading {
 
