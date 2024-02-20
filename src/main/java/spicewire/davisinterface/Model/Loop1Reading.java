@@ -1,6 +1,7 @@
 package spicewire.davisinterface.Model;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -107,8 +108,8 @@ public class Loop1Reading implements LoopReading {
     private Double consoleBatteryVoltage;
     private int forecastIcons;
     private int forecastRuleNumber;
-    private int timeOfSunrise;
-    private int timeOfSunset;
+    private LocalTime timeOfSunrise;
+    private LocalTime timeOfSunset;
     private String dataSource;
 
 
@@ -193,6 +194,8 @@ public class Loop1Reading implements LoopReading {
 
         this.forecastIcons = setForecastIcon();
         this.forecastRuleNumber = setForecastRuleNumber();
+        this.timeOfSunrise = setTimeOfSunrise();
+        this.timeOfSunset = setTimeOfSunset();
         this.insideAlarms = setInsideAlarms();
         this.dataSource = "DavisVP2L1";
 
@@ -758,21 +761,27 @@ public class Loop1Reading implements LoopReading {
 
     }
 
-    private void setTimeOfSunrise() {
-        this.timeOfSunrise = parseTimeFromIndex(91);
+    private LocalTime setTimeOfSunrise() {
+
+       return parseTimeFromIndex(91);
     }
 
-    private void setTimeOfSunset() {
-        this.timeOfSunset = parseTimeFromIndex(93);
+    private LocalTime setTimeOfSunset() {
+
+        return parseTimeFromIndex(93);
     }
 
     //extracts time from index of first of two bytes.  The strippedLeading least significant bit (LSB) is sent first.
     // Davis manual: "Time is stored as hour * 100 + min"
     //
-    private int parseTimeFromIndex(int index) {
+    public LocalTime parseTimeFromIndex(int index) {
         String firstTimeByte = prependZerosToBinaryNumber(getByteOrWord(index, 1));
         String secondTimeByte = getByteOrWord(index + 1, 1);
-        return Integer.parseInt(secondTimeByte + firstTimeByte, 2);
+        int rawTime = Integer.parseInt(secondTimeByte + firstTimeByte, 2);
+        int hrs = rawTime/100;
+        int mins = rawTime % 100;
+        LocalTime sunTime = LocalTime.of(hrs ,mins);
+        return sunTime;
     }
 
     private String prependZerosToBinaryNumber(String nibble) {
@@ -1009,11 +1018,11 @@ public class Loop1Reading implements LoopReading {
         return forecastIcons;
     }
 
-    public int getTimeOfSunrise() {
+    public LocalTime getTimeOfSunrise() {
         return timeOfSunrise;
     }
 
-    public int getTimeOfSunset() {
+    public LocalTime getTimeOfSunset() {
         return timeOfSunset;
     }
 

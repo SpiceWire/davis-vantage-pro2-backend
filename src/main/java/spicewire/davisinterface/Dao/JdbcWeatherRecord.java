@@ -96,7 +96,8 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "storm_rain, start_date_of_current_storm, day_rain, month_rain, year_rain," +
                 "day_ET, month_ET, year_ET, soil_moisture1, soil_moisture2," +
                 "soil_moisture3, soil_moisture4, leaf_wetness1, leaf_wetness2, leaf_wetness3," +
-                "leaf_wetness4, forecast_icon)" +
+                "leaf_wetness4, forecast_icon, transmitter_battery_status, console_battery_voltage, time_of_sunrise, " +
+                "time_of_sunset)" +
                 "VALUES (?,?,?,?,?," +
                 "?,?,?,?,?," +
                 "?,?,?,?,?," +
@@ -108,7 +109,8 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "?,?,?,?,?," +
                 "?,?,?,?,?," +
                 "?,?,?,?,?," +
-                "?,?)";
+                "?,?,?,?,?," +
+                "?)";
 
         jdbcTemplate.update(loop1Sql, getDatestamp(), getTimestamp(), true, "DavisVP2L1", l1.getBarTrend(),
                 l1.getPacketType(), l1.getNextRecord(), l1.getBarometer(), l1.getInsideTemperature(), l1.getInsideHumidity(),
@@ -126,7 +128,9 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 l1.getDayET(), l1.getMonthET(), l1.getYearET(), l1.getSoilMoisture1(), l1.getSoilMoisture2(),
                 l1.getSoilMoisture3(), l1.getSoilMoisture4(), l1.getLeafWetness1(), l1.getLeafWetness2(),
                 l1.getLeafWetness3(),
-                l1.getLeafWetness4(), l1.getForecastIcons());
+                l1.getLeafWetness4(), l1.getForecastIcons(), l1.getTransmitterBatteryStatus(),
+                l1.getConsoleBatteryVoltage(), l1.getTimeOfSunrise(),
+                l1.getTimeOfSunset());
 //        System.out.println("Loop1 database entry created. Get outTemp = " + l1.getOutsideTemperature());
     }
     private void createLoop1Alarms(Loop1Reading l1) {
