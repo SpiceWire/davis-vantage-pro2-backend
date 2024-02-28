@@ -29,6 +29,7 @@ import static java.time.LocalTime.now;
  */
 //todo make string list of L1 and L2 var names, concat it for the JDBC query, use it as a lookup table
 //todo add combined wind direction, speed to hourly search
+//todo combine daily tempLow, tempHigh, windGust,etc to a single method with these as vars
 public class JdbcWeatherRecord implements WeatherRecord {
 
     private final JdbcTemplate jdbcTemplate;
@@ -143,7 +144,6 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "extra_temp_hum_alarms5, " +
                 "extra_temp_hum_alarms6, extra_temp_hum_alarms7, soil_leaf_alarms1, soil_leaf_alarms2, soil_leaf_alarms3, " +
                 "soil_leaf_alarms4) " +
-
                 "VALUES (?,?,?,?," +
                 "?,?,?,?,?," +
                 "?,?,?,?,?," +
@@ -158,7 +158,6 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 l1.getExtraTempHumAlarms6(), l1.getExtraTempHumAlarms7(),  l1.getSoilLeafAlarms1(),
                 l1.getSoilLeafAlarms2(), l1.getSoilLeafAlarms3(),
                  l1.getSoilLeafAlarms4());
-        System.out.println("alarm entry was successful");
     }
 
     private void createLoop2Record(Loop2Reading l2) {
@@ -303,6 +302,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
         aggregateWeather.setTotalRain(getPreviousTotalRain(daysOffset));
         aggregateWeather.setWindAvg(getAvgWindSpeed(daysOffset));
         aggregateWeather.setWindHigh(getPreviousWindHigh(daysOffset));
+        aggregateWeather.setWindGust(getPreviousWindGust(daysOffset));
         aggregateWeather.setAccumulatedRain(getAccumulatedRainByDays(daysOffset));
         return aggregateWeather;
     }
@@ -321,7 +321,19 @@ public class JdbcWeatherRecord implements WeatherRecord {
         df.setRoundingMode(RoundingMode.HALF_UP);
         return Double.valueOf(df.format(accumulatedRain));
     }
-
+    private double getPreviousWindGust(int daysOffset){
+        double windGust =0;
+        String previousTempHighSql = " SELECT MAX(wind_gust)\n" +
+                "                FROM record\n" +
+                "                WHERE     for_export = 'TRUE'\n" +
+                "        AND entry_date = '" +
+                getDatestamp().minusDays(daysOffset) + "'";
+        SqlRowSet previousTempHighSrs = jdbcTemplate.queryForRowSet(previousTempHighSql);
+        while (previousTempHighSrs.next()){
+            windGust =previousTempHighSrs.getDouble("max");
+        }
+        return windGust;
+    }
     private double getPreviousTemperatureHigh(int daysOffset){
         double temperatureHigh =0;
         String previousTempHighSql = " SELECT MAX(outside_temperature)\n" +

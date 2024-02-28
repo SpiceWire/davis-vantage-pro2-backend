@@ -22,21 +22,25 @@ private double barometerHigh;
 private double barometerLow;
 private double windHigh;
 private double windAvg;
+private double windGust;
+private double accumulatedRain;
+
+    public AggregateWeather() {
+    }
+    public double getWindGust() {
+        return windGust;
+    }
+
+    public void setWindGust(double windGust) {
+        this.windGust = windGust;
+    }
 
     public double getAccumulatedRain() {
         return accumulatedRain;
     }
-
     public void setAccumulatedRain(double accumulatedRain) {
         this.accumulatedRain = accumulatedRain;
     }
-
-    private double accumulatedRain;
-
-
-    public AggregateWeather() {
-    }
-
     public double getTemperatureHigh() {
         return temperatureHigh;
     }

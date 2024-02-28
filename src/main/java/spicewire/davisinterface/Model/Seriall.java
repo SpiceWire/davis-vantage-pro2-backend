@@ -412,8 +412,10 @@ public class Seriall {
      */
     private void initialSizeCheck(Command command, StringBuilder testData){
         long count = testData.codePoints().filter(ch -> ch == 32).count();
+        
         if (command.getType()==2){
             if (command.getExpectedNumberOfUnitsInReply()<count-2){
+                System.out.println("Seriall: wrong size msg");
                 sendCommand(command, false);
             }
         }
