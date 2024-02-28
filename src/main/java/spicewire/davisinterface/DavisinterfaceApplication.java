@@ -33,7 +33,7 @@ public class DavisinterfaceApplication extends JFrame {
 
 		EventQueue.invokeLater(()->{
 			var ex = ctx.getBean(DavisinterfaceApplication.class);
-			ex.setVisible(true);
+			ex.setVisible(false);
 		});
 
 
