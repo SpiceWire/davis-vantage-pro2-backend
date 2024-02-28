@@ -323,7 +323,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
     }
     private double getPreviousWindGust(int daysOffset){
         double windGust =0;
-        String previousTempHighSql = " SELECT MAX(wind_gust)\n" +
+        String previousTempHighSql = " SELECT MAX(ten_min_wind_gust)\n" +
                 "                FROM record\n" +
                 "                WHERE     for_export = 'TRUE'\n" +
                 "        AND entry_date = '" +
