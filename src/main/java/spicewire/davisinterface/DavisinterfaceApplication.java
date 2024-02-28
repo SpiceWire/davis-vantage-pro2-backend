@@ -22,24 +22,14 @@ public class DavisinterfaceApplication extends JFrame {
 		return dataSource;
 	}
 
-	public DavisinterfaceApplication(){
-		initSwingGUI();
-	}
 
-	private void initSwingGUI(){
-			System.out.println("frame called on start");
-			JFrame frame = new JFrame("Settings");
-			ComsPanes view = new spicewire.davisinterface.View.ComsPanes();
-			frame.setContentPane(view.getPanelMainJPanel());
-			frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-			frame.setSize(700, 600);
-			frame.setVisible(true);
-	}
+
+
 
 
 	public static void main(String[] args) {
 		var ctx = new SpringApplicationBuilder(DavisinterfaceApplication.class)
-				.headless(false).run(args);
+				.headless(true).run(args);
 
 		EventQueue.invokeLater(()->{
 			var ex = ctx.getBean(DavisinterfaceApplication.class);
