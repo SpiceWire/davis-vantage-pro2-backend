@@ -44,10 +44,10 @@ public class ConsoleController {
     private final Logger logger = Logger.getLogger(ConsoleController.class.getName());
 
 
-    public ConsoleController(Seriall serialModel, ComsPanes view, JdbcWeatherRecord jdbcWeatherRecord) {
+    public ConsoleController(Seriall serialModel, JdbcWeatherRecord jdbcWeatherRecord) {
 //        System.out.println("Console controller started.");
         this.serialModel = serialModel;
-        this.view = view;
+
         this.jdbcWeatherRecord = jdbcWeatherRecord;
         Seriall.getSerialPortList();
 //        System.out.println("Console controller started.");
