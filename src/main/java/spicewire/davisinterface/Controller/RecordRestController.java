@@ -33,11 +33,7 @@ public class RecordRestController {
         System.out.println("Console received request for past weather.");
         return consoleController.getPreviousWeatherbyDay(offset);
     }
-//    @GetMapping(value= "/date/{offset}")
-//    private AggregateWeather previousWeather(@PathVariable String[] offset){
-//        System.out.println("Console received request for past weather.");
-//        return consoleController.getPreviousWeatherbyDay(offset);
-//    }
+
 
     /**
      * Returns an AggregateWeather object for a day offset from now().

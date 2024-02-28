@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import spicewire.davisinterface.View.ComsPanes;
+
 
 import javax.swing.*;
 import java.awt.*;
