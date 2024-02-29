@@ -4,9 +4,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
-
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -21,11 +18,6 @@ public class DavisinterfaceApplication extends JFrame {
 		dataSource.setPassword("postgres");
 		return dataSource;
 	}
-
-
-
-
-
 
 	public static void main(String[] args) {
 		var ctx = new SpringApplicationBuilder(DavisinterfaceApplication.class)
