@@ -406,7 +406,7 @@ public class Seriall {
     /**
      * Before CRC, checks to see if the number of received bytes matches the Command's
      * required size.
-     * @param command of any type, but check only applies to LOOP and LPS
+     * @param command of any type, but size check only applies to LOOP and LPS commands
      * @param testData StringBuilder of raw serial data
      * @return void. Re-sends Command to console if data length is wrong size
      */
@@ -414,7 +414,6 @@ public class Seriall {
         long count = testData.codePoints().filter(ch -> ch == 32).count();
         if (command.getType()==2){
             if (command.getExpectedNumberOfUnitsInReply()!=count){
-
                 sendCommand(command, false);
             }
         }
