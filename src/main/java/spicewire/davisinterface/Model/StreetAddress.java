@@ -1,22 +1,22 @@
 package spicewire.davisinterface.Model;
 
-import org.springframework.stereotype.Component;
+import java.io.Serializable;
 
-@Component
-public class StreetAddress {
+
+public class StreetAddress implements Serializable {
     private String streetAddress;
     private String zip;
     private String city;
     private String state;
 
-    public StreetAddress(String streetAddress, String zip, String city, String state) {
+    public void StreetAddress(String streetAddress, String zip, String city, String state) {
         this.streetAddress = streetAddress;
         this.zip = zip;
         this.city = city;
         this.state = state;
     }
 
-    public StreetAddress() {
+    public void StreetAddress() {
 
     }
 
