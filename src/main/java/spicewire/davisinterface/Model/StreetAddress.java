@@ -1,5 +1,8 @@
 package spicewire.davisinterface.Model;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class StreetAddress {
     private String streetAddress;
     private String zip;
@@ -13,6 +16,14 @@ public class StreetAddress {
         this.state = state;
     }
 
+    public StreetAddress() {
+
+    }
+
+    @Override
+    public String toString(){
+        return getStreetAddress() + " " + getCity() + ", " + getState() + getZip();
+}
     public String getStreetAddress() {
         return streetAddress;
     }

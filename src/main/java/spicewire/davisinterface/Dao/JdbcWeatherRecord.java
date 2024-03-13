@@ -30,6 +30,8 @@ import static java.time.LocalTime.now;
 //todo make string list of L1 and L2 var names, concat it for the JDBC query, use it as a lookup table
 //todo add combined wind direction, speed to hourly search
 //todo combine daily tempLow, tempHigh, windGust,etc to a single method with these as vars
+//todo see if there can be collisions b/t loop1 and loop 2 data when accessing static class
+
 public class JdbcWeatherRecord implements WeatherRecord {
 
     private final JdbcTemplate jdbcTemplate;
@@ -524,7 +526,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
             LocalDateTime adjustedTime = backThen.with(ChronoField.MINUTE_OF_HOUR, 0).truncatedTo(ChronoUnit.MINUTES);
             headerMap.put(adjustedTime, headerValByHour);
         }
-        System.out.println(headerMap);
+//        System.out.println(headerMap);
         return headerMap;
     }
 
@@ -578,7 +580,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
             default: friendlyBarTrend = "No info";
                 break;
         }
-        System.out.println("bar trend string: " + barTrendStr);
+//        System.out.println("bar trend string: " + barTrendStr);
         return "  " + friendlyBarTrend;
     }
 

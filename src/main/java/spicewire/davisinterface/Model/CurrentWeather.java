@@ -80,7 +80,7 @@ public class CurrentWeather {
     private Double lastHourRain;
     private Double last24HourRain;
 
-
+    //todo look into entity annotations with Spring
     public CurrentWeather() {
     }
 
