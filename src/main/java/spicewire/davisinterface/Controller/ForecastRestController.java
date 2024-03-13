@@ -165,12 +165,23 @@ public class ForecastRestController {
         String rawApiResult = restTemplate.getForObject("https://geocoding.geo.census.gov/geocoder/locations/" +
                 "address?street={street}&city={city}&state={state}&zip={zip}&benchmark=2020&format=json",
                 String.class, addressVars);
+        System.out.println("rawApiResult is " + rawApiResult);
         try {
             JsonNode jsonNode = objectMapper.readTree(rawApiResult);
+//            latitude = jsonNode.get("result").findValue("coordinates").asText();
+//            latitude = jsonNode.path("result")
+//                    .path("addressMatches")
+//                    .path("coordinates")
+//                    .findValue("X").asText();
+            longitude = jsonNode.get("result").findValue("x").asText();
+            latitude = jsonNode.get("result").findValue("y").asText();
+            System.out.println("latitude is " + latitude);
+            System.out.println("longitude is " + longitude);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         System.out.println("rawAPIresult = " + rawApiResult);
+        makeForecastPointFromLatLon((latitude+","+longitude));
         return ResponseEntity.ok(HttpStatus.OK);
 
     }
