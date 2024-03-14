@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -45,9 +47,10 @@ public class ForecastRestController {
     //todo needs option to choose which forecast to use
     //todo needs to accept geolocation, address by different methods, then return a forecast.
     //todo both address and geolocation will ultimately get the geoPoint, then return a forecast.
+    //todo item returned should have address and forecast
 
-    @Autowired
-    StreetAddress streetAddress;
+//    @Autowired
+//    StreetAddress streetAddress;
 
     @GetMapping(value="/{nonce}")
     public String getPreloadedForecast(@PathVariable String nonce) throws JsonProcessingException {
@@ -68,13 +71,37 @@ public class ForecastRestController {
         }
         return forecastString;
     }
-
+    //JsonNode jsonNode = objectMapper.readTree(new URI(gridpointsURL).toURL());
     public String getForecastFromURL(String forecastURL) throws JsonProcessingException {
         System.out.println("\nController received unique request for ForecastFromURL with URL= \n" + forecastURL);
         String forecastString = "none";
         try {
-            JsonNode node = mapper.readTree(new URI(forecastURL).toURL());
-            forecastString= node.toString();
+//            JsonNode node = new ObjectMapper().readTree(new URI(forecastURL).toURL()).get("periods");
+            JsonNode node = new ObjectMapper().readTree(new URI(forecastURL).toURL());
+            forecastString = node.get("properties").get("periods").toString();
+            System.out.println("node is " + node.toString() );
+//            JsonNode properties = node.get("properties");
+//            JsonNode periods = properties.get("periods");
+            //forecastString= node.toString();
+            //below did not throw error but did not return result
+//            if(node.isArray()){
+//                System.out.println("node is array");
+//            } else{
+//                System.out.println("node is not array");
+//            }
+//            if(properties.isArray()){
+//                System.out.println("properties is array");
+//            } else{
+//                System.out.println("properties is not array");
+//            }
+//            if(periods.isArray()){
+//                System.out.println("periods is array");
+//            } else{
+//                System.out.println("periods is not array");
+//            }
+//            System.out.println("properties is " + properties.toString());
+//            System.out.println("periods is " + periods.toString());
+//            forecastString= periods.toString();
 //            CensusAddress firstCensusAddress=mapper.readValue(new URI(URL_ADDRESS).toURL(), CensusAddress.class);
 //            System.out.println("result is " + firstCensusAddress.new Result().gimmieString());
 //            return firstCensusAddress.toString();
@@ -85,109 +112,62 @@ public class ForecastRestController {
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("forecastString is " + forecastString);
         return forecastString;
     }
 
-    @GetMapping(value="/address/")
-    public void getLatLonFromAddress(@PathVariable  StreetAddress address) {
-
-        System.out.println("Received unique get for forecast at an address: " + address.toString());
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        Map<String, String> addressVars = new HashMap<String, String>();
-        addressVars.put("theStreet", address.getStreetAddress());
-        addressVars.put("theCity", address.getCity());
-        addressVars.put("theState", address.getState());
-        addressVars.put("theZip", address.getZip());
-        String rawApiResult = restTemplate.getForObject("https://geocoding.geo.census.gov/geocoder/locations/" +
-                "{theStreet}/{theCity}/{theState}/{theZip}/&benchmark=2020&format=json", String.class, addressVars);
-        try {
-            JsonNode jsonNode = objectMapper.readTree(rawApiResult);
-        }  catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println("rawAPIresult = " + rawApiResult);
-
-    }
-
-//    @GetMapping(value="/address/")
-//    public String tokenGetResponse() {
-//        System.out.println("Received get request for forecast at an unspecified address");
-//        return "Backend rec'd forecast get with unspecified address";
-//    }
-
-//    @PostMapping(value="/address/")
-//    public String tokenPostResponse() {
-//        System.out.println("Received post request for forecast at an unspecified address");
-//        return "Backend rec'd forecast post with unspecified address";
-//    }
-
-//    @PostMapping(value="/address")
-//    public ResponseEntity postLatLonFromAddress(@RequestBody StreetAddress address) throws JsonProcessingException {
-
-//    @PostMapping(value="/address")
-//    public ResponseEntity postLatLonFromAddress(@RequestBody StreetAddress address) throws JsonProcessingException {
 //
-//        System.out.println("Received unique post for forecast at an address: " + address.toString());
-//        ObjectMapper objectMapper = new ObjectMapper();
-//
-//        Map<String, String> addressVars = new HashMap<String, String>();
-//        addressVars.put("theStreet", address.getStreetAddress());
-//        addressVars.put("theCity", address.getCity());
-//        addressVars.put("theState", address.getState());
-//        addressVars.put("theZip", address.getZip());
-//        System.out.println("addressVars is: " + addressVars);
-//        String rawApiResult = restTemplate.getForObject("https://geocoding.geo.census.gov/geocoder/locations/" +
-//                "{theStreet}/{theCity}/{theState}/{theZip}/&benchmark=2020&format=json", String.class, addressVars);
-//        try {
-//            JsonNode jsonNode = objectMapper.readTree(rawApiResult);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        System.out.println("rawAPIresult = " + rawApiResult);
-//        return ResponseEntity.ok(HttpStatus.OK);
-//
-//    }
 
     @PostMapping(value="/address")
-    public ResponseEntity postLatLonFromAddress(@RequestBody Map<String, String> addressMap)  throws JsonProcessingException {
+    public ResponseEntity postWeatherFromAddress(@RequestBody Map<String, String> addressMap)  throws JsonProcessingException {
+        StreetAddress address = getLatitudeAndLongitudeFromAddress(addressMap);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
 
+    public StreetAddress getLatitudeAndLongitudeFromAddress(Map<String, String> addressMap){
+        StreetAddress address;
         System.out.println("Received unique post for forecast at an address: " + addressMap.toString());
         ObjectMapper objectMapper = new ObjectMapper();
         String latitude = "";
         String longitude = "";
-        Map<String, String> addressVars = new HashMap<String, String>();
-        addressVars.put("street", addressMap.get("streetAddress"));
-        addressVars.put("city", addressMap.get("city"));
-        addressVars.put("state", addressMap.get("state"));
-        addressVars.put("zip", addressMap.get("zip"));
-        System.out.println("addressVars is: " + addressVars);
+        String latLon = "";
         String rawApiResult = restTemplate.getForObject("https://geocoding.geo.census.gov/geocoder/locations/" +
-                "address?street={street}&city={city}&state={state}&zip={zip}&benchmark=2020&format=json",
-                String.class, addressVars);
+                        "address?street={streetAddress}&city={city}&state={state}&zip={zip}&benchmark=2020&format=json",
+                String.class, addressMap);
         System.out.println("rawApiResult is " + rawApiResult);
         try {
             JsonNode jsonNode = objectMapper.readTree(rawApiResult);
-//            latitude = jsonNode.get("result").findValue("coordinates").asText();
-//            latitude = jsonNode.path("result")
-//                    .path("addressMatches")
-//                    .path("coordinates")
-//                    .findValue("X").asText();
             longitude = jsonNode.get("result").findValue("x").asText();
             latitude = jsonNode.get("result").findValue("y").asText();
             System.out.println("latitude is " + latitude);
             System.out.println("longitude is " + longitude);
+            latLon = latitude+","+longitude;
+            addressMap.put("latLon", latLon);
+            addressMap.put("latitude", latitude);
+            addressMap.put("longitude", longitude);
+            address = new StreetAddress(addressMap);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         System.out.println("rawAPIresult = " + rawApiResult);
-        makeForecastPointFromLatLon((latitude+","+longitude));
-        return ResponseEntity.ok(HttpStatus.OK);
+        return address;
+    }
+
+    public String makeForecastPointFromStreetAddressObj(StreetAddress address){
+        String latLon = address.getLatLon();
 
     }
 
     @PostMapping(value="/latLon/{latLon}")
-    public String makeForecastPointFromLatLon(@PathVariable String latLon) throws JsonProcessingException {
+    public ResponseEntity postForecastFromLatLon(@PathVariable String latLon){
+        StreetAddress address = new StreetAddress();
+        address.setLatLon(latLon);
+        String forecast = makeForecastPointFromLatLon(address);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    public String makeForecastPointFromLatLon( StreetAddress address)  {
+        String latLon = address.getLatLon();
         System.out.println("Received unique post for forecast at a latLon: " + latLon);
         ObjectMapper objectMapper = new ObjectMapper();
         String gridx = "";
@@ -223,7 +203,63 @@ public class ForecastRestController {
         return getForecastFromURL(forecastURL);
     }
 
+    private String getForecastURLFromLatLon(String latLon) {
+        System.out.println("Received unique post for forecast at a latLon: " + latLon);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String gridx = "";
+        String gridy = "";
+        String forecastURL="";
+        String forecastHourlyURL="";
+        String forecastGridDataURL="";
+        String gridpointsURL = "https://api.weather.gov/points/" +latLon;
+        System.out.println("gridpointsURL = " + gridpointsURL);
+        //String alertsURL = "https://api.weather.gov/alerts/active?point=" + latitude + "," + longitude;
+        try {
+            JsonNode jsonNode = objectMapper.readTree(new URI(gridpointsURL).toURL());
+            gridx = jsonNode.get("properties").findValue("gridX").asText();
+            gridy = jsonNode.get("properties").findValue("gridY").asText();
+            forecastURL = jsonNode.get("properties").findValue("forecast").asText();
+            System.out.println("ThisForecastURL = " + forecastURL);
+            forecastHourlyURL = jsonNode.get("properties").findValue("forecastHourly").asText();
+            forecastGridDataURL= jsonNode.get("properties").findValue("forecastGridData").asText();
 
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+
+        }
+        catch (MalformedURLException e){
+            System.out.println("Improperly formatted URL");
+            return "Improperly formatted url";
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("gridx and grid y are " + gridx + ", " + gridy );
+        return getForecastFromURL(forecastURL);
+    }
+
+//    @GetMapping(value="/address/")
+//    public void getLatLonFromAddress(@PathVariable  StreetAddress address) {
+//
+//        System.out.println("Received unique get for forecast at an address: " + address.toString());
+//        ObjectMapper objectMapper = new ObjectMapper();
+//
+//        Map<String, String> addressVars = new HashMap<String, String>();
+//        addressVars.put("theStreet", address.getStreetAddress());
+//        addressVars.put("theCity", address.getCity());
+//        addressVars.put("theState", address.getState());
+//        addressVars.put("theZip", address.getZip());
+//        String rawApiResult = restTemplate.getForObject("https://geocoding.geo.census.gov/geocoder/locations/" +
+//                "{theStreet}/{theCity}/{theState}/{theZip}/&benchmark=2020&format=json", String.class, addressVars);
+//        try {
+//            JsonNode jsonNode = objectMapper.readTree(rawApiResult);
+//        }  catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        System.out.println("rawAPIresult = " + rawApiResult);
+//
+//    }
 //        CensusGeolookup.Result result = jsonCensusGeolookup.new Result();
 //        System.out.println("Result is: " + result.gimmieCity());
 //        try {
@@ -282,5 +318,44 @@ public class ForecastRestController {
 //        return new String(Objects.requireNonNull(restTemplate.getForObject(
 //                URL_ADDRESS,
 //                String.class)));
+//    }
+
+//    @GetMapping(value="/address/")
+//    public String tokenGetResponse() {
+//        System.out.println("Received get request for forecast at an unspecified address");
+//        return "Backend rec'd forecast get with unspecified address";
+//    }
+
+//    @PostMapping(value="/address/")
+//    public String tokenPostResponse() {
+//        System.out.println("Received post request for forecast at an unspecified address");
+//        return "Backend rec'd forecast post with unspecified address";
+//    }
+
+//    @PostMapping(value="/address")
+//    public ResponseEntity postLatLonFromAddress(@RequestBody StreetAddress address) throws JsonProcessingException {
+
+//    @PostMapping(value="/address")
+//    public ResponseEntity postLatLonFromAddress(@RequestBody StreetAddress address) throws JsonProcessingException {
+//
+//        System.out.println("Received unique post for forecast at an address: " + address.toString());
+//        ObjectMapper objectMapper = new ObjectMapper();
+//
+//        Map<String, String> addressVars = new HashMap<String, String>();
+//        addressVars.put("theStreet", address.getStreetAddress());
+//        addressVars.put("theCity", address.getCity());
+//        addressVars.put("theState", address.getState());
+//        addressVars.put("theZip", address.getZip());
+//        System.out.println("addressVars is: " + addressVars);
+//        String rawApiResult = restTemplate.getForObject("https://geocoding.geo.census.gov/geocoder/locations/" +
+//                "{theStreet}/{theCity}/{theState}/{theZip}/&benchmark=2020&format=json", String.class, addressVars);
+//        try {
+//            JsonNode jsonNode = objectMapper.readTree(rawApiResult);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        System.out.println("rawAPIresult = " + rawApiResult);
+//        return ResponseEntity.ok(HttpStatus.OK);
+//
 //    }
 
