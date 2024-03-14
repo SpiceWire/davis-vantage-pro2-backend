@@ -13,6 +13,10 @@ public class StreetAddress implements Serializable {
     private String latitude;
     private String longitude;
     private String gridpoints;
+    private String forecastURL;
+    private String forecastHourlyURL;
+    private String forecastGridDataURL;
+    private String activeAlertsByPointURL;
 
     public  StreetAddress() {
     }
@@ -76,6 +80,14 @@ public class StreetAddress implements Serializable {
         return streetAddress;
     }
 
+    public String getActiveAlertsByPointURL() {
+        return activeAlertsByPointURL;
+    }
+
+    public void setActiveAlertsByPointURL(String activeAlertsByPointURL) {
+        this.activeAlertsByPointURL = activeAlertsByPointURL;
+    }
+
     public void setStreetAddress(String streetAddress) {
         this.streetAddress = streetAddress;
     }
@@ -98,6 +110,30 @@ public class StreetAddress implements Serializable {
 
     public String getState() {
         return state;
+    }
+
+    public String getForecastURL() {
+        return forecastURL;
+    }
+
+    public void setForecastURL(String forecastURL) {
+        this.forecastURL = forecastURL;
+    }
+
+    public String getForecastHourlyURL() {
+        return forecastHourlyURL;
+    }
+
+    public void setForecastHourlyURL(String forecastHourlyURL) {
+        this.forecastHourlyURL = forecastHourlyURL;
+    }
+
+    public String getForecastGridDataURL() {
+        return forecastGridDataURL;
+    }
+
+    public void setForecastGridDataURL(String forecastGridDataURL) {
+        this.forecastGridDataURL = forecastGridDataURL;
     }
 
     public void setState(String state) {

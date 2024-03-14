@@ -166,7 +166,7 @@ public class ForecastRestController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    public String makeForecastPointFromLatLon( StreetAddress address)  {
+    public String makeForecastPointFromLatLon(StreetAddress address)  {
         String latLon = address.getLatLon();
         System.out.println("Received unique post for forecast at a latLon: " + latLon);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -177,7 +177,7 @@ public class ForecastRestController {
         String forecastGridDataURL;
         String gridpointsURL = "https://api.weather.gov/points/" +latLon;
         System.out.println("gridpointsURL = " + gridpointsURL);
-        //String alertsURL = "https://api.weather.gov/alerts/active?point=" + latitude + "," + longitude;
+        String alertsURL = "https://api.weather.gov/alerts/active?point=" + latLon;
         try {
         JsonNode jsonNode = objectMapper.readTree(new URI(gridpointsURL).toURL());
          gridx = jsonNode.get("properties").findValue("gridX").asText();
@@ -186,7 +186,10 @@ public class ForecastRestController {
             System.out.println("ThisForecastURL = " + forecastURL);
          forecastHourlyURL = jsonNode.get("properties").findValue("forecastHourly").asText();
          forecastGridDataURL= jsonNode.get("properties").findValue("forecastGridData").asText();
-
+         address.setForecastURL(forecastURL);
+         address.setForecastHourlyURL(forecastHourlyURL);
+         address.setForecastGridDataURL(forecastGridDataURL);
+         address.setActiveAlertsByPointURL(alertsURL);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
 
