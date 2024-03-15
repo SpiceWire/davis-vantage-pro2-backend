@@ -74,7 +74,8 @@ public class StreetAddress implements Serializable {
 
     @Override
     public String toString(){
-        return getStreetAddress() + " " + getCity() + ", " + getState() + getZip();
+        return getStreetAddress() + " " + getCity() + ", "
+                + getState() + ", " + getZip() + ", " + getLatLon();
 }
     public String getStreetAddress() {
         return streetAddress;

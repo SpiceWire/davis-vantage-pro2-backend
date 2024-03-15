@@ -80,8 +80,28 @@ public class ForecastRestController {
     }
     //JsonNode jsonNode = objectMapper.readTree(new URI(gridpointsURL).toURL());
 
-    @PostMapping(value="/latLon/{latLon}")
-    public ResponseEntity postForecastFromLatLon(@PathVariable String latLon){
+//    @PostMapping(value="/latLon/{latLon}")
+//    public ResponseEntity postForecastFromLatLon(@PathVariable String latLon){
+//        System.out.println("Recieved post request for forecast with lat/lon of " + latLon);
+//        StreetAddress address = new StreetAddress();
+//        //adds latLon to address
+//        address.setLatLon(latLon);
+//        //address is populated with weather URL's
+//        address = makeForecastPointFromStreetAddressObj(address);
+//        //address is saved as default
+////        saveInfoToAddressProperties(convertAddressToMap(address));
+//        //get forecast from StreetAddress obj
+//        Map<String, Object> forecastAndAddress = makeForecastFromAddressObj(address);
+//
+////        return ResponseEntity.ok(HttpStatus.OK);
+//        System.out.println("forecastAndAddress = " + forecastAndAddress);
+//        return new ResponseEntity(forecastAndAddress,HttpStatus.OK);
+//    }
+
+    @PostMapping(value="/latLon")
+    public ResponseEntity postForecastOfLatLon(@RequestBody Map<String, String> addressMap){
+        String latLon = addressMap.get("latLon");
+        System.out.println("Recieved post request for forecast with body lat/lon of " + latLon);
         StreetAddress address = new StreetAddress();
         //adds latLon to address
         address.setLatLon(latLon);
@@ -97,9 +117,13 @@ public class ForecastRestController {
         return new ResponseEntity(forecastAndAddress,HttpStatus.OK);
     }
 
+
+
     @PostMapping(value="/address")
     public ResponseEntity postWeatherFromAddress(@RequestBody Map<String, String> addressMap)  throws JsonProcessingException {
+        System.out.println("rec'd forecast request with attached address");
         StreetAddress address = getLatitudeAndLongitudeFromAddress(addressMap);
+        makeForecastPointFromStreetAddressObj(address);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
