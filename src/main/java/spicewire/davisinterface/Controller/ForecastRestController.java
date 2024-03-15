@@ -80,27 +80,22 @@ public class ForecastRestController {
     }
     //JsonNode jsonNode = objectMapper.readTree(new URI(gridpointsURL).toURL());
 
+    @PostMapping(value="/latLon/{latLon}")
+    public ResponseEntity postForecastFromLatLon(@PathVariable String latLon){
+        StreetAddress address = new StreetAddress();
+        //adds latLon to address
+        address.setLatLon(latLon);
+        //address is populated with weather URL's
+        address = makeForecastPointFromStreetAddressObj(address);
+        //address is saved as default
+//        saveInfoToAddressProperties(convertAddressToMap(address));
+        //get forecast from StreetAddress obj
+        Map<String, Object> forecastAndAddress = makeForecastFromAddressObj(address);
 
-    public String getForecastFromURL(String forecastURL)   {
-        System.out.println("\nController received unique request for ForecastFromURL with URL= \n" + forecastURL);
-        String forecastString = "none";
-        try {
-//            JsonNode node = new ObjectMapper().readTree(new URI(forecastURL).toURL()).get("periods");
-            JsonNode node = new ObjectMapper().readTree(new URI(forecastURL).toURL());
-            forecastString = node.get("properties").get("periods").toString();
-            System.out.println("node is " + node.toString() );
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println("forecastString is " + forecastString);
-        return forecastString;
+//        return ResponseEntity.ok(HttpStatus.OK);
+        System.out.println("forecastAndAddress = " + forecastAndAddress);
+        return new ResponseEntity(forecastAndAddress,HttpStatus.OK);
     }
-
-//
 
     @PostMapping(value="/address")
     public ResponseEntity postWeatherFromAddress(@RequestBody Map<String, String> addressMap)  throws JsonProcessingException {
@@ -108,7 +103,17 @@ public class ForecastRestController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    public StreetAddress getLatitudeAndLongitudeFromAddress(Map<String, String> addressMap){
+
+//
+//todo get county code?
+    /**
+     * When given a Map of a street address, uses an API get latLon of street address,
+     * returns a StreetAddress object containing the address and latLon coordinate.
+     * @param addressMap Map of USA address. Must contain key names:
+     *                   streetAddress, city, state, zip.
+     * @return StreetAddress obj with street address and latLon.
+     */
+    private StreetAddress getLatitudeAndLongitudeFromAddress(Map<String, String> addressMap){
         StreetAddress address;
         System.out.println("Received unique post for forecast at an address: " + addressMap.toString());
         ObjectMapper objectMapper = new ObjectMapper();
@@ -137,36 +142,14 @@ public class ForecastRestController {
         return address;
     }
 
-    public String makeForecastPointFromStreetAddressObj(StreetAddress address){
-        String latLon = address.getLatLon();
 
-    }
-
-    @PostMapping(value="/latLon/{latLon}")
-    public ResponseEntity postForecastFromLatLon(@PathVariable String latLon){
-        StreetAddress address = new StreetAddress();
-        //adds latLon to address
-        address.setLatLon(latLon);
-        //address is populated with weather URL's
-        address = makeForecastPointFromLatLon(address);
-        //address is saved as default
-        saveInfoToAddressProperties(convertAddressToMap(address));
-        //get forecast from StreetAddress obj
-
-        getForecastFromURL(forecastURL);
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
-    private Map<String, String> makeForecastForDefaultAddress() {
-
-    }
 
     /**
      * Populates a StreetAddress obj with URLs for alerts and weather.
      * @param address StreetAddress obj, minimum params is latLon only.
      * @return
      */
-    private StreetAddress makeForecastPointFromLatLon(StreetAddress address)  {
+    private StreetAddress makeForecastPointFromStreetAddressObj(StreetAddress address)  {
         String latLon = address.getLatLon();
         System.out.println("Received unique post for forecast at a latLon: " + latLon);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -204,12 +187,114 @@ public class ForecastRestController {
         return address;
     }
 
+    /**
+     * When given a URL, returns a String containing an array of forecasts.
+     * @param forecastURL
+     * @return Array of forecasts as a String.
+     */
+    private String getForecastFromURL(String forecastURL)   {
+        System.out.println("\nController received unique request for ForecastFromURL with URL= \n" + forecastURL);
+        String forecastString = "none";
+        try {
+            JsonNode node = new ObjectMapper().readTree(new URI(forecastURL).toURL());
+            forecastString = node.get("properties").get("periods").toString();
+            System.out.println("node is " + node.toString() );
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("forecastString is " + forecastString);
+        return forecastString;
+    }
+
+//    private Map<String, String> makeForecastForDefaultAddress() {
+//
+//    }
+
+    /**
+     * Given a StreetAddress object, returns a map of the object's parameters.
+     * @param address
+     * @return
+     */
     private Map<String, Object> convertAddressToMap(StreetAddress address){
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> addressMap = objectMapper
-                .convertValue(address, new TypeReference<Map<String, Object>>() {});
+                .convertValue(address, new TypeReference<>() {
+                });
         return addressMap;
     }
+
+
+    /**
+     * Creates two Strings of forecasts when given a StreetAddress object. StreetAddress obj must already contain
+     * URLs that will provide forecasts.
+     * @param address StreetAddress with URLs that will provide forecasts
+     * @return Map of forecasts as strings and StreetAddress as object.
+     */
+    private Map<String, Object> makeForecastFromAddressObj(StreetAddress address){
+        String forecast = getForecastFromURL(address.getForecastURL());
+        String hourlyForecast= getForecastFromURL(address.getForecastHourlyURL());
+        Map<String, Object> forecastMap = new HashMap<>();
+        forecastMap.put("forecast", forecast);
+        forecastMap.put("hourlyForecast", hourlyForecast);
+        forecastMap.put("address", address);
+        return forecastMap;
+    }
+
+    public String getInfoFromAddressProperties(){
+        Properties addressProps = new Properties();
+        String value = "";
+        try {
+            addressProps.load(new FileInputStream(addressPath));
+            value = addressProps.getProperty("streetAddress");
+        }
+        catch (IOException e){
+        }
+        return value;
+    }
+
+    public StreetAddress getAddressFromAddressProperties(){
+        Properties addressProps = new Properties();
+        StreetAddress address = new StreetAddress();
+        Map<String, String> addressMap = new HashMap<>();
+        try {
+            addressProps.load(new FileInputStream(addressPath));
+            for (String key : addressProps.stringPropertyNames()) {
+                String value = addressProps.getProperty(key);
+                addressMap.put(key, value);
+            }
+            address = new StreetAddress(addressMap);
+        }
+        catch (IOException e){
+        }
+        return address;
+    }
+
+    /**
+     * Given an address Map, saves it to properties file.
+     * @param propMap
+     */
+    private void saveInfoToAddressProperties(Map<String, Object> propMap) {
+        Properties addressProps = new Properties();
+        try {
+            addressProps.putAll(propMap);
+            File propsFile = new File(addressPath);
+            if (propsFile.createNewFile()) {
+                System.out.println("Properties file created: " + propsFile.getName());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try (OutputStream outputStream = Files.newOutputStream(Path.of(addressPath))) {
+            addressProps.store(outputStream, null);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
 
     private String getForecastURLFromLatLon(String latLon) {
         System.out.println("Received unique post for forecast at a latLon: " + latLon);
@@ -245,62 +330,6 @@ public class ForecastRestController {
 
         System.out.println("gridx and grid y are " + gridx + ", " + gridy );
         return getForecastFromURL(forecastURL);
-    }
-
-    private String makeForecastFromAddressObj(StreetAddress address){
-        String[] forecast;
-        String[] hourlyForecast;
-
-    }
-    public String getInfoFromAddressProperties(){
-        Properties addressProps = new Properties();
-        String value = "";
-        try {
-            addressProps.load(new FileInputStream(addressPath));
-            value = addressProps.getProperty("streetAddress");
-        }
-        catch (IOException e){
-        }
-        return value;
-    }
-
-    public StreetAddress getAddressFromAddressProperties(){
-        Properties addressProps = new Properties();
-        StreetAddress address = new StreetAddress();
-        Map<String, String> addressMap = new HashMap<>();
-        try {
-            addressProps.load(new FileInputStream(addressPath));
-            for (String key : addressProps.stringPropertyNames()) {
-                String value = addressProps.getProperty(key);
-                addressMap.put(key, value);
-            }
-            address = new StreetAddress(addressMap);
-        }
-        catch (IOException e){
-        }
-        return address;
-    }
-
-    /**
-     * Given an address Map, saves it to properties file for default.
-     * @param propMap
-     */
-    private void saveInfoToAddressProperties(Map<String, Object> propMap) {
-        Properties addressProps = new Properties();
-        try {
-            addressProps.putAll(propMap);
-            File propsFile = new File(addressPath);
-            if (propsFile.createNewFile()) {
-                System.out.println("Properties file created: " + propsFile.getName());
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try (OutputStream outputStream = Files.newOutputStream(Path.of(addressPath))) {
-            addressProps.store(outputStream, null);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
     }
 //    @GetMapping(value="/address/")
 //    public void getLatLonFromAddress(@PathVariable  StreetAddress address) {
