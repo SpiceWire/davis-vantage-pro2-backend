@@ -80,23 +80,7 @@ public class ForecastRestController {
     }
     //JsonNode jsonNode = objectMapper.readTree(new URI(gridpointsURL).toURL());
 
-//    @PostMapping(value="/latLon/{latLon}")
-//    public ResponseEntity postForecastFromLatLon(@PathVariable String latLon){
-//        System.out.println("Recieved post request for forecast with lat/lon of " + latLon);
-//        StreetAddress address = new StreetAddress();
-//        //adds latLon to address
-//        address.setLatLon(latLon);
-//        //address is populated with weather URL's
-//        address = makeForecastPointFromStreetAddressObj(address);
-//        //address is saved as default
-////        saveInfoToAddressProperties(convertAddressToMap(address));
-//        //get forecast from StreetAddress obj
-//        Map<String, Object> forecastAndAddress = makeForecastFromAddressObj(address);
-//
-////        return ResponseEntity.ok(HttpStatus.OK);
-//        System.out.println("forecastAndAddress = " + forecastAndAddress);
-//        return new ResponseEntity(forecastAndAddress,HttpStatus.OK);
-//    }
+
 
     @PostMapping(value="/latLon")
     public ResponseEntity postForecastOfLatLon(@RequestBody Map<String, String> addressMap){
@@ -118,13 +102,14 @@ public class ForecastRestController {
     }
 
 
-
     @PostMapping(value="/address")
-    public ResponseEntity postWeatherFromAddress(@RequestBody Map<String, String> addressMap)  throws JsonProcessingException {
-        System.out.println("rec'd forecast request with attached address");
+    public ResponseEntity postWeatherFromAddress(@RequestBody Map<String, String> addressMap)  {
+        System.out.println("rec'd forecast request with attached address " + addressMap);
         StreetAddress address = getLatitudeAndLongitudeFromAddress(addressMap);
-        makeForecastPointFromStreetAddressObj(address);
-        return ResponseEntity.ok(HttpStatus.OK);
+        StreetAddress forecastAddress = makeForecastPointFromStreetAddressObj(address);
+        Map<String, Object> forecastAndAddress = makeForecastFromAddressObj(forecastAddress);
+        System.out.println("forecastAndAddress = " + forecastAndAddress);
+        return new ResponseEntity(forecastAndAddress,HttpStatus.OK);
     }
 
 
@@ -167,7 +152,6 @@ public class ForecastRestController {
     }
 
 
-
     /**
      * Populates a StreetAddress obj with URLs for alerts and weather.
      * @param address StreetAddress obj, minimum params is latLon only.
@@ -175,7 +159,7 @@ public class ForecastRestController {
      */
     private StreetAddress makeForecastPointFromStreetAddressObj(StreetAddress address)  {
         String latLon = address.getLatLon();
-        System.out.println("Received unique post for forecast at a latLon: " + latLon);
+        System.out.println("Received post for forecast at a latLon: " + latLon);
         ObjectMapper objectMapper = new ObjectMapper();
         String gridx = "";
         String gridy = "";
@@ -475,3 +459,20 @@ public class ForecastRestController {
 //
 //    }
 
+//    @PostMapping(value="/latLon/{latLon}")
+//    public ResponseEntity postForecastFromLatLon(@PathVariable String latLon){
+//        System.out.println("Recieved post request for forecast with lat/lon of " + latLon);
+//        StreetAddress address = new StreetAddress();
+//        //adds latLon to address
+//        address.setLatLon(latLon);
+//        //address is populated with weather URL's
+//        address = makeForecastPointFromStreetAddressObj(address);
+//        //address is saved as default
+////        saveInfoToAddressProperties(convertAddressToMap(address));
+//        //get forecast from StreetAddress obj
+//        Map<String, Object> forecastAndAddress = makeForecastFromAddressObj(address);
+//
+////        return ResponseEntity.ok(HttpStatus.OK);
+//        System.out.println("forecastAndAddress = " + forecastAndAddress);
+//        return new ResponseEntity(forecastAndAddress,HttpStatus.OK);
+//    }
