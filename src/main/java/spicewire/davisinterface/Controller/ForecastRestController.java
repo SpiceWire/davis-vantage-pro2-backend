@@ -134,7 +134,7 @@ public class ForecastRestController {
     /**
      * Populates a StreetAddress obj with URLs for alerts and weather.
      * @param address StreetAddress obj, minimum params is latLon only.
-     * @return
+     * @return StreetAddress obj with URLs for alerts and weather forecasts, and city, state if needed
      */
     private StreetAddress makeForecastPointFromStreetAddressObj(StreetAddress address)  {
         String latLon = address.getLatLon();
@@ -154,8 +154,11 @@ public class ForecastRestController {
         JsonNode jsonNode = objectMapper.readTree(new URI(gridpointsURL).toURL());
          gridx = jsonNode.get("properties").findValue("gridX").asText();
          gridy = jsonNode.get("properties").findValue("gridY").asText();
-         city = jsonNode.get("properties").findValue("city").asText();
-         state = jsonNode.get("properties").findValue("state").asText();
+         if (address.getCity().isBlank() || address.getState().isBlank()){
+             city = jsonNode.get("properties").findValue("city").asText();
+             state = jsonNode.get("properties").findValue("state").asText();
+         }
+
          forecastURL = jsonNode.get("properties").findValue("forecast").asText();
             System.out.println("ThisForecastURL = " + forecastURL);
          forecastHourlyURL = jsonNode.get("properties").findValue("forecastHourly").asText();
@@ -181,6 +184,18 @@ public class ForecastRestController {
     }
 
     /**
+     * Given a StreetAddress object with at least latLon, returns a ResponseEntity with the
+     * address and forecast
+     * @param  givenAddress StreetAddress object with at least latLon.
+     * @return
+     */
+    private ResponseEntity makeResponseFromAddress(StreetAddress givenAddress){
+        StreetAddress populatedAddress = makeForecastPointFromStreetAddressObj(givenAddress);
+        Map<String, Object> forecastAndAddress = makeForecastFromAddressObj(populatedAddress);
+        return new ResponseEntity(forecastAndAddress,HttpStatus.OK);
+    }
+
+    /**
      * When given a URL of a forecast, returns a String containing an array of forecasts.
      * @param forecastURL
      * @return Array of forecasts as a String.
@@ -203,9 +218,6 @@ public class ForecastRestController {
         return forecastString;
     }
 
-//    private Map<String, String> makeForecastForDefaultAddress() {
-//
-//    }
 
     /**
      * Given a StreetAddress object, returns a Map of the object's parameters.
