@@ -12,7 +12,7 @@ public class StreetAddress implements Serializable {
     private String latLon;
     private String latitude;
     private String longitude;
-    private String gridpoints;
+    private String gridpointsURL;
     private String forecastURL;
     private String forecastHourlyURL;
     private String forecastGridDataURL;
@@ -55,12 +55,12 @@ public class StreetAddress implements Serializable {
         this.latLon = latLon;
     }
 
-    public String getGridpoints() {
-        return gridpoints;
+    public String getGridpointsURL() {
+        return gridpointsURL;
     }
 
-    public void setGridpoints(String gridpoints) {
-        this.gridpoints = gridpoints;
+    public void setGridpointsURL(String gridpointsURL) {
+        this.gridpointsURL = gridpointsURL;
     }
 
     public StreetAddress(String streetAddress, String zip, String city, String state) {
