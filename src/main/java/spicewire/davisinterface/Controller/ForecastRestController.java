@@ -54,7 +54,7 @@ public class ForecastRestController {
      */
     @GetMapping(value="/{nonce}")
     public ResponseEntity getDefaultForecast(@PathVariable String nonce)   {
-        System.out.println("\nController received unique request for Forecast with id= \n" + nonce);
+        System.out.println("\nController received unique default request for Forecast with id= \n" + nonce);
         StreetAddress defaultAddress = getAddressFromAddressProperties();
         Map<String, Object> forecastAndAddress = makeForecastFromAddressObj(defaultAddress);
         System.out.println("forecastAndAddress = " + forecastAndAddress);
@@ -140,6 +140,8 @@ public class ForecastRestController {
         String latLon = address.getLatLon();
         System.out.println("Received post for forecast at a latLon: " + latLon);
         ObjectMapper objectMapper = new ObjectMapper();
+        String city = "";
+        String state = "";
         String gridx = "";
         String gridy = "";
         String forecastURL="";
@@ -152,6 +154,8 @@ public class ForecastRestController {
         JsonNode jsonNode = objectMapper.readTree(new URI(gridpointsURL).toURL());
          gridx = jsonNode.get("properties").findValue("gridX").asText();
          gridy = jsonNode.get("properties").findValue("gridY").asText();
+         city = jsonNode.get("properties").findValue("city").asText();
+         state = jsonNode.get("properties").findValue("state").asText();
          forecastURL = jsonNode.get("properties").findValue("forecast").asText();
             System.out.println("ThisForecastURL = " + forecastURL);
          forecastHourlyURL = jsonNode.get("properties").findValue("forecastHourly").asText();
@@ -161,7 +165,8 @@ public class ForecastRestController {
          address.setForecastGridDataURL(forecastGridDataURL);
          address.setActiveAlertsByPointURL(alertsURL);
          address.setGridpointsURL(gridpointsURL);
-
+         address.setState(state);
+         address.setCity(city);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -203,7 +208,7 @@ public class ForecastRestController {
 //    }
 
     /**
-     * Given a StreetAddress object, returns a map of the object's parameters.
+     * Given a StreetAddress object, returns a Map of the object's parameters.
      * @param address
      * @return
      */
@@ -263,6 +268,7 @@ public class ForecastRestController {
         catch (IOException e){
             address.setStreetAddress("7251 S. South Shore Drive");
             address.setCity("Chicago");
+            address.setState("IL");
             address.setZip("60649");
             address.setForecastURL("https://api.weather.gov/gridpoints/LOT/78,68/forecast");
             address.setForecastHourlyURL("https://api.weather.gov/gridpoints/LOT/78,68/forecast/hourly");
