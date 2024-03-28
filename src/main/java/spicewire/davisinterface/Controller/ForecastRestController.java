@@ -33,8 +33,8 @@ public class ForecastRestController {
     private String URL_ADDRESS = "https://geocoding.geo.census.gov/geocoder/locations/address?street=417+Hampton+Rd&c" +
             "ity=King+of+Prussia&state=PA&zip=19406&benchmark=2020&format=json";
 
-    String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-    String addressPath = rootPath + "address.properties";
+    private String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+    private String addressPath = rootPath + "address.properties";
 
     //todo generic forecast should pull location from a local file return the default with the forecast
     //todo needs method to accept a lat/lon, method to accept an address, both return the location with the forecast
@@ -56,9 +56,7 @@ public class ForecastRestController {
     public ResponseEntity getDefaultForecast(@PathVariable String nonce)   {
         System.out.println("\nController received unique default request for Forecast with id= \n" + nonce);
         StreetAddress defaultAddress = getAddressFromAddressProperties();
-        Map<String, Object> forecastAndAddress = makeForecastFromAddressObj(defaultAddress);
-        System.out.println("forecastAndAddress = " + forecastAndAddress);
-        return new ResponseEntity(forecastAndAddress,HttpStatus.OK);
+        return makeResponseFromAddress(defaultAddress);
     }
 
     @PostMapping(value="/latLon")
@@ -66,36 +64,46 @@ public class ForecastRestController {
         String latLon = addressMap.get("latLon");
         System.out.println("Recieved post request for forecast with body lat/lon of " + latLon);
         StreetAddress address = new StreetAddress();
-        //adds latLon to address
         address.setLatLon(latLon);
-        //address is populated with weather URL's
-        address = makeForecastPointFromStreetAddressObj(address);
-        //address is saved as default
-//        saveInfoToAddressProperties(convertAddressToMap(address));
-        //get forecast from StreetAddress obj
-        Map<String, Object> forecastAndAddress = makeForecastFromAddressObj(address);
-
-//        return ResponseEntity.ok(HttpStatus.OK);
-        System.out.println("forecastAndAddress = " + forecastAndAddress);
-        return new ResponseEntity(forecastAndAddress,HttpStatus.OK);
+        return makeResponseFromAddress(address);
     }
 
 
     @PostMapping(value="/address")
-    public ResponseEntity postWeatherFromAddress(@RequestBody Map<String, String> addressMap)  {
+    public ResponseEntity postForecastOfAddress(@RequestBody Map<String, String> addressMap)  {
         System.out.println("rec'd forecast request with attached address " + addressMap);
         StreetAddress address = getLatitudeAndLongitudeFromAddress(addressMap);
-        StreetAddress forecastAddress = makeForecastPointFromStreetAddressObj(address);
-        Map<String, Object> forecastAndAddress = makeForecastFromAddressObj(forecastAddress);
-        System.out.println("forecastAndAddress = " + forecastAndAddress);
-        return new ResponseEntity(forecastAndAddress,HttpStatus.OK);
+        return makeResponseFromAddress(address);
+    }
+
+    @PostMapping(value="/default/address")
+    public ResponseEntity makeDefaultAddress(@RequestBody Map<String, String> addressMap)  {
+        System.out.println("rec'd request to make default address: " + addressMap);
+        StreetAddress address = getLatitudeAndLongitudeFromAddress(addressMap);
+        makeForecastPointFromStreetAddressObj(address);
+        Map<String, Object> defaultAddressMap = convertAddressToMap(address);
+        saveMapToAddressProperties(defaultAddressMap);
+        System.out.println("Default address properties saved as: " + defaultAddressMap);
+        return makeResponseFromAddress(address);
+    }
+
+    @PostMapping(value="/default/latLon")
+    public ResponseEntity makeDefaultLatLon(@RequestBody Map<String, String> addressMap){
+        String latLon = addressMap.get("latLon");
+        System.out.println("Recieved post request for forecast with body lat/lon of " + latLon);
+        StreetAddress address = new StreetAddress();
+        address.setLatLon(latLon);
+        makeForecastPointFromStreetAddressObj(address);
+        Map<String, Object> defaultAddressMap = convertAddressToMap(address);
+        saveMapToAddressProperties(defaultAddressMap);
+        return makeResponseFromAddress(address);
     }
 
 
 //
 //todo get county code?
     /**
-     * When given a Map of a street address, uses an API get latLon of street address,
+     * When given a Map of a street address, uses an API to get latLon of street address,
      * returns a StreetAddress object containing the address and latLon coordinate.
      * @param addressMap Map of USA address. Must contain key names:
      *                   streetAddress, city, state, zip.
@@ -154,9 +162,18 @@ public class ForecastRestController {
         JsonNode jsonNode = objectMapper.readTree(new URI(gridpointsURL).toURL());
          gridx = jsonNode.get("properties").findValue("gridX").asText();
          gridy = jsonNode.get("properties").findValue("gridY").asText();
-         if (address.getCity().isBlank() || address.getState().isBlank()){
+         if (address.getCity() != null || address.getState() != null) {
+             if (address.getCity().isBlank() || address.getState().isBlank()){
+                 city = jsonNode.get("properties").findValue("city").asText();
+                 state = jsonNode.get("properties").findValue("state").asText();
+                 address.setState(state);
+                 address.setCity(city);
+             }
+         } else {
              city = jsonNode.get("properties").findValue("city").asText();
              state = jsonNode.get("properties").findValue("state").asText();
+             address.setState(state);
+             address.setCity(city);
          }
 
          forecastURL = jsonNode.get("properties").findValue("forecast").asText();
@@ -168,8 +185,6 @@ public class ForecastRestController {
          address.setForecastGridDataURL(forecastGridDataURL);
          address.setActiveAlertsByPointURL(alertsURL);
          address.setGridpointsURL(gridpointsURL);
-         address.setState(state);
-         address.setCity(city);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -177,6 +192,7 @@ public class ForecastRestController {
             System.out.println("Improperly formatted URL");
         }
         catch (IOException e) {
+            //todo rerun if error
             throw new RuntimeException(e);
         }
         System.out.println("gridx and grid y are " + gridx + ", " + gridy );
@@ -191,7 +207,9 @@ public class ForecastRestController {
      */
     private ResponseEntity makeResponseFromAddress(StreetAddress givenAddress){
         StreetAddress populatedAddress = makeForecastPointFromStreetAddressObj(givenAddress);
+        System.out.println("populated address = " + populatedAddress);
         Map<String, Object> forecastAndAddress = makeForecastFromAddressObj(populatedAddress);
+        System.out.println("Response: " + forecastAndAddress);
         return new ResponseEntity(forecastAndAddress,HttpStatus.OK);
     }
 
@@ -249,17 +267,17 @@ public class ForecastRestController {
         return forecastMap;
     }
 
-    public String getInfoFromAddressProperties(){
-        Properties addressProps = new Properties();
-        String value = "";
-        try {
-            addressProps.load(new FileInputStream(addressPath));
-            value = addressProps.getProperty("streetAddress");
-        }
-        catch (IOException e){
-        }
-        return value;
-    }
+//    public String getInfoFromAddressProperties(){
+//        Properties addressProps = new Properties();
+//        String value = "";
+//        try {
+//            addressProps.load(new FileInputStream(addressPath));
+//            value = addressProps.getProperty("streetAddress");
+//        }
+//        catch (IOException e){
+//        }
+//        return value;
+//    }
 
     /**
      * Reads the properties file, returns a StreetAddress instance from its contents
@@ -297,7 +315,7 @@ public class ForecastRestController {
      * Given an address Map, saves it to properties file.
      * @param propMap
      */
-    private void saveInfoToAddressProperties(Map<String, Object> propMap) {
+    private void saveMapToAddressProperties(Map<String, Object> propMap) {
         Properties addressProps = new Properties();
         try {
             addressProps.putAll(propMap);
