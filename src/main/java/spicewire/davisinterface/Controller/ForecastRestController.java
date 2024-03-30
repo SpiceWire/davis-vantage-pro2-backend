@@ -39,7 +39,6 @@ public class ForecastRestController {
      */
     @GetMapping(value = "/{nonce}")
     private ResponseEntity getDefaultForecast(@PathVariable String nonce) {
-        System.out.println("\nController received unique default request for Forecast with id= \n" + nonce);
         StreetAddress defaultAddress = getAddressFromAddressProperties();
         return makeResponseFromAddress(defaultAddress);
     }
@@ -47,7 +46,7 @@ public class ForecastRestController {
     @PostMapping(value = "/latLon")
     private ResponseEntity postForecastOfLatLon(@RequestBody Map<String, String> addressMap) {
         String latLon = addressMap.get("latLon");
-        System.out.println("Recieved post request for forecast with body lat/lon of " + latLon);
+
         StreetAddress address = new StreetAddress();
         address.setLatLon(latLon);
         return makeResponseFromAddress(address);
@@ -56,26 +55,26 @@ public class ForecastRestController {
 
     @PostMapping(value = "/address")
     private ResponseEntity postForecastOfAddress(@RequestBody Map<String, String> addressMap) {
-        System.out.println("rec'd forecast request with attached address " + addressMap);
+
         StreetAddress address = getLatitudeAndLongitudeFromAddress(addressMap);
         return makeResponseFromAddress(address);
     }
 
     @PostMapping(value = "/default/address")
     private ResponseEntity makeDefaultAddress(@RequestBody Map<String, String> addressMap) {
-        System.out.println("rec'd request to make default address: " + addressMap);
+
         StreetAddress address = getLatitudeAndLongitudeFromAddress(addressMap);
         makeForecastPointFromStreetAddressObj(address);
         Map<String, Object> defaultAddressMap = convertAddressToMap(address);
         saveMapToAddressProperties(defaultAddressMap);
-        System.out.println("Default address properties saved as: " + defaultAddressMap);
+
         return makeResponseFromAddress(address);
     }
 
     @PostMapping(value = "/default/latLon")
     private ResponseEntity makeDefaultLatLon(@RequestBody Map<String, String> addressMap) {
         String latLon = addressMap.get("latLon");
-        System.out.println("Received post request to set default with body lat/lon of " + latLon);
+
         StreetAddress address = new StreetAddress();
         address.setLatLon(latLon);
         makeForecastPointFromStreetAddressObj(address);
@@ -98,7 +97,6 @@ public class ForecastRestController {
      */
     private StreetAddress getLatitudeAndLongitudeFromAddress(Map<String, String> addressMap) {
         StreetAddress address;
-        System.out.println("Received unique post for forecast at an address: " + addressMap.toString());
         ObjectMapper objectMapper = new ObjectMapper();
         String latitude = "";
         String longitude = "";
@@ -106,13 +104,12 @@ public class ForecastRestController {
         String rawApiResult = restTemplate.getForObject("https://geocoding.geo.census.gov/geocoder/locations/" +
                         "address?street={streetAddress}&city={city}&state={state}&zip={zip}&benchmark=2020&format=json",
                 String.class, addressMap);
-        System.out.println("rawApiResult is " + rawApiResult);
+
         try {
             JsonNode jsonNode = objectMapper.readTree(rawApiResult);
             longitude = jsonNode.get("result").findValue("x").asText();
             latitude = jsonNode.get("result").findValue("y").asText();
-            System.out.println("latitude is " + latitude);
-            System.out.println("longitude is " + longitude);
+
             latLon = latitude + "," + longitude;
             addressMap.put("latLon", latLon);
             addressMap.put("latitude", latitude);
@@ -121,7 +118,7 @@ public class ForecastRestController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("rawAPIresult = " + rawApiResult);
+
         return address;
     }
 
@@ -134,7 +131,6 @@ public class ForecastRestController {
      */
     private StreetAddress makeForecastPointFromStreetAddressObj(StreetAddress address) {
         String latLon = address.getLatLon();
-        System.out.println("Received post for forecast at a latLon: " + latLon);
         ObjectMapper objectMapper = new ObjectMapper();
         String city = "";
         String state = "";
@@ -144,7 +140,6 @@ public class ForecastRestController {
         String forecastHourlyURL = "";
         String forecastGridDataURL = "";
         String gridpointsURL = "https://api.weather.gov/points/" + latLon;
-        System.out.println("gridpointsURL = " + gridpointsURL);
         String alertsURL = "https://api.weather.gov/alerts/active?point=" + latLon;
         try {
             JsonNode jsonNode = objectMapper.readTree(new URI(gridpointsURL).toURL());
@@ -169,7 +164,6 @@ public class ForecastRestController {
             }
 
             forecastURL = jsonNode.get("properties").findValue("forecast").asText();
-            System.out.println("ThisForecastURL = " + forecastURL);
             forecastHourlyURL = jsonNode.get("properties").findValue("forecastHourly").asText();
             forecastGridDataURL = jsonNode.get("properties").findValue("forecastGridData").asText();
             address.setForecastURL(forecastURL);
@@ -180,13 +174,10 @@ public class ForecastRestController {
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         } catch (MalformedURLException e) {
-            System.out.println("Improperly formatted URL");
         } catch (IOException e) {
             //todo rerun if error
             throw new RuntimeException(e);
         }
-        System.out.println("gridx and grid y are " + gridx + ", " + gridy);
-        System.out.println("address is " + address);
         return address;
     }
 
@@ -199,9 +190,7 @@ public class ForecastRestController {
      */
     private ResponseEntity makeResponseFromAddress(StreetAddress givenAddress) {
         StreetAddress populatedAddress = makeForecastPointFromStreetAddressObj(givenAddress);
-        System.out.println("populated address = " + populatedAddress);
         Map<String, Object> forecastAndAddress = makeForecastFromAddressObj(populatedAddress);
-        System.out.println("Response: " + forecastAndAddress);
         return new ResponseEntity(forecastAndAddress, HttpStatus.OK);
     }
 
@@ -212,12 +201,10 @@ public class ForecastRestController {
      * @return Array of forecasts as a String.
      */
     private String getForecastFromURL(String forecastURL) {
-        System.out.println("\nController received unique request for ForecastFromURL with URL= \n" + forecastURL);
         String forecastString = "none";
         try {
             JsonNode node = new ObjectMapper().readTree(new URI(forecastURL).toURL());
             forecastString = node.get("properties").get("periods").toString();
-            System.out.println("node is " + node.toString());
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -225,7 +212,6 @@ public class ForecastRestController {
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("forecastString is " + forecastString);
         return forecastString;
     }
 
@@ -282,10 +268,7 @@ public class ForecastRestController {
             if(address.getLatLon()==null){
                 throw new IOException();
             }
-            System.out.println("root path is " + rootPath);
-            System.out.println("getAddressFromAddressProperties first run says address is " + address.toString());
         } catch (IOException e) {
-            System.out.println("exception in getAddressFromAddressProperties");
             address.setStreetAddress("7251 S. South Shore Drive");
             address.setCity("Chicago");
             address.setState("IL");
@@ -298,7 +281,6 @@ public class ForecastRestController {
             address.setGridpointsURL("https://api.weather.gov/points/41.7648,-87.5613");
             address.setActiveAlertsByPointURL("https://api.weather.gov/alerts/active?point=41.7648,-87.5613");
         }
-        System.out.println("getAddressFromAddressProperties says address is " + address.toString());
         return address;
     }
 
@@ -309,12 +291,10 @@ public class ForecastRestController {
      */
     private void saveMapToAddressProperties(Map<String, Object> propMap) {
         Properties addressProps = new Properties();
-        System.out.println("propmap is " + propMap);
         try {
             addressProps.putAll(propMap);
             File propsFile = new File(addressPath);
             if (propsFile.createNewFile()) {
-                System.out.println("Properties file created: " + propsFile.getName());
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
