@@ -15,11 +15,9 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+
 import java.util.*;
-//todo add validation for lat/lon
-//todo use ResponseEntity instead
+
 
 @CrossOrigin
 @Configuration
@@ -31,16 +29,7 @@ public class ForecastRestController {
     private final String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
     private final String addressPath = rootPath + "address.properties";
 
-    //todo generic forecast should pull location from a local file return the default with the forecast
-    //todo needs method to accept a lat/lon, method to accept an address, both return the location with the forecast
-    //todo needs option to choose which forecast to use
-    //todo needs to accept geolocation, address by different methods, then return a forecast.
-    //todo both address and geolocation will ultimately get the geoPoint, then return a forecast.
-    //todo item returned should have address and forecast
-    //todo return an object with extended forecast, address, and a detailed forecast
-
-//    @Autowired
-//    StreetAddress streetAddress;
+    //todo implement hourly forecast and weather alerts
 
     /**
      * Returns address and forecasts for default location in properties file.
