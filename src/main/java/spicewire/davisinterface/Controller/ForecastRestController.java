@@ -26,15 +26,10 @@ import java.util.*;
 @RestController
 @RequestMapping("/forecast")
 public class ForecastRestController {
-    private String geocodingURL = "https://geocoding.geo.census.gov/geocoder/locations/";
-    private ObjectMapper mapper = new ObjectMapper();
-    private final RestTemplate restTemplate = new RestTemplate();
-    private String testForecastURL = "https://api.weather.gov/points/39.7456,-97.0892";
-    private String URL_ADDRESS = "https://geocoding.geo.census.gov/geocoder/locations/address?street=417+Hampton+Rd&c" +
-            "ity=King+of+Prussia&state=PA&zip=19406&benchmark=2020&format=json";
 
-    private String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-    private String addressPath = rootPath + "address.properties";
+    private final RestTemplate restTemplate = new RestTemplate();
+    private final String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+    private final String addressPath = rootPath + "address.properties";
 
     //todo generic forecast should pull location from a local file return the default with the forecast
     //todo needs method to accept a lat/lon, method to accept an address, both return the location with the forecast
