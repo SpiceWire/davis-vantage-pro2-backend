@@ -54,14 +54,14 @@ public class ForecastRestController {
      * @return ResponseEntity with StreetAddress object and forecast array
      */
     @GetMapping(value = "/{nonce}")
-    public ResponseEntity getDefaultForecast(@PathVariable String nonce) {
+    private ResponseEntity getDefaultForecast(@PathVariable String nonce) {
         System.out.println("\nController received unique default request for Forecast with id= \n" + nonce);
         StreetAddress defaultAddress = getAddressFromAddressProperties();
         return makeResponseFromAddress(defaultAddress);
     }
 
     @PostMapping(value = "/latLon")
-    public ResponseEntity postForecastOfLatLon(@RequestBody Map<String, String> addressMap) {
+    private ResponseEntity postForecastOfLatLon(@RequestBody Map<String, String> addressMap) {
         String latLon = addressMap.get("latLon");
         System.out.println("Recieved post request for forecast with body lat/lon of " + latLon);
         StreetAddress address = new StreetAddress();
@@ -71,14 +71,14 @@ public class ForecastRestController {
 
 
     @PostMapping(value = "/address")
-    public ResponseEntity postForecastOfAddress(@RequestBody Map<String, String> addressMap) {
+    private ResponseEntity postForecastOfAddress(@RequestBody Map<String, String> addressMap) {
         System.out.println("rec'd forecast request with attached address " + addressMap);
         StreetAddress address = getLatitudeAndLongitudeFromAddress(addressMap);
         return makeResponseFromAddress(address);
     }
 
     @PostMapping(value = "/default/address")
-    public ResponseEntity makeDefaultAddress(@RequestBody Map<String, String> addressMap) {
+    private ResponseEntity makeDefaultAddress(@RequestBody Map<String, String> addressMap) {
         System.out.println("rec'd request to make default address: " + addressMap);
         StreetAddress address = getLatitudeAndLongitudeFromAddress(addressMap);
         makeForecastPointFromStreetAddressObj(address);
@@ -89,7 +89,7 @@ public class ForecastRestController {
     }
 
     @PostMapping(value = "/default/latLon")
-    public ResponseEntity makeDefaultLatLon(@RequestBody Map<String, String> addressMap) {
+    private ResponseEntity makeDefaultLatLon(@RequestBody Map<String, String> addressMap) {
         String latLon = addressMap.get("latLon");
         System.out.println("Received post request to set default with body lat/lon of " + latLon);
         StreetAddress address = new StreetAddress();
@@ -326,7 +326,6 @@ public class ForecastRestController {
     private void saveMapToAddressProperties(Map<String, Object> propMap) {
         Properties addressProps = new Properties();
         System.out.println("propmap is " + propMap);
-
         try {
             addressProps.putAll(propMap);
             File propsFile = new File(addressPath);
@@ -341,9 +340,6 @@ public class ForecastRestController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
     }
-
 //todo add alerts
 }
