@@ -91,7 +91,7 @@ public class ForecastRestController {
     @PostMapping(value = "/default/latLon")
     public ResponseEntity makeDefaultLatLon(@RequestBody Map<String, String> addressMap) {
         String latLon = addressMap.get("latLon");
-        System.out.println("Recieved post request for forecast with body lat/lon of " + latLon);
+        System.out.println("Received post request to set default with body lat/lon of " + latLon);
         StreetAddress address = new StreetAddress();
         address.setLatLon(latLon);
         makeForecastPointFromStreetAddressObj(address);
@@ -172,12 +172,16 @@ public class ForecastRestController {
                     state = jsonNode.get("properties").findValue("state").asText();
                     address.setState(state);
                     address.setCity(city);
+                    address.setZip("");
+                    address.setStreetAddress("");
                 }
             } else {
                 city = jsonNode.get("properties").findValue("city").asText();
                 state = jsonNode.get("properties").findValue("state").asText();
                 address.setState(state);
                 address.setCity(city);
+                address.setZip("");
+                address.setStreetAddress("");
             }
 
             forecastURL = jsonNode.get("properties").findValue("forecast").asText();
@@ -198,6 +202,7 @@ public class ForecastRestController {
             throw new RuntimeException(e);
         }
         System.out.println("gridx and grid y are " + gridx + ", " + gridy);
+        System.out.println("address is " + address);
         return address;
     }
 
@@ -269,7 +274,6 @@ public class ForecastRestController {
         String hourlyForecast = getForecastFromURL(address.getForecastHourlyURL());
         Map<String, Object> forecastMap = new HashMap<>();
         forecastMap.put("forecast", forecast);
-//        forecastMap.put("hourlyForecast", hourlyForecast);
         forecastMap.put("address", address);
         return forecastMap;
     }
@@ -291,7 +295,13 @@ public class ForecastRestController {
                 addressMap.put(key, value);
             }
             address = new StreetAddress(addressMap);
+            if(address.getLatLon()==null){
+                throw new IOException();
+            }
+            System.out.println("root path is " + rootPath);
+            System.out.println("getAddressFromAddressProperties first run says address is " + address.toString());
         } catch (IOException e) {
+            System.out.println("exception in getAddressFromAddressProperties");
             address.setStreetAddress("7251 S. South Shore Drive");
             address.setCity("Chicago");
             address.setState("IL");
@@ -304,6 +314,7 @@ public class ForecastRestController {
             address.setGridpointsURL("https://api.weather.gov/points/41.7648,-87.5613");
             address.setActiveAlertsByPointURL("https://api.weather.gov/alerts/active?point=41.7648,-87.5613");
         }
+        System.out.println("getAddressFromAddressProperties says address is " + address.toString());
         return address;
     }
 
@@ -314,6 +325,8 @@ public class ForecastRestController {
      */
     private void saveMapToAddressProperties(Map<String, Object> propMap) {
         Properties addressProps = new Properties();
+        System.out.println("propmap is " + propMap);
+
         try {
             addressProps.putAll(propMap);
             File propsFile = new File(addressPath);
@@ -323,11 +336,13 @@ public class ForecastRestController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        try (OutputStream outputStream = Files.newOutputStream(Path.of(addressPath))) {
-            addressProps.store(outputStream, null);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
+        try{
+            addressProps.store(new FileWriter(addressPath), null);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
+
     }
 
 //todo add alerts

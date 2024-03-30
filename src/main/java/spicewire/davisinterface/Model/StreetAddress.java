@@ -52,6 +52,9 @@ public class StreetAddress implements Serializable {
     }
 
     public void setLatLon(String latLon) {
+        String[] latLonSplit = latLon.split(",");
+        this.latitude=latLonSplit[0];
+        this.longitude=latLonSplit[1];
         this.latLon = latLon;
     }
 
