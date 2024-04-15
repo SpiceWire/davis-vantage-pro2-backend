@@ -49,27 +49,7 @@ public class DavisinterfaceApplication extends JFrame {
 			}
 		};
 	}
-//	@Bean
-//	public WebMvcConfigurer corsConfigurer() {
-//		return new WebMvcConfigurer() {
-//			@Override
-//			public void addCorsMappings(CorsRegistry registry) {
-//				registry.addMapping("/").allowedOrigins("http://localhost:5173");
-//				corsConfigurer().
-//			}
-//		};
-//	}
-//	@Bean
-//	public ConfigurableServletWebServerFactory webServerFactory() {
-//		TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory();
-//		factory.addConnectorCustomizers(new TomcatConnectorCustomizer() {
-//			@Override
-//			public void customize(Connector connector) {
-//				connector.setProperty("relaxedQueryChars", "|{}[]");
-//			}
-//		});
-//		return factory;
-//	}
+
 
 	@ConfigurationProperties
 	public static BasicDataSource getDatasource(){
