@@ -38,7 +38,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
     private DecimalFormat df = new DecimalFormat("#.##");
 
     public JdbcWeatherRecord(BasicDataSource dataSource) {
-        dataSource = DavisinterfaceApplication.getDatasource();
+        dataSource = DavisinterfaceApplication.MyDataSourceConfiguration.getDatasource();
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 

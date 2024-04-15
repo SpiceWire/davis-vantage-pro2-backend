@@ -17,6 +17,7 @@ import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -50,15 +51,28 @@ public class DavisinterfaceApplication extends JFrame {
 		};
 	}
 
+	@Configuration(proxyBeanMethods = false)
+	public class MyDataSourceConfiguration {
 
-	@ConfigurationProperties
-	public static BasicDataSource getDatasource(){
-		BasicDataSource dataSource = new BasicDataSource();
-		dataSource.setUrl("jdbc:postgresql://localhost:5432/WeatherDB");
-		dataSource.setUsername("postgres");
-		dataSource.setPassword("postgres");
-		return dataSource;
+		@Bean
+		@ConfigurationProperties(prefix = "spring.datasource")
+		public static BasicDataSource getDatasource(){
+			BasicDataSource dataSource = new BasicDataSource();
+			//		dataSource.setUrl("jdbc:postgresql://localhost:5432/WeatherDB");
+			//		dataSource.setUsername("postgres");
+			//		dataSource.setPassword("postgres");
+			return dataSource;
+		}
+
 	}
+//	@ConfigurationProperties
+//	public static BasicDataSource getDatasource(){
+//		BasicDataSource dataSource = new BasicDataSource();
+//		dataSource.setUrl("jdbc:postgresql://localhost:5432/WeatherDB");
+//		dataSource.setUsername("postgres");
+//		dataSource.setPassword("postgres");
+//		return dataSource;
+//	}
 
 	public static void main(String[] args) {
 
