@@ -54,7 +54,7 @@ public class DavisinterfaceApplication extends JFrame {
 	}
 
 
-
+//Example for configuration
 		@ConfigurationProperties
 		public static BasicDataSource getDatasource(){
 			BasicDataSource dataSource = new BasicDataSource();
@@ -63,9 +63,6 @@ public class DavisinterfaceApplication extends JFrame {
 					dataSource.setPassword("postgres");
 			return dataSource;
 		}
-
-
-
 
 	public static void main(String[] args) {
 
