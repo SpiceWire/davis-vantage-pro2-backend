@@ -3,6 +3,7 @@ package spicewire.davisinterface;
 import org.apache.catalina.connector.Connector;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
@@ -51,28 +53,19 @@ public class DavisinterfaceApplication extends JFrame {
 		};
 	}
 
-	@Configuration(proxyBeanMethods = false)
-	public class MyDataSourceConfiguration {
 
-		@Bean
-		@ConfigurationProperties(prefix = "spring.datasource")
+
+		@ConfigurationProperties
 		public static BasicDataSource getDatasource(){
 			BasicDataSource dataSource = new BasicDataSource();
-			//		dataSource.setUrl("jdbc:postgresql://localhost:5432/WeatherDB");
-			//		dataSource.setUsername("postgres");
-			//		dataSource.setPassword("postgres");
+					dataSource.setUrl("jdbc:postgresql://localhost:5432/WeatherDB");
+					dataSource.setUsername("postgres");
+					dataSource.setPassword("postgres");
 			return dataSource;
 		}
 
-	}
-//	@ConfigurationProperties
-//	public static BasicDataSource getDatasource(){
-//		BasicDataSource dataSource = new BasicDataSource();
-//		dataSource.setUrl("jdbc:postgresql://localhost:5432/WeatherDB");
-//		dataSource.setUsername("postgres");
-//		dataSource.setPassword("postgres");
-//		return dataSource;
-//	}
+
+
 
 	public static void main(String[] args) {
 

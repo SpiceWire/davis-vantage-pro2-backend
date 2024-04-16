@@ -37,8 +37,8 @@ public class JdbcWeatherRecord implements WeatherRecord {
     private final JdbcTemplate jdbcTemplate;
     private DecimalFormat df = new DecimalFormat("#.##");
 
-    public JdbcWeatherRecord(BasicDataSource dataSource) {
-        dataSource = DavisinterfaceApplication.MyDataSourceConfiguration.getDatasource();
+    public JdbcWeatherRecord() {
+        BasicDataSource dataSource = DavisinterfaceApplication.getDatasource();
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
@@ -265,7 +265,6 @@ public class JdbcWeatherRecord implements WeatherRecord {
         currentWeather.setLeafWetness4(l1srs.getInt("leaf_wetness4"));
         currentWeather.setForecastIcon(l1srs.getInt("forecast_icon"));
 
-//        System.out.println("l1srs date: " + l1srs.getDate("entry_date"));
     }
 
     private void mapL2RowToDavis(SqlRowSet l2srs, CurrentWeather currentWeather){
@@ -323,6 +322,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
         df.setRoundingMode(RoundingMode.HALF_UP);
         return Double.valueOf(df.format(accumulatedRain));
     }
+
     private double getPreviousWindGust(int daysOffset){
         double windGust =0;
         String previousTempHighSql = " SELECT MAX(ten_min_wind_gust)\n" +
@@ -336,6 +336,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
         }
         return windGust;
     }
+
     private double getPreviousTemperatureHigh(int daysOffset){
         double temperatureHigh =0;
         String previousTempHighSql = " SELECT MAX(outside_temperature)\n" +

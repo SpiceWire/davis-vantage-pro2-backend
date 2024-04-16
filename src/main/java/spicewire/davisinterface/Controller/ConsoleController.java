@@ -40,7 +40,7 @@ public class ConsoleController {
     @Autowired
     private ComsPanes view = new ComsPanes();
     private Command command = new Command();  //todo is this really needed here? Or at all?
-    private JdbcWeatherRecord jdbcWeatherRecord = new JdbcWeatherRecord(dataSource);
+    private JdbcWeatherRecord jdbcWeatherRecord = new JdbcWeatherRecord();
     private final Logger logger = Logger.getLogger(ConsoleController.class.getName());
 
 
