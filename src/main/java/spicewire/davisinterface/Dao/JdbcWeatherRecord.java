@@ -102,7 +102,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "day_ET, month_ET, year_ET, soil_moisture1, soil_moisture2," +
                 "soil_moisture3, soil_moisture4, leaf_wetness1, leaf_wetness2, leaf_wetness3," +
                 "leaf_wetness4, forecast_icon, transmitter_battery_status, console_battery_voltage, time_of_sunrise, " +
-                "time_of_sunset)" +
+                "time_of_sunset, inside_alarms, rain_alarms, outside_alarms1, outside_alarms2)" +
                 "VALUES (?,?,?,?,?," +
                 "?,?,?,?,?," +
                 "?,?,?,?,?," +
@@ -115,7 +115,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "?,?,?,?,?," +
                 "?,?,?,?,?," +
                 "?,?,?,?,?," +
-                "?)";
+                "?,?,?,?,?)";
 
         jdbcTemplate.update(loop1Sql, getDatestamp(), getTimestamp(), true, "DavisVP2L1", l1.getBarTrend(),
                 l1.getPacketType(), l1.getNextRecord(), l1.getBarometer(), l1.getInsideTemperature(), l1.getInsideHumidity(),
@@ -135,7 +135,8 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 l1.getLeafWetness3(),
                 l1.getLeafWetness4(), l1.getForecastIcons(), l1.getTransmitterBatteryStatus(),
                 l1.getConsoleBatteryVoltage(), l1.getTimeOfSunrise(),
-                l1.getTimeOfSunset());
+                l1.getTimeOfSunset(), l1.getInsideAlarms(), l1.getRainAlarms(), l1.getOutsideAlarms1(),
+                l1.getOutsideAlarms2());
 
     }
 
@@ -706,6 +707,7 @@ private boolean validateHeaderName(String headerName){
                 "next_yearly_rain",
                 "next_seasonal_rain",
                 "inside_alarms",
+                "rain_alarms",
                 "outside_alarms1",
                 "outside_alarms2",
                 "outside_humidity_alarms",
