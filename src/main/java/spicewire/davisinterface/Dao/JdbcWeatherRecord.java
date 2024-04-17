@@ -170,14 +170,15 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "dew_point, outside_humidity, heat_index, wind_chill, thsw_index," +
                 "rain_rate, uv, solar_radiation, storm_rain, start_date_of_current_storm, " +
                 "daily_rain, last_fifteen_min_rain, last_hour_rain, day_ET, last_24_hour_rain," +
-                "packet_type, barometric_reduction_method ) " +
+                "packet_type, barometric_reduction_method, user_entered_barometric_offset, barometric_calibration_number, " +
+                "absolute_barometric_pressure) " +
                 "VALUES (?,?,?,?,?," +
                 "?,?,?,?,?," +
                 "?,?,?,?,?," +
                 "?,?,?,?,?," +
                 "?,?,?,?,?," +
                 "?,?,?,?,?," +
-                "?,?)";
+                "?,?,?,?,?)";
         jdbcTemplate.update(loop2Sql, getDatestamp(), getTimestamp(), true, "DavisVP2L2", l2.getBarTrend(),
                 l2.getBarometer(), l2.getInsideTemperature(), l2.getInsideHumidity(), l2.getOutsideTemperature(), l2.getWindSpeed(),
                 l2.getWindDirection(), l2.getTenMinAvgWindSpeed(), l2.getTwoMinAvgWindSpeed(), l2.getTenMinWindGust(),
@@ -185,7 +186,8 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 l2.getDewPoint(), l2.getOutsideHumidity(), l2.getHeatIndex(), l2.getWindChill(), l2.getThswIndex(),
                 l2.getRainRate(), l2.getUv(), l2.getSolarRadiation(), l2.getStormRain(), l2.getStartDateOfCurrentStorm(),
                 l2.getDayRain(), l2.getLast15MinRain(), l2.getLastHourRain(), l2.getDayET(), l2.getLast24HourRain(),
-                l2.getPacketType(), l2.getBarometricReductionMethod());
+                l2.getPacketType(), l2.getBarometricReductionMethod(), l2.getUserEnteredBarometricOffset(),
+                l2.getBarometricCalibrationNumber(), l2.getAbsoluteBarometricPressure());
 //        System.out.println("Loop2 database entry created");
     }
 
@@ -679,7 +681,7 @@ private boolean validateHeaderName(String headerName){
                 "console_battery_voltage",
                 "time_of_sunrise",
                 "barometric_reduction_method",
-                "user_entered-barometric_offset",
+                "user_entered_barometric_offset",
                 "barometric_calibration_number",
                 "absolute_barometric_pressure",
                 "altimeter_setting",
