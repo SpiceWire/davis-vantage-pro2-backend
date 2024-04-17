@@ -209,7 +209,12 @@ public class Loop1Reading implements LoopReading {
         return loopData.split(" ");
     }
 
-    //returns one or more elements of the loopRecord array. "Length" is measured by bytes.
+    /**
+     * Returns one or more elements of the loopRecord array. "Length" is measured by bytes.
+     * @param offset per Davis manual
+     * @param length number of bytes to return
+     * @return raw bytes as string
+     */
     private String getByteOrWord(int offset, int length) {
         StringBuilder byteOrWord = new StringBuilder();
         for (int i = 0; i < length; i++) {
@@ -218,16 +223,31 @@ public class Loop1Reading implements LoopReading {
         return byteOrWord.toString().trim();
     }
 
-    //given an index number from the loopRecord array (see Davis documentation), returns the binary converted to int
+    /**
+     * Given an index number from the loopRecord array of bytes (see Davis documentation),
+     * returns the byte converted to an int.
+     * @param index Index number of byte in loopRecord array
+     * @return Integer
+     */
     private int parseBinaryNumberAtIndex(int index) {
         return Integer.parseInt(getByteOrWord(index, 1), 2);
     }
 
+    /**
+     * Given a binary number as a String, returns the binary converted to int.
+     * @param binaryString binary number in String
+     * @return Integer
+     */
     private int parseBinaryString(String binaryString) {
         return Integer.parseInt(binaryString, 2);
     }
 
-    //several values (e.g. temperatures) are sent LSB first, which means the byte order is incorrect for parsing.
+    /**
+     * Given the index of a binary word (i.e. two bytes) with LSB at the first index,
+     * returns the binary as integer.
+     * @param firstIndex the lower index of the two bytes in the word
+     * @return integer
+     */
     private int parseBinaryWordsAtIndex(int firstIndex) {
         return Integer.parseInt(prependWord(firstIndex), 2);
     }
