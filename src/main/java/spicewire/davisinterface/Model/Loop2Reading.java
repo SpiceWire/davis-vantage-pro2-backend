@@ -549,4 +549,32 @@ public class Loop2Reading implements DataRecord {
     public int getNextSeasonalRain() {
         return nextSeasonalRain;
     }
+
+    public double getDailyRain() {
+        return dailyRain;
+    }
+
+    public int getBarometricReductionMethod() {
+        return barometricReductionMethod;
+    }
+
+    public int getUserEnteredBarometricOffset() {
+        return userEnteredBarometricOffset;
+    }
+
+    public double getBarometricCalibrationNumber() {
+        return barometricCalibrationNumber;
+    }
+
+    public double getBarometricSensorRawReading() {
+        return barometricSensorRawReading;
+    }
+
+    public double getAbsoluteBarometricPressure() {
+        return absoluteBarometricPressure;
+    }
+
+    public double getAltimeterSetting() {
+        return altimeterSetting;
+    }
 }
