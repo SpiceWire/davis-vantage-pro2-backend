@@ -136,7 +136,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 l1.getLeafWetness4(), l1.getForecastIcons(), l1.getTransmitterBatteryStatus(),
                 l1.getConsoleBatteryVoltage(), l1.getTimeOfSunrise(),
                 l1.getTimeOfSunset());
-//        System.out.println("Loop1 database entry created. Get outTemp = " + l1.getOutsideTemperature());
+
     }
 
 
@@ -169,7 +169,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "wind_direction, ten_min_avg_wind_speed, two_min_avg_wind_speed, ten_min_wind_gust, wind_direction_for_the_ten_minute_wind_gust," +
                 "dew_point, outside_humidity, heat_index, wind_chill, thsw_index," +
                 "rain_rate, uv, solar_radiation, storm_rain, start_date_of_current_storm, " +
-                "day_rain, last_fifteen_min_rain, last_hour_rain, day_ET, last_24_hour_rain," +
+                "daily_rain, last_fifteen_min_rain, last_hour_rain, day_ET, last_24_hour_rain," +
                 "packet_type) " +
                 "VALUES (?,?,?,?,?," +
                 "?,?,?,?,?," +
