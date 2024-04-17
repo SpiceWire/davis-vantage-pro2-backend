@@ -93,6 +93,16 @@ public class Loop2Reading implements DataRecord {
         this.barometricSensorRawReading = setBarometricSensorRawReading();
         this.absoluteBarometricPressure = setAbsoluteBarometricPressure();
         this.altimeterSetting = setAltimeterSetting();
+        this.nextTenMinWindSpeedGraphPointer = setNext10MinWindSpeedGraphPointer();
+        this.nextFifteenMinWindSpeedGraphPointer =setNext15MinWindSpeedGraphPointer();
+        this.nextHourlyWindSpeedGraphPointer = setNextHourlyWindSpeedGraphPointer();
+        this.nextDailyWindSpeedGraphPointer = setNextDailyWindSpeedGraphPointer();
+        this.nextMinuteRainGraphPointer= setNextMinuteRainGraphPointer();
+        this.nextRainStormGraphPointer = setNexRainStormGraphPointer();
+        this.indexToTheMinuteWithinAnHour = setIndexToTheMinuteWithinAnHour();
+        this.nextMonthlyRain = setNextMonthlyRain();
+        this.nextYearlyRain = setNextYearlyRain();
+        this.nextSeasonalRain = setNextSeasonalRain();
         this.dataSource= "DavisVP2L2";
         //jdbcWeatherRecord.createRecord(this);
 //        System.out.println("Loop2Reading: Loop2 Reading object created. Inside temp is: " + getInsideTemperature());
