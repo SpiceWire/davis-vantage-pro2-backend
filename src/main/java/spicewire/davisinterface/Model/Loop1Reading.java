@@ -327,17 +327,7 @@ public class Loop1Reading implements LoopReading {
     "This field supports seven extra temperature stations. Each byte is one extra temperature value in whole
     degrees F with an offset of 90 degrees. For example, a value of 0 = -90°F ; a value of 100 = 10°F ; and a
     value of 169 = 79°F.*/
-/*    private void setExtraTemperatures() {
-        System.out.println("extraTemps triggered");
-        Integer[] extraTemperatures = new Integer[7];
-        String extraTemp;
-        for (int i = 0; i<=6; i++){
-            if(getByteOrWord(18+i,1).equalsIgnoreCase("11111111")){
-                extraTemperatures[i] = null;
-            } else extraTemperatures[i] = parseBinaryNumberAtIndex(18+i) -90;
-        }
-        this.extraTemperatures = extraTemperatures;
-    }*/
+
     //Integer is used (rather than int) so that a null value can be returned.
     private Integer setExtratemperature1() {
         return parseTemperatureWith90Offset(18);
