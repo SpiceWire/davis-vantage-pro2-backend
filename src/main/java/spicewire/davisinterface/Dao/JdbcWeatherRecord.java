@@ -43,7 +43,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public CurrentWeather getWeather(){
+    public CurrentWeather getWeather() {
         CurrentWeather currentWeather = new CurrentWeather();
         String consoleSqlLoop1 = "SELECT bar_trend, entry_date, " +
                 "barometer, inside_temperature, inside_humidity," +
@@ -70,20 +70,20 @@ public class JdbcWeatherRecord implements WeatherRecord {
 
         SqlRowSet loop1Srs = jdbcTemplate.queryForRowSet(consoleSqlLoop1);
         SqlRowSet loop2Srs = jdbcTemplate.queryForRowSet(consoleSqlLoop2);
-        while (loop1Srs.next()){
+        while (loop1Srs.next()) {
             mapL1RowToDavis(loop1Srs, currentWeather);
         }
-        while (loop2Srs.next()){
+        while (loop2Srs.next()) {
             mapL2RowToDavis(loop2Srs, currentWeather);
         }
         return currentWeather;
     }
 
-    public void createRecord(DataRecord dataRecord){
-        if(dataRecord.getPacketType()==0){
+    public void createRecord(DataRecord dataRecord) {
+        if (dataRecord.getPacketType() == 0) {
             createLoop1Record((Loop1Reading) dataRecord);
             createLoop1Alarms((Loop1Reading) dataRecord);
-        } else if (dataRecord.getPacketType()==1){
+        } else if (dataRecord.getPacketType() == 1) {
             createLoop2Record((Loop2Reading) dataRecord);
         } else System.out.println("Unknown type tried to create a weather record.");
     }
@@ -141,7 +141,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
     }
 
 
-    private void createLoop1Alarms(Loop1Reading l1){
+    private void createLoop1Alarms(Loop1Reading l1) {
         String loop1SqlAlarms = "INSERT INTO alarm (entry_date, entry_time, for_export, data_source, " +
                 "inside, rain, outside_alarms1, outside_alarms2, outside_humidity_alarms, " +
                 "extra_temp_hum_alarms1, extra_temp_hum_alarms2, extra_temp_hum_alarms3, extra_temp_hum_alarms4, " +
@@ -154,14 +154,14 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "?,?,?,?,?," +
                 "?)";
 
-            jdbcTemplate.update(loop1SqlAlarms, getDatestamp(), getTimestamp(), true, "DavisVP2L1",
+        jdbcTemplate.update(loop1SqlAlarms, getDatestamp(), getTimestamp(), true, "DavisVP2L1",
                 l1.getInsideAlarms(), l1.getRainAlarms(), l1.getOutsideAlarms1(), l1.getOutsideAlarms2(),
                 l1.getOutsideHumidityAlarms(),
                 l1.getExtraTempHumAlarms1(), l1.getExtraTempHumAlarms2(), l1.getExtraTempHumAlarms3(),
                 l1.getExtraTempHumAlarms4(), l1.getExtraTempHumAlarms5(),
-                l1.getExtraTempHumAlarms6(), l1.getExtraTempHumAlarms7(),  l1.getSoilLeafAlarms1(),
+                l1.getExtraTempHumAlarms6(), l1.getExtraTempHumAlarms7(), l1.getSoilLeafAlarms1(),
                 l1.getSoilLeafAlarms2(), l1.getSoilLeafAlarms3(),
-                 l1.getSoilLeafAlarms4());
+                l1.getSoilLeafAlarms4());
     }
 
     private void createLoop2Record(Loop2Reading l2) {
@@ -192,32 +192,32 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 l2.getWindDirectionForTheTenMinuteWindGust(),
                 l2.getDewPoint(), l2.getOutsideHumidity(), l2.getHeatIndex(), l2.getWindChill(), l2.getThswIndex(),
                 l2.getRainRate(), l2.getUv(), l2.getSolarRadiation(), l2.getStormRain(), l2.getStartDateOfCurrentStorm(),
-                l2.getDayRain(), l2.getLast15MinRain(), l2.getLastHourRain(), l2.getDayET(), l2.getLast24HourRain(),
+                l2.getDayRain(), l2.getLast15MinRain(), l2.getLastHourRain(), l2.getDailyET(), l2.getLast24HourRain(),
                 l2.getPacketType(), l2.getBarometricReductionMethod(), l2.getUserEnteredBarometricOffset(),
                 l2.getBarometricCalibrationNumber(), l2.getAbsoluteBarometricPressure(),
                 l2.getAltimeterSetting(), l2.getNextTenMinWindSpeedGraphPointer(), l2.getNextFifteenMinWindSpeedGraphPointer(),
                 l2.getNextHourlyWindSpeedGraphPointer(), l2.getNextDailyWindSpeedGraphPointer(),
                 l2.getNextMinuteRainGraphPointer(), l2.getIndexToTheMinuteWithinAnHour(), l2.getNextMonthlyRain(),
                 l2.getNextYearlyRain(), l2.getNextSeasonalRain()
-                );
-//        System.out.println("Loop2 database entry created");
-    }
+        );
 
+    }
 
 
     @Override
     public LocalDate getDatestamp() {
         return LocalDate.now();
     }
+
     @Override
     public LocalTime getTimestamp() {
         return now();
     }
 
-    private void mapL1RowToDavis(SqlRowSet l1srs, CurrentWeather currentWeather){
+    private void mapL1RowToDavis(SqlRowSet l1srs, CurrentWeather currentWeather) {
         currentWeather.setBarTrend(l1srs.getInt("bar_trend"));
         currentWeather.setBarometer(l1srs.getDouble("barometer"));
-        currentWeather.setInsideTemperature(l1srs.getDouble( "inside_temperature"));
+        currentWeather.setInsideTemperature(l1srs.getDouble("inside_temperature"));
         currentWeather.setInsideHumidity(l1srs.getInt("inside_humidity"));
 
         currentWeather.setOutsideTemperature(l1srs.getDouble("outside_temperature"));
@@ -257,7 +257,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
         currentWeather.setSolarRadiation(l1srs.getInt("solar_radiation"));
 
         currentWeather.setStormRain(l1srs.getDouble("storm_rain"));
-        if (l1srs.getString("start_date_of_current_storm")!=null){
+        if (l1srs.getString("start_date_of_current_storm") != null) {
             currentWeather.setStartDateOfCurrentStorm(l1srs.getDate("start_date_of_current_storm").toLocalDate());
         } else {
             currentWeather.setStartDateOfCurrentStorm(null);
@@ -283,7 +283,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
 
     }
 
-    private void mapL2RowToDavis(SqlRowSet l2srs, CurrentWeather currentWeather){
+    private void mapL2RowToDavis(SqlRowSet l2srs, CurrentWeather currentWeather) {
         currentWeather.setTwoMinAvgWindSpeed(l2srs.getInt("two_min_avg_wind_speed"));
         currentWeather.setTenMinuteWindGust(l2srs.getDouble("ten_min_wind_gust"));
         currentWeather.setWindDirectionForTheTenMinuteWindGust(l2srs.getInt("wind_direction_for_the_ten_minute_wind_gust"));
@@ -302,6 +302,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
     /**
      * Returns an AggregateWeather object containing high/low/avg weather data of one
      * day, identified by the days offset from today.
+     *
      * @param daysOffset
      * @return
      */
@@ -327,199 +328,201 @@ public class JdbcWeatherRecord implements WeatherRecord {
 
     /**
      * Returns accumulated rain (each day's rain total, summed) from a day offset from now();
+     *
      * @param days number of days offset from today's date
      * @return double, sum of all days' rain since offset.
      */
-    public double getAccumulatedRainByDays(int days){
+    public double getAccumulatedRainByDays(int days) {
         double accumulatedRain = 0;
-        for (int i=0; i<=days; i++){
-            accumulatedRain+=getPreviousTotalRain(i);
+        for (int i = 0; i <= days; i++) {
+            accumulatedRain += getPreviousTotalRain(i);
         }
         df.setRoundingMode(RoundingMode.HALF_UP);
         return Double.valueOf(df.format(accumulatedRain));
     }
 
-    private double getPreviousWindGust(int daysOffset){
-        double windGust =0;
+    private double getPreviousWindGust(int daysOffset) {
+        double windGust = 0;
         String previousTempHighSql = " SELECT MAX(ten_min_wind_gust)\n" +
                 "                FROM record\n" +
                 "                WHERE     for_export = 'TRUE'\n" +
                 "        AND entry_date = '" +
                 getDatestamp().minusDays(daysOffset) + "'";
         SqlRowSet previousTempHighSrs = jdbcTemplate.queryForRowSet(previousTempHighSql);
-        while (previousTempHighSrs.next()){
-            windGust =previousTempHighSrs.getDouble("max");
+        while (previousTempHighSrs.next()) {
+            windGust = previousTempHighSrs.getDouble("max");
         }
         return windGust;
     }
 
-    private double getPreviousTemperatureHigh(int daysOffset){
-        double temperatureHigh =0;
+    private double getPreviousTemperatureHigh(int daysOffset) {
+        double temperatureHigh = 0;
         String previousTempHighSql = " SELECT MAX(outside_temperature)\n" +
                 "                FROM record\n" +
                 "                WHERE     for_export = 'TRUE'\n" +
                 "        AND entry_date = '" +
                 getDatestamp().minusDays(daysOffset) + "'";
         SqlRowSet previousTempHighSrs = jdbcTemplate.queryForRowSet(previousTempHighSql);
-        while (previousTempHighSrs.next()){
-            temperatureHigh =previousTempHighSrs.getDouble("max");
+        while (previousTempHighSrs.next()) {
+            temperatureHigh = previousTempHighSrs.getDouble("max");
         }
         return temperatureHigh;
     }
 
-    private double getPreviousTemperatureLow(int daysOffset){
-        double temperatureLow =0;
+    private double getPreviousTemperatureLow(int daysOffset) {
+        double temperatureLow = 0;
         String previousTempLowSql = " SELECT MIN(outside_temperature)\n" +
                 "                FROM record\n" +
                 "                WHERE     for_export = 'TRUE'\n" +
                 "        AND entry_date = '" +
                 getDatestamp().minusDays(daysOffset) + "'";
         SqlRowSet previousTempLowSrs = jdbcTemplate.queryForRowSet(previousTempLowSql);
-        while (previousTempLowSrs.next()){
-            temperatureLow =previousTempLowSrs.getDouble("min");
+        while (previousTempLowSrs.next()) {
+            temperatureLow = previousTempLowSrs.getDouble("min");
         }
         return temperatureLow;
     }
 
-    private double getPreviousTemperatureAvg(int daysOffset){
+    private double getPreviousTemperatureAvg(int daysOffset) {
         double temperatureAvg = 0;
         String previousTempSql = " SELECT ROUND(AVG(outside_temperature),1)\n" +
                 "                FROM record\n" +
                 "                WHERE     for_export = 'TRUE'\n" +
                 "        AND entry_date = '" +
                 getDatestamp().minusDays(daysOffset) + "'";
-        SqlRowSet previousTemperatureAvgSrs= jdbcTemplate.queryForRowSet(previousTempSql);
-        while (previousTemperatureAvgSrs.next()){
+        SqlRowSet previousTemperatureAvgSrs = jdbcTemplate.queryForRowSet(previousTempSql);
+        while (previousTemperatureAvgSrs.next()) {
             temperatureAvg = previousTemperatureAvgSrs.getDouble("round");
         }
         return temperatureAvg;
     }
 
-    private double getPreviousTemperatureChange(int daysOffset){
+    private double getPreviousTemperatureChange(int daysOffset) {
         double temperatureChange = 0;
         String previousTempChange =
-        "SELECT(SELECT MAX(outside_temperature) " +
-                "FROM record "+
-                "WHERE for_export = 'TRUE' "+
-        "AND entry_date = '" + getDatestamp().minusDays(daysOffset) +
-                "')-(SELECT MIN(outside_temperature) " +
-        "FROM record "+
-               "WHERE for_export = 'TRUE' "+
-                "AND entry_date = '" +
-                getDatestamp().minusDays(daysOffset) + "') AS difference";
-        SqlRowSet previousTempChangeSrs= jdbcTemplate.queryForRowSet(previousTempChange);
-        while (previousTempChangeSrs.next()){
+                "SELECT(SELECT MAX(outside_temperature) " +
+                        "FROM record " +
+                        "WHERE for_export = 'TRUE' " +
+                        "AND entry_date = '" + getDatestamp().minusDays(daysOffset) +
+                        "')-(SELECT MIN(outside_temperature) " +
+                        "FROM record " +
+                        "WHERE for_export = 'TRUE' " +
+                        "AND entry_date = '" +
+                        getDatestamp().minusDays(daysOffset) + "') AS difference";
+        SqlRowSet previousTempChangeSrs = jdbcTemplate.queryForRowSet(previousTempChange);
+        while (previousTempChangeSrs.next()) {
             temperatureChange = previousTempChangeSrs.getDouble("difference");
         }
         return temperatureChange;
     }
 
-    private double getPreviousHumidityAvg(int daysOffset){
+    private double getPreviousHumidityAvg(int daysOffset) {
         double humidityAvg = 0;
-        String previousHumAvgSql = " SELECT ROUND(AVG(outside_humidity),0)\n" +
-                "                FROM record\n" +
-                "                WHERE for_export = 'TRUE'\n" +
+        String previousHumAvgSql = " SELECT ROUND(AVG(outside_humidity),0) " +
+                "                FROM record " +
+                "                WHERE for_export = 'TRUE' " +
                 "        AND entry_date = '" +
                 getDatestamp().minusDays(daysOffset) + "'";
-        SqlRowSet previousHumidityAvgSrs= jdbcTemplate.queryForRowSet(previousHumAvgSql);
-        while (previousHumidityAvgSrs.next()){
+        SqlRowSet previousHumidityAvgSrs = jdbcTemplate.queryForRowSet(previousHumAvgSql);
+        while (previousHumidityAvgSrs.next()) {
             humidityAvg = previousHumidityAvgSrs.getDouble("round");
         }
         return humidityAvg;
     }
 
-    private double getPreviousHumidityHigh(int daysOffset){
+    private double getPreviousHumidityHigh(int daysOffset) {
         double humidityHigh = 0;
-        String previousHumHighSql = " SELECT MAX(outside_humidity)\n" +
-                "                FROM record\n" +
-                "                WHERE for_export = 'TRUE'\n" +
+        String previousHumHighSql = " SELECT MAX(outside_humidity) " +
+                "                FROM record " +
+                "                WHERE for_export = 'TRUE' " +
                 "        AND entry_date = '" +
                 getDatestamp().minusDays(daysOffset) + "'";
-        SqlRowSet previousHumHighSrs= jdbcTemplate.queryForRowSet(previousHumHighSql);
-        while (previousHumHighSrs.next()){
+        SqlRowSet previousHumHighSrs = jdbcTemplate.queryForRowSet(previousHumHighSql);
+        while (previousHumHighSrs.next()) {
             humidityHigh = previousHumHighSrs.getDouble("max");
         }
         return humidityHigh;
     }
 
-    private double getPreviousHumidityLow(int daysOffset){
+    private double getPreviousHumidityLow(int daysOffset) {
         double humidityLow = 0;
-        String previousHumLowSql = " SELECT MIN(outside_humidity)\n" +
-                "                FROM record\n" +
-                "                WHERE for_export = 'TRUE'\n" +
+        String previousHumLowSql = " SELECT MIN(outside_humidity) " +
+                "                FROM record " +
+                "                WHERE for_export = 'TRUE' " +
                 "        AND entry_date = '" +
                 getDatestamp().minusDays(daysOffset) + "'";
-        SqlRowSet previousHumLowSrs= jdbcTemplate.queryForRowSet(previousHumLowSql);
-        while (previousHumLowSrs.next()){
+        SqlRowSet previousHumLowSrs = jdbcTemplate.queryForRowSet(previousHumLowSql);
+        while (previousHumLowSrs.next()) {
             humidityLow = previousHumLowSrs.getDouble("min");
         }
         return humidityLow;
     }
 
-    public double getPreviousTotalRain(int daysOffset){
+    public double getPreviousTotalRain(int daysOffset) {
         double previousRain = 0;
-        String previousRainSql = "SELECT MAX(day_rain) FROM record WHERE for_export = 'TRUE'"+
+        String previousRainSql = "SELECT MAX(day_rain) FROM record WHERE for_export = 'TRUE'" +
                 "        AND entry_date = '" +
                 getDatestamp().minusDays(daysOffset) + "'";
         SqlRowSet previousRainSrs = jdbcTemplate.queryForRowSet(previousRainSql);
-        while (previousRainSrs.next()){
-            previousRain =previousRainSrs.getDouble("max");
+        while (previousRainSrs.next()) {
+            previousRain = previousRainSrs.getDouble("max");
         }
 
         df.setRoundingMode(RoundingMode.HALF_UP);
-        return Double.parseDouble(df.format(previousRain)) ;
+        return Double.parseDouble(df.format(previousRain));
     }
 
-    private double getPreviousBarometerHigh(int daysOffset){
-        double barHigh =0;
-        String previousBarHighSql = " SELECT MAX(barometer)\n" +
-                "                FROM record\n" +
-                "                WHERE for_export = 'TRUE'\n" +
+    private double getPreviousBarometerHigh(int daysOffset) {
+        double barHigh = 0;
+        String previousBarHighSql = " SELECT MAX(barometer) " +
+                "                FROM record " +
+                "                WHERE for_export = 'TRUE' " +
                 "        AND entry_date = '" +
                 getDatestamp().minusDays(daysOffset) + "'";
 
-        SqlRowSet previousBarHighSrs= jdbcTemplate.queryForRowSet(previousBarHighSql);
-        while (previousBarHighSrs.next()){
+        SqlRowSet previousBarHighSrs = jdbcTemplate.queryForRowSet(previousBarHighSql);
+        while (previousBarHighSrs.next()) {
             barHigh = previousBarHighSrs.getDouble("max");
         }
         return barHigh;
     }
 
-    private double getPreviousBarometerLow(int daysOffset){
-        double barLow =0;
-        String previousBarLowSql = " SELECT MIN(barometer)\n" +
-                "                FROM record\n" +
-                "                WHERE for_export = 'TRUE'\n" +
+    private double getPreviousBarometerLow(int daysOffset) {
+        double barLow = 0;
+        String previousBarLowSql = " SELECT MIN(barometer) " +
+                "                FROM record " +
+                "                WHERE for_export = 'TRUE' " +
                 "        AND entry_date = '" +
                 getDatestamp().minusDays(daysOffset) + "'";
-        SqlRowSet previousBarLowSrs= jdbcTemplate.queryForRowSet(previousBarLowSql);
-        while (previousBarLowSrs.next()){
+        SqlRowSet previousBarLowSrs = jdbcTemplate.queryForRowSet(previousBarLowSql);
+        while (previousBarLowSrs.next()) {
             barLow = previousBarLowSrs.getDouble("min");
         }
         return barLow;
     }
 
-    private double getPreviousWindHigh(int daysOffset){
+    private double getPreviousWindHigh(int daysOffset) {
         double windHigh = 0;
-        String previousWindHighSql = " SELECT MAX(wind_speed)\n" +
-                "                FROM record\n" +
-                "                WHERE for_export = 'TRUE'\n" +
+        String previousWindHighSql = " SELECT MAX(wind_speed) " +
+                "                FROM record " +
+                "                WHERE for_export = 'TRUE' " +
                 "        AND entry_date = '" +
                 getDatestamp().minusDays(daysOffset) + "'";
-        SqlRowSet previousWindHighSrs= jdbcTemplate.queryForRowSet(previousWindHighSql);
-        while (previousWindHighSrs.next()){
+        SqlRowSet previousWindHighSrs = jdbcTemplate.queryForRowSet(previousWindHighSql);
+        while (previousWindHighSrs.next()) {
             windHigh = previousWindHighSrs.getDouble("max");
         }
         return windHigh;
     }
 
-    private double getAvgWindSpeed(int daysOffset){
+    private double getAvgWindSpeed(int daysOffset) {
         double windAvg = 0;
         String previousAvgWindSpeedSql = "SELECT ROUND(AVG(wind_speed),2) " +
-                " FROM record WHERE entry_date = '"+
-                getDatestamp().minusDays(daysOffset) + "'";;
-        SqlRowSet previousAvgWindSpeedSrs= jdbcTemplate.queryForRowSet(previousAvgWindSpeedSql);
-        while (previousAvgWindSpeedSrs.next()){
+                " FROM record WHERE entry_date = '" +
+                getDatestamp().minusDays(daysOffset) + "'";
+        ;
+        SqlRowSet previousAvgWindSpeedSrs = jdbcTemplate.queryForRowSet(previousAvgWindSpeedSql);
+        while (previousAvgWindSpeedSrs.next()) {
             windAvg = previousAvgWindSpeedSrs.getDouble("round");
         }
         return windAvg;
@@ -527,17 +530,18 @@ public class JdbcWeatherRecord implements WeatherRecord {
 
     /**
      * Given the name of a table header, returns the column's first entry of each hour of the past 24 hours.
+     *
      * @param tableHeader valid name of a table header
      * @return Hashmap of entry time as key, corresponding value of tableheader at entry time as value
      */
-    public HashMap<LocalDateTime, String>  getMapOfTimeAndHeaderValue(String tableHeader){
+    public HashMap<LocalDateTime, String> getMapOfTimeAndHeaderValue(String tableHeader) {
         HashMap<LocalDateTime, String> headerMap = new HashMap<>();
         LocalDateTime rightNow = LocalDateTime.now();
-
-        for (int i=0; i<25; i++){
+        if (validateHeaderName(tableHeader) == false) return headerMap;
+        for (int i = 0; i < 25; i++) {
             LocalDateTime backThen = rightNow.minusHours(i);
             String headerValByHour = getSqlDataByHeader(backThen, tableHeader);
-            if (tableHeader.equalsIgnoreCase("barometer")){
+            if (tableHeader.equalsIgnoreCase("barometer")) {
                 headerValByHour += getBarTrendDescription(backThen);
             }
             LocalDateTime adjustedTime = backThen.with(ChronoField.MINUTE_OF_HOUR, 0).truncatedTo(ChronoUnit.MINUTES);
@@ -550,60 +554,72 @@ public class JdbcWeatherRecord implements WeatherRecord {
     /**
      * Returns a value of a table header when given a time. Because some table headers may contain
      * blank rows, sql query specifies whether the table header is in LOOP1 or LOOP2 data.
+     *
      * @param dateTime
      * @param headerName
      * @return table header value
      */
-    private String getSqlDataByHeader(LocalDateTime dateTime, String headerName){
+    private String getSqlDataByHeader(LocalDateTime dateTime, String headerName) {
         LocalDate searchDate = LocalDate.from(dateTime);
         LocalTime searchTime = LocalTime.from(dateTime);
         int searchHour = searchTime.getHour();
         double headerVal = 0;
         StringBuilder previousHeaderDataSql = new StringBuilder(
-         "SELECT " + headerName + ", entry_time " +
-                "FROM record " +
-                "WHERE (EXTRACT (hour FROM entry_time))= " + searchHour + " " +
-                "AND entry_date = '" +  searchDate + "' ") ;
-        if(headerNameInLoop2(headerName)){
+                "SELECT " + headerName + ", entry_time " +
+                        "FROM record " +
+                        "WHERE (EXTRACT (hour FROM entry_time))= " + searchHour + " " +
+                        "AND entry_date = '" + searchDate + "' ");
+        if (headerNameInLoop2(headerName)) {
             previousHeaderDataSql.append("AND packet_type = '1' ");
-        } else{
+        } else {
             previousHeaderDataSql.append("AND packet_type = '0' ");
         }
-            previousHeaderDataSql.append("ORDER by entry_time " +
-                    "LIMIT 1");
+        previousHeaderDataSql.append("ORDER by entry_time " +
+                "LIMIT 1");
 
         SqlRowSet previousHeaderDataSrs = jdbcTemplate.queryForRowSet(String.valueOf(previousHeaderDataSql));
-        while (previousHeaderDataSrs.next()){
+        while (previousHeaderDataSrs.next()) {
             headerVal = previousHeaderDataSrs.getDouble(1);
         }
         return Double.toString(headerVal);
     }
 
-    private String getBarTrendDescription(LocalDateTime dateTime){
+    private String getBarTrendDescription(LocalDateTime dateTime) {
         String barTrendStr = getSqlDataByHeader(dateTime, "bar_trend");
-        int barTrendInt = (int)Double.parseDouble(barTrendStr);
+        int barTrendInt = (int) Double.parseDouble(barTrendStr);
         String friendlyBarTrend;
-        switch (barTrendInt){
-            case -60: friendlyBarTrend = "Falling Rapidly";
+        switch (barTrendInt) {
+            case -60:
+                friendlyBarTrend = "Falling Rapidly";
                 break;
-            case -20: friendlyBarTrend = "Falling Slowly";
+            case -20:
+                friendlyBarTrend = "Falling Slowly";
                 break;
-            case 0: friendlyBarTrend = "Steady";
+            case 0:
+                friendlyBarTrend = "Steady";
                 break;
-            case 20: friendlyBarTrend = "Rising Slowly";
+            case 20:
+                friendlyBarTrend = "Rising Slowly";
                 break;
-            case 60: friendlyBarTrend = "Rising Rapidly";
+            case 60:
+                friendlyBarTrend = "Rising Rapidly";
                 break;
-            default: friendlyBarTrend = "No info";
+            default:
+                friendlyBarTrend = "No info";
                 break;
         }
 //        System.out.println("bar trend string: " + barTrendStr);
         return "  " + friendlyBarTrend;
     }
 
-
-    private boolean headerNameInLoop2(String headerName){
+    /**
+     * Contains a list of header names that are not duplicates of Loop1 header names
+     * @param headerName
+     * @return boolean
+     */
+    private boolean headerNameInLoop2(String headerName) {
         List<String> L2HeaderNames = Arrays.asList(
+                "ten_min_avg_wind_speed",
                 "two_min_avg_wind_speed",
                 "ten_min_wind_gust",
                 "wind_direction_for_the_ten_minute_wind_gust",
@@ -613,13 +629,20 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "thsw_index",
                 "last_fifteen_min_rain",
                 "last_hour_rain",
-                "last_24_hour_rain"
+                "last_24_hour_rain",
+                "day_ET",
+                "month_ET",
+                "year_ET",
+                "barometric_reduction_method",
+                "user_entered_barometric_offset",
+                "barometric_calibration_number",
+                "absolute_barometric_pressure"
         );
         return L2HeaderNames.contains(headerName);
     }
 
 
-private boolean validateHeaderName(String headerName){
+    private boolean validateHeaderName(String headerName) {
         boolean headerIsValid = false;
         String[] headerNames = {
                 "entry_date",
@@ -678,6 +701,7 @@ private boolean validateHeaderName(String headerName){
                 "last_hour_rain",
                 "last_24_hour_rain",
                 "day_ET",
+                "daily_ET",
                 "month_ET",
                 "year_ET",
                 "soil_moisture1",
@@ -691,10 +715,10 @@ private boolean validateHeaderName(String headerName){
                 "forecast_icon",
                 "transmitter_battery_status",
                 "console_battery_voltage",
-                "time_of_sunrise",
                 "barometric_reduction_method",
                 "user_entered_barometric_offset",
                 "barometric_calibration_number",
+                "barometric_sensor_raw_reading",
                 "absolute_barometric_pressure",
                 "altimeter_setting",
                 "next_ten_min_wind_speed_graph_pointer",
@@ -703,6 +727,7 @@ private boolean validateHeaderName(String headerName){
                 "next_daily_wind_speed_graph_pointer",
                 "next_minute_rain_graph_pointer",
                 "index_to_the_minute_within_an_hour",
+
                 "next_monthly_rain",
                 "next_yearly_rain",
                 "next_seasonal_rain",
@@ -727,84 +752,13 @@ private boolean validateHeaderName(String headerName){
                 "time_of_sunset",
 
         };
-        for (String header: headerNames){
-            if(header.equals(headerName)){
-                headerIsValid= true;
+        for (String header : headerNames) {
+            if (header.equals(headerName)) {
+                headerIsValid = true;
             }
         }
         return headerIsValid;
+    }
 }
 
-/*    Vars:
-
-    "entry_date",
-    "entry_time",
-	"for_export",
-    "data_source",
-    "bar_trend",
-    "packet_type",
-    "next_record",
-    "barometer",
-    "inside_temperature",
-    "inside_humidity",
-    "outside_temperature",
-    "wind_speed",
-    "ten_min_avg_wind_speed",
-    "two_min_avg_wind_speed",
-    "ten_min_wind_gust",
-    "wind_direction",
-    "wind_direction_for_the_ten_minute_wind_gust",
-    "dew_point",
-    "heat_index",
-    "wind_chill",
-    "thsw_index",
-    "extra_temperature1",
-    "extra_temperature2",
-    "extra_temperature3",
-    "extra_temperature4",
-    "extra_temperature5",
-    "extra_temperature6",
-    "extra_temperature7",
-    "soil_temperature1",
-    "soil_temperature2",
-    "soil_temperature3",
-    "soil_temperature4",
-    "leaf_temperature1",
-    "leaf_temperature2",
-    "leaf_temperature3",
-    "leaf_temperature4",
-    "outside_humidity",
-    "extra_humidity1",
-    "extra_humidity2",
-    "extra_humidity3",
-    "extra_humidity4",
-    "extra_humidity5",
-    "extra_humidity6",
-    "extra_humidity7",
-    "rain_rate",
-    "uv",
-    "solar_radiation",
-    "storm_rain",
-    "start_date_of_current_storm",
-    "day_rain",
-    "month_rain",
-    "year_rain",
-    "last_fifteen_min_rain",
-    "last_hour_rain",
-    "last_24_hour_rain",
-    "day_ET",
-    "month_ET",
-    "year_ET",
-    "soil_moisture1",
-    "soil_moisture2",
-    "soil_moisture3",
-    "soil_moisture4",
-    "leaf_wetness1",
-    "leaf_wetness2",
-    "leaf_wetness3",
-    "leaf_wetness4",
-    "forecast_icon"
-
-    end vars*/
-}
 

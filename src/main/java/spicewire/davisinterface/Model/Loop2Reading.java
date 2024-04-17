@@ -1,8 +1,5 @@
 package spicewire.davisinterface.Model;
 
-import spicewire.davisinterface.Dao.JdbcWeatherRecord;
-import spicewire.davisinterface.Dao.WeatherRecord;
-
 import java.time.LocalDate;
 
 /**
@@ -40,7 +37,7 @@ public class Loop2Reading implements DataRecord {
     private double dailyRain;
     private double last15MinRain;
     private double lastHourRain;
-    private double dayET;
+    private double dailyET;
     private double last24HourRain;
     private int barometricReductionMethod;
     private int userEnteredBarometricOffset;
@@ -88,7 +85,7 @@ public class Loop2Reading implements DataRecord {
         this.dailyRain = setDayRain();
         this.last15MinRain = setLast15MinRain();
         this.lastHourRain = setLastHourRain();
-        this.dayET = setDailyET();
+        this.dailyET = setDailyET();
         this.last24HourRain = setLast24HourRain();
         this.barometricReductionMethod = setBarometricReductionMethod();
         this.userEnteredBarometricOffset = setUserEnteredBarometricOffset();
@@ -494,8 +491,8 @@ public class Loop2Reading implements DataRecord {
         return lastHourRain;
     }
 
-    public double getDayET() {
-        return dayET;
+    public double getDailyET() {
+        return dailyET;
     }
 
     public double getLast24HourRain() {
