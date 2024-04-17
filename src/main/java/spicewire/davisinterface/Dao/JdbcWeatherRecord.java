@@ -636,7 +636,20 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "barometric_reduction_method",
                 "user_entered_barometric_offset",
                 "barometric_calibration_number",
-                "absolute_barometric_pressure"
+                "absolute_barometric_pressure",
+                "barometric_sensor_raw_reading",
+                "absolute_barometric_pressure",
+                "altimeter_setting",
+                "next_ten_min_wind_speed_graph_pointer",
+                "next_fifteen_min_wind_speed_graph_pointer",
+                "next_hourly_wind_speed_graph_pointer",
+                "next_daily_wind_speed_graph_pointer",
+                "next_minute_rain_graph_pointer",
+                "next_rain_storm_graph_pointer",
+                "index_to_the_minute_within_an_hour",
+                "next_monthly_rain",
+                "next_yearly_rain",
+                "next_seasonal_rain"
         );
         return L2HeaderNames.contains(headerName);
     }
@@ -726,8 +739,8 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "next_hourly_wind_speed_graph_pointer",
                 "next_daily_wind_speed_graph_pointer",
                 "next_minute_rain_graph_pointer",
+                "next_rain_storm_graph_pointer",
                 "index_to_the_minute_within_an_hour",
-
                 "next_monthly_rain",
                 "next_yearly_rain",
                 "next_seasonal_rain",

@@ -91,6 +91,8 @@ public class Loop2Reading implements DataRecord {
         this.userEnteredBarometricOffset = setUserEnteredBarometricOffset();
         this.barometricCalibrationNumber = setBarometricCalibrationNumber();
         this.barometricSensorRawReading = setBarometricSensorRawReading();
+        this.absoluteBarometricPressure = setAbsoluteBarometricPressure();
+        this.altimeterSetting = setAltimeterSetting();
         this.dataSource= "DavisVP2L2";
         //jdbcWeatherRecord.createRecord(this);
 //        System.out.println("Loop2Reading: Loop2 Reading object created. Inside temp is: " + getInsideTemperature());
@@ -325,6 +327,7 @@ public class Loop2Reading implements DataRecord {
     }
 
     //Bar reduction method: 0 = user offset; 1= Altimeter Setting 2=
+
     //NOAA Bar Reduction. For VP2, this will always be 2.
     private int setBarometricReductionMethod() {
         return parseBinaryNumberAtIndex(60);
@@ -349,6 +352,8 @@ public class Loop2Reading implements DataRecord {
     private int setAbsoluteBarometricPressure() {
         return parseBinaryWordsAtIndex(67);
     }
+
+    private int setAltimeterSetting(){ return parseBinaryWordsAtIndex(69);}
 
     private int setNext10MinWindSpeedGraphPointer() {
         return parseBinaryNumberAtIndex(73);
@@ -389,7 +394,6 @@ public class Loop2Reading implements DataRecord {
     private int setNextSeasonalRain() {
         return parseBinaryNumberAtIndex(82);
     }
-
 
     public int getBarTrend() {
         return barTrend;
