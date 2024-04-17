@@ -176,7 +176,8 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "altimeter_setting, next_ten_min_wind_speed_graph_pointer, next_fifteen_min_wind_speed_graph_pointer," +
                 "next_hourly_wind_speed_graph_pointer, next_daily_wind_speed_graph_pointer, " +
                 "next_minute_rain_graph_pointer, index_to_the_minute_within_an_hour, next_monthly_rain, " +
-                "next_yearly_rain, next_seasonal_rain) " +
+                "next_yearly_rain, next_seasonal_rain, " +
+                "next_rain_storm_graph_pointer) " +
                 "VALUES (?,?,?,?,?," +
                 "?,?,?,?,?," +
                 "?,?,?,?,?," +
@@ -185,7 +186,8 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "?,?,?,?,?," +
                 "?,?,?,?,?," +
                 "?,?,?,?,?," +
-                "?,?,?,?,?)";
+                "?,?,?,?,?," +
+                "?)";
         jdbcTemplate.update(loop2Sql, getDatestamp(), getTimestamp(), true, "DavisVP2L2", l2.getBarTrend(),
                 l2.getBarometer(), l2.getInsideTemperature(), l2.getInsideHumidity(), l2.getOutsideTemperature(), l2.getWindSpeed(),
                 l2.getWindDirection(), l2.getTenMinAvgWindSpeed(), l2.getTwoMinAvgWindSpeed(), l2.getTenMinWindGust(),
@@ -198,7 +200,8 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 l2.getAltimeterSetting(), l2.getNextTenMinWindSpeedGraphPointer(), l2.getNextFifteenMinWindSpeedGraphPointer(),
                 l2.getNextHourlyWindSpeedGraphPointer(), l2.getNextDailyWindSpeedGraphPointer(),
                 l2.getNextMinuteRainGraphPointer(), l2.getIndexToTheMinuteWithinAnHour(), l2.getNextMonthlyRain(),
-                l2.getNextYearlyRain(), l2.getNextSeasonalRain()
+                l2.getNextYearlyRain(), l2.getNextSeasonalRain(),
+                l2.getNextRainStormGraphPointer()
         );
 
     }
@@ -627,10 +630,11 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "heat_index",
                 "wind_chill",
                 "thsw_index",
+                "daily_rain",
                 "last_fifteen_min_rain",
                 "last_hour_rain",
                 "last_24_hour_rain",
-                "day_ET",
+                "daily_ET",
                 "month_ET",
                 "year_ET",
                 "barometric_reduction_method",
@@ -707,6 +711,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "solar_radiation",
                 "storm_rain",
                 "start_date_of_current_storm",
+                "daily_rain",
                 "day_rain",
                 "month_rain",
                 "year_rain",

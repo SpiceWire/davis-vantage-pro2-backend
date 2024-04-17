@@ -104,10 +104,6 @@ public class Loop2Reading implements DataRecord {
         this.nextYearlyRain = setNextYearlyRain();
         this.nextSeasonalRain = setNextSeasonalRain();
         this.dataSource= "DavisVP2L2";
-        //jdbcWeatherRecord.createRecord(this);
-//        System.out.println("Loop2Reading: Loop2 Reading object created. Inside temp is: " + getInsideTemperature());
-        //todo additional parameters to be added later
-
     }
 
     public Loop2Reading() {
