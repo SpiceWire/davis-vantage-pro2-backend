@@ -171,8 +171,11 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "rain_rate, uv, solar_radiation, storm_rain, start_date_of_current_storm, " +
                 "daily_rain, last_fifteen_min_rain, last_hour_rain, day_ET, last_24_hour_rain," +
                 "packet_type, barometric_reduction_method, user_entered_barometric_offset, barometric_calibration_number, " +
-                "absolute_barometric_pressure) " +
+                "absolute_barometric_pressure, " +
+                "altimeter_setting, next_ten_min_wind_speed_graph_pointer, next_fifteen_min_wind_speed_graph_pointer," +
+                "next_hourly_wind_speed_graph_pointer, next_daily_wind_speed_graph_pointer) " +
                 "VALUES (?,?,?,?,?," +
+                "?,?,?,?,?," +
                 "?,?,?,?,?," +
                 "?,?,?,?,?," +
                 "?,?,?,?,?," +
@@ -187,7 +190,10 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 l2.getRainRate(), l2.getUv(), l2.getSolarRadiation(), l2.getStormRain(), l2.getStartDateOfCurrentStorm(),
                 l2.getDayRain(), l2.getLast15MinRain(), l2.getLastHourRain(), l2.getDayET(), l2.getLast24HourRain(),
                 l2.getPacketType(), l2.getBarometricReductionMethod(), l2.getUserEnteredBarometricOffset(),
-                l2.getBarometricCalibrationNumber(), l2.getAbsoluteBarometricPressure());
+                l2.getBarometricCalibrationNumber(), l2.getAbsoluteBarometricPressure(),
+                l2.getAltimeterSetting(), l2.getNextTenMinWindSpeedGraphPointer(), l2.getNextFifteenMinWindSpeedGraphPointer(),
+                l2.getNextHourlyWindSpeedGraphPointer(), l2.getNextDailyWindSpeedGraphPointer()
+                );
 //        System.out.println("Loop2 database entry created");
     }
 
