@@ -11,6 +11,7 @@ import java.time.LocalDate;
  * the database.
  */
 
+
 public class Loop2Reading implements DataRecord {
 
     private String[] loopRecord;
@@ -36,7 +37,7 @@ public class Loop2Reading implements DataRecord {
     private Integer solarRadiation;
     private double stormRain;
     private LocalDate startDateOfCurrentStorm;
-    private double dayRain;
+    private double dailyRain;
     private double last15MinRain;
     private double lastHourRain;
     private double dayET;
@@ -84,7 +85,7 @@ public class Loop2Reading implements DataRecord {
         this.solarRadiation = setSolarRadiation();
         this.stormRain = setStormRain();
         this.startDateOfCurrentStorm = setStartDateOfCurrentStorm();
-        this.dayRain = setDayRain();
+        this.dailyRain = setDayRain();
         this.last15MinRain = setLast15MinRain();
         this.lastHourRain = setLastHourRain();
         this.dayET = setDailyET();
@@ -482,7 +483,7 @@ public class Loop2Reading implements DataRecord {
     }
 
     public double getDayRain() {
-        return dayRain;
+        return dailyRain;
     }
 
     public double getLast15MinRain() {
