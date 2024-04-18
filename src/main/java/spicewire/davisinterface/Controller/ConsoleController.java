@@ -115,7 +115,7 @@ public class ConsoleController {
 
     /**
      * Handles console testing commands from frontend. Accepts a String (a Command class word
-     * like "TEST" or "RXCHECK", implements it, and returns the result in a DTO to the View.
+     * like "TEST" or "RXCHECK"), implements it, and returns the result in a DTO to the View.
      * @param commandWord type 1 (TEST, RXTEST, RXCHECK, RECEIVERS, VER, NVER)
      * @return ViewDTO, an object that has the "text results" from the Command.
      */
@@ -138,7 +138,7 @@ public class ConsoleController {
 
     /**
      * Handles Current Data commands from the frontend. Accepts a String(a Command class word
-     * like "LOOP" or "LPS", implements it, and returns a DTO to the View.
+     * like "LOOP" or "LPS"), implements it, and returns a DTO to the View.
      * @param commandWord LOOP and LPS are implemented
      * @return ViewDTO, an object that has the "text results" from the Command.
      */
@@ -271,7 +271,7 @@ public class ConsoleController {
         return SerialPortDataCom.getPortSettings();
     }
 
-    public AggregateWeather getPreviousWeatherbyDay(Integer offset){
+    public AggregateWeather getPreviousWeatherByDay(Integer offset){
         return jdbcWeatherRecord.getPreviousWeather(offset);
     }
 
