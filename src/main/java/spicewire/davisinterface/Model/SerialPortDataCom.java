@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 @Component
 @Service
-public class Seriall {
+public class SerialPortDataCom {
  /*    Note:resetting the serial port settings forces a readSerial event.
      The SerialPort object has no constructors in the Fazecast.jSerialComm.SerialPort model.
      The SerialPort object is assigned to a communications port, and then properties can be set.*/

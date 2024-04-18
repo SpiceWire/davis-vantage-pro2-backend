@@ -36,7 +36,7 @@ public class ConsoleController {
 
     public static  BasicDataSource dataSource = new BasicDataSource();
     @Autowired
-    private Seriall serialModel = new Seriall();
+    private SerialPortDataCom serialModel = new SerialPortDataCom();
     @Autowired
     private ComsPanes view = new ComsPanes();
     private Command command = new Command();  //todo is this really needed here? Or at all?
@@ -44,12 +44,12 @@ public class ConsoleController {
     private final Logger logger = Logger.getLogger(ConsoleController.class.getName());
 
 
-    public ConsoleController(Seriall serialModel, JdbcWeatherRecord jdbcWeatherRecord) {
+    public ConsoleController(SerialPortDataCom serialModel, JdbcWeatherRecord jdbcWeatherRecord) {
 //        System.out.println("Console controller started.");
         this.serialModel = serialModel;
 
         this.jdbcWeatherRecord = jdbcWeatherRecord;
-        Seriall.getSerialPortList();
+        SerialPortDataCom.getSerialPortList();
 //        System.out.println("Console controller started.");
         listenerFromController();
         System.out.println();
@@ -236,7 +236,7 @@ public class ConsoleController {
      * @return String
      */
     public static SerialStatus getCommPortSettings() {
-        return Seriall.getPortSettings();
+        return SerialPortDataCom.getPortSettings();
     }
 
     /**
@@ -268,7 +268,7 @@ public class ConsoleController {
      * @return SerialStatus DTO with params filled out by Serial class.
      */
     public SerialStatus getSerialPortSettings(){
-        return Seriall.getPortSettings();
+        return SerialPortDataCom.getPortSettings();
     }
 
     public AggregateWeather getPreviousWeatherbyDay(Integer offset){
