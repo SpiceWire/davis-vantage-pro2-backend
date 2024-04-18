@@ -1,6 +1,8 @@
 package spicewire.davisinterface.Controller;
 
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spicewire.davisinterface.Model.AggregateWeather;
 
@@ -18,6 +20,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/record")
 public class RecordRestController {
+    //todo implement ResponseEntity
     private ConsoleController consoleController;
 
     public RecordRestController(ConsoleController consoleController) {
@@ -57,10 +60,14 @@ public class RecordRestController {
      * @return serialized hashmap of past 24 hours and header value at each hour
      */
     @GetMapping(value= "/header/{headerName}")
-    private HashMap<LocalDateTime, String> headerData24Hours(@PathVariable String headerName){
-        System.out.println("Console received request for 24 hours of hourly data in a category " +
-                "called " + headerName);
+    private ResponseEntity headerData(@PathVariable String headerName){
         HashMap<LocalDateTime, String> headerMap = consoleController.get24HoursOfHeaderData(headerName);
-       return headerMap;
+        if(headerMap.isEmpty()){
+            return ResponseEntity
+                    .status(HttpStatus.NOT_IMPLEMENTED)
+                    .body("There was no table header named " + headerName);
+        }
+        return new ResponseEntity(headerMap, HttpStatus.OK);
     }
+    
 }
