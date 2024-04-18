@@ -550,7 +550,6 @@ public class JdbcWeatherRecord implements WeatherRecord {
             LocalDateTime adjustedTime = backThen.with(ChronoField.MINUTE_OF_HOUR, 0).truncatedTo(ChronoUnit.MINUTES);
             headerMap.put(adjustedTime, headerValByHour);
         }
-
         return headerMap;
     }
 

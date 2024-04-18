@@ -6,6 +6,7 @@ import spicewire.davisinterface.Model.AggregateWeather;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class maps frontend requests for weather records. It can handle
@@ -59,7 +60,7 @@ public class RecordRestController {
     private HashMap<LocalDateTime, String> headerData24Hours(@PathVariable String headerName){
         System.out.println("Console received request for 24 hours of hourly data in a category " +
                 "called " + headerName);
-
-        return consoleController.get24HoursOfHeaderData(headerName);
+        HashMap<LocalDateTime, String> headerMap = consoleController.get24HoursOfHeaderData(headerName);
+       return headerMap;
     }
 }
