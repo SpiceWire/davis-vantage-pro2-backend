@@ -8,7 +8,7 @@ It implements:
 * A custom binary parser to convert binary weather data to human-readable information
 * CRC (Cyclic Redundancy Check) of binary information whenever applicable
 * Scheduled, regular polling of the VP2 to collect weather data
-* JDBC interface for a persistant PostgreSQL database of all weather data
+* JDBC interface for a persistent PostgreSQL database of all weather data
 * Apache Tomcat webserver for API
 * Custom REST API with endpoints
 * Transactions with the United States Census Bureau Geocoder API to get the latitude and longitude of a given address
