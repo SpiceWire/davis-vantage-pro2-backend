@@ -1,5 +1,6 @@
 package spicewire.davisinterface.Dao;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.commons.text.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
@@ -14,9 +15,7 @@ import java.time.LocalTime;
 
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 import static java.time.LocalTime.now;
@@ -547,6 +546,9 @@ public class JdbcWeatherRecord implements WeatherRecord {
             if (tableHeader.equalsIgnoreCase("barometer")) {
                 headerValByHour += getBarTrendDescription(backThen);
             }
+            if (tableHeader.equalsIgnoreCase("wind_speed")) {
+                headerValByHour += getWindDirections(backThen);
+            }
             LocalDateTime adjustedTime = backThen.with(ChronoField.MINUTE_OF_HOUR, 0).truncatedTo(ChronoUnit.MINUTES);
             headerMap.put(adjustedTime, headerValByHour);
         }
@@ -580,6 +582,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "LIMIT 1");
 
         SqlRowSet previousHeaderDataSrs = jdbcTemplate.queryForRowSet(String.valueOf(previousHeaderDataSql));
+        CaseUtils.toCamelCase
         while (previousHeaderDataSrs.next()) {
             headerVal = previousHeaderDataSrs.getDouble(1);
         }
@@ -613,6 +616,22 @@ public class JdbcWeatherRecord implements WeatherRecord {
 //        System.out.println("bar trend string: " + barTrendStr);
         return "  " + friendlyBarTrend;
     }
+
+    /**
+     * Gets wind direction in degrees from database, converts degrees to closest 16 point compass direction;
+     * @param dateTime of windDirection data
+     * @return windDirection data converted to closest 16 point compass direction
+     */
+    private String getWindDirections(LocalDateTime dateTime) {
+        String windDirection = getSqlDataByHeader(dateTime, "wind_direction");
+        Double windDirectionInt = Double.parseDouble(windDirection);
+//        int windDirectionInt = Integer.valueOf(windDirection);
+        String[] dirArray = new String[]{"N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW",
+                "NW","NNW","N"};
+        int indexOfDirection = (int)Math.floor((windDirectionInt + 11.25)/22.5);
+        return "  " + dirArray[indexOfDirection];
+        }
+
 
     /**
      * Contains a list of header names that are not duplicates of Loop1 header names

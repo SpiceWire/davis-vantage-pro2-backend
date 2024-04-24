@@ -32,6 +32,7 @@ public class ForecastRestController {
     //todo implement hourly forecast
     //todo implement weather alerts
     //todo deliver weather alarms
+    //todo deliver air quality info
     //todo validate POST latLon
 
     /**
