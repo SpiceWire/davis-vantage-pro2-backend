@@ -15,7 +15,8 @@ It implements:
 * Transactions with the United States Weather Service API for latitude and longitude-based forecasts
 * Local cache of default address for faster forecast delivery
 * SpringBoot and Spring annotations
-* Separate database of weather alarms.
+* Separate database of weather alarms
+* [JSerialComm](https://fazecast.github.io/jSerialComm/) library for serial communications
 
   ## API Endpoints
   ### Weather
