@@ -8,7 +8,7 @@ It implements:
 * A custom binary parser to convert binary weather data to human-readable information
 * CRC (Cyclic Redundancy Check) of binary information whenever applicable
 * Scheduled, regular polling of the VP2 to collect weather data
-* JDBC interface for a persistent PostgreSQL database of all weather data
+* JDBC interface for a persistent PostgreSQL database of all weather station data
 * Apache Tomcat webserver for API
 * Custom REST API with endpoints
 * Transactions with the United States Census Bureau Geocoder API to get the latitude and longitude of a given address
@@ -127,7 +127,7 @@ All variables related to Current Weather (listed above) are stored in the databa
 | --- | --- | --- | 
 | time_of_sunrise | rain_alarms | barometric_reduction_method |
 | time_of_sunset | inside_alarms  | user_entered_barometric_offset |
-| transmitter_battery_status |outside_alarms (1-2) | barometric_calibration_number |
+| transmitter_battery_status | outside_alarms (1-2) | barometric_calibration_number |
 | console_battery_voltage | soil_leaf_alarms (1-4) | barometric_sensor_raw_reading |
 | forecast_rule_number  | extra_temp_hum_alarms (1-7) | altimeter_setting |
 | index_to_the_minute_within_an_hour | outside_humidity_alarms |   absolute_barometric_pressure  |
