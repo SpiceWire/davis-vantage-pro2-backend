@@ -1,8 +1,8 @@
-#DavisBackend
+# DavisBackend
 
 Backend interface for Davis Vantage Pro 2 Weather Station.
 
-This project allows owners of a Davis Vantage Pro 2 to access, store, view and use weather data collected
+This project allows owners of a Davis Vantage Pro 2 weather station to access, store, view and use weather data collected
 by the DavisVP2. It aligns with the technical specifications and protocols of the manufacturer's  [Serial Communication Reference Manual](https://support.davisinstruments.com/article/rbzgl0rh6k-vantage-pro-pro-2-and-vue-communications-reference-2-6-1-any-os).
  It is designed to run locally on a secured network. 
 
@@ -12,9 +12,9 @@ It implements:
 * Scheduled, regular polling of the VP2 to collect weather data
 * JDBC interface for a persistent PostgreSQL database of all weather station data
 * Apache Tomcat webserver for API
-* Custom REST API with endpoints
-* Transactions with the United States Census Bureau Geocoder API to get the latitude and longitude of a given address
-* Transactions with the United States Weather Service API for latitude and longitude-based forecasts
+* Custom REST API with JSON formatting and numerous endpoints 
+* Transactions with the United States Census Bureau [Geocoder API](https://geocoding.geo.census.gov/geocoder/) to get the latitude and longitude of a given address
+* Transactions with the United States' [National Weather Service API](https://www.weather.gov/documentation/services-web-api) for latitude and longitude-based forecasts
 * Local cache of default address for faster forecast delivery
 * SpringBoot and Spring annotations
 * Separate database of weather alarms
