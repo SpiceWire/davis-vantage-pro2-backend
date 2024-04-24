@@ -29,7 +29,10 @@ public class ForecastRestController {
     private final String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
     private final String addressPath = rootPath + "address.properties";
 
-    //todo implement hourly forecast and weather alerts
+    //todo implement hourly forecast
+    //todo implement weather alerts
+    //todo deliver weather alarms
+    //todo validate POST latLon
 
     /**
      * Returns address and forecasts for default location in properties file.
@@ -43,10 +46,15 @@ public class ForecastRestController {
         return makeResponseFromAddress(defaultAddress);
     }
 
+    /**
+     * Returns forecasts for a given latitude and longitude provided as a String value
+     * separated by comma.
+     * @param addressMap
+     * @return
+     */
     @PostMapping(value = "/latLon")
     private ResponseEntity postForecastOfLatLon(@RequestBody Map<String, String> addressMap) {
         String latLon = addressMap.get("latLon");
-
         StreetAddress address = new StreetAddress();
         address.setLatLon(latLon);
         return makeResponseFromAddress(address);
@@ -55,7 +63,6 @@ public class ForecastRestController {
 
     @PostMapping(value = "/address")
     private ResponseEntity postForecastOfAddress(@RequestBody Map<String, String> addressMap) {
-
         StreetAddress address = getLatitudeAndLongitudeFromAddress(addressMap);
         return makeResponseFromAddress(address);
     }
@@ -109,7 +116,6 @@ public class ForecastRestController {
             JsonNode jsonNode = objectMapper.readTree(rawApiResult);
             longitude = jsonNode.get("result").findValue("x").asText();
             latitude = jsonNode.get("result").findValue("y").asText();
-
             latLon = latitude + "," + longitude;
             addressMap.put("latLon", latLon);
             addressMap.put("latitude", latitude);

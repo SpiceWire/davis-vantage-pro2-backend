@@ -103,27 +103,6 @@ public class ViewDTO {
         this.currentDataEvalText = currentDataEvalText;
     }
 
-//    /**
-//     * Uses an index number to include an error message to the this.
-//     * Index is:       0 WRONG_TYPE,
-//     *                 1 UNKNOWN_TYPE,
-//     *                 2 WRONG_PARAMS,
-//     *                 3 NO_CONNECTION,
-//     *                 4 UNKNOWN,
-//     * @param errorNumber
-//     * @return
-//     */
-//    public  String getErrorMessage(int errorNumber){
-//        String[] errorMsgAry = new String[] {
-//                WRONG_TYPE,
-//                UNKNOWN_TYPE,
-//                WRONG_PARAMS,
-//                NO_CONNECTION,
-//                UNKNOWN,
-//        };
-//        return errorMsgAry[errorNumber];
-//    }
-
     public String getTestingRawText() {
         return testingRawText;
     }
