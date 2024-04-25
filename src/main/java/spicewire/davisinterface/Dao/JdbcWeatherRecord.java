@@ -1,12 +1,13 @@
 package spicewire.davisinterface.Dao;
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.apache.commons.text.*;
+import org.apache.commons.text.CaseUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import spicewire.davisinterface.DavisinterfaceApplication;
 import spicewire.davisinterface.Model.*;
 
+import java.lang.invoke.TypeDescriptor;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -582,7 +583,9 @@ public class JdbcWeatherRecord implements WeatherRecord {
                 "LIMIT 1");
 
         SqlRowSet previousHeaderDataSrs = jdbcTemplate.queryForRowSet(String.valueOf(previousHeaderDataSql));
-        CaseUtils.toCamelCase
+        String classParamName = CaseUtils.toCamelCase(headerName,false,new char[]{'_'});
+
+
         while (previousHeaderDataSrs.next()) {
             headerVal = previousHeaderDataSrs.getDouble(1);
         }
