@@ -569,7 +569,7 @@ public class JdbcWeatherRecord implements WeatherRecord {
         LocalDate searchDate = LocalDate.from(dateTime);
         LocalTime searchTime = LocalTime.from(dateTime);
         int searchHour = searchTime.getHour();
-        double headerVal = 0;
+        String headerVal = "";
         StringBuilder previousHeaderDataSql = new StringBuilder(
                 "SELECT " + headerName + ", entry_time " +
                         "FROM record " +
@@ -587,9 +587,9 @@ public class JdbcWeatherRecord implements WeatherRecord {
 
 
         while (previousHeaderDataSrs.next()) {
-            headerVal = previousHeaderDataSrs.getDouble(1);
+            headerVal = previousHeaderDataSrs.getString(1);
         }
-        return Double.toString(headerVal);
+        return headerVal;
     }
 
     /**
@@ -621,6 +621,9 @@ public class JdbcWeatherRecord implements WeatherRecord {
 
     private String getBarTrendDescription(LocalDateTime dateTime) {
         String barTrendStr = getSqlDataByHeader(dateTime, "bar_trend");
+        if(barTrendStr.isEmpty()){
+            return "null";
+        }
         int barTrendInt = (int) Double.parseDouble(barTrendStr);
         String friendlyBarTrend;
         switch (barTrendInt) {
@@ -653,6 +656,9 @@ public class JdbcWeatherRecord implements WeatherRecord {
      */
     private String getWindDirections(LocalDateTime dateTime) {
         String windDirection = getSqlDataByHeader(dateTime, "wind_direction");
+        if(windDirection.isEmpty()){
+            return "null";
+        }
         Double windDirectionInt = Double.parseDouble(windDirection);
         String[] dirArray = new String[]{"N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW",
                 "NW","NNW","N"};
