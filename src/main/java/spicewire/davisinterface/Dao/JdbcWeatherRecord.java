@@ -541,7 +541,6 @@ public class JdbcWeatherRecord implements WeatherRecord {
         HashMap<LocalDateTime, String> headerMap = new HashMap<>();
         LocalDateTime rightNow = LocalDateTime.now();
         if (validateHeaderName(tableHeader) == false) return headerMap;
-        System.out.println("header " + tableHeader + " is class type " + getClassType(tableHeader));
         for (int i = 0; i < 25; i++) {
             LocalDateTime backThen = rightNow.minusHours(i);
             String headerValByHour = getSqlDataByHeader(backThen, tableHeader);
@@ -592,31 +591,6 @@ public class JdbcWeatherRecord implements WeatherRecord {
         return headerVal;
     }
 
-    /**
-     * Given the name of a header, returns the data type
-     * @param headerName
-     * @return
-     */
-    private String getClassType(String headerName){
-        String classParamName = CaseUtils.toCamelCase(headerName,false,new char[]{'_'});
-        Class classType = Double.class;
-        if(headerNameInLoop2(headerName)){
-            try {
-                classType = Loop2Reading.class.getDeclaredField(classParamName).getType();
-            }
-            catch(Exception e) {
-                System.out.println("header name not found in Loop2Reading");
-            }
-        } else {
-            try {
-                classType = Loop1Reading.class.getDeclaredField(classParamName).getType();
-            }
-            catch(Exception e) {
-                System.out.println("header name not found in Loop1Reading");
-            }
-        }
-       return classType.getName().toLowerCase();
-    }
 
 
     private String getBarTrendDescription(LocalDateTime dateTime) {
