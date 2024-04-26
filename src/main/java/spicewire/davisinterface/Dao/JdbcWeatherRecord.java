@@ -591,12 +591,10 @@ public class JdbcWeatherRecord implements WeatherRecord {
         return headerVal;
     }
 
-
-
     private String getBarTrendDescription(LocalDateTime dateTime) {
         String barTrendStr = getSqlDataByHeader(dateTime, "bar_trend");
         if(barTrendStr.isEmpty()){
-            return "null";
+            return "no data";
         }
         int barTrendInt = (int) Double.parseDouble(barTrendStr);
         String friendlyBarTrend;
