@@ -4,7 +4,7 @@ Backend interface for Davis Vantage Pro 2 weather station.
 
 This project allows owners of a Davis Vantage Pro 2 weather station to access, store, view and use weather data collected
 by the DavisVP2. It aligns with the technical specifications and protocols of the manufacturer's  [Serial Communication Reference Manual](https://support.davisinstruments.com/article/rbzgl0rh6k-vantage-pro-pro-2-and-vue-communications-reference-2-6-1-any-os).
- It is designed to run locally on a secured network. Users need physical access to the Davis Vantage Pro 2 console and a Davos datalogger (or equivalent).
+ It is designed to run locally on a secured network. Users need physical access to the Davis Vantage Pro 2 console and a Davos datalogger (or equivalent). The companion [Davis Frontend](https://github.com/SpiceWire/davis-vantage-pro2-frontend} uses this project's endpoints. 
 
 It implements:
 * A custom binary parser to convert binary weather data to human-readable information
