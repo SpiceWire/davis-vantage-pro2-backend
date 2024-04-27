@@ -1,6 +1,6 @@
 # Davis Vantage Pro2 Backend
 
-Backend interface for Davis Vantage Pro 2 weather station.
+Backend interface for Davis Vantage Pro2 weather station.
 
 This project allows owners of a Davis Vantage Pro 2 weather station to access, store, view and use weather data collected
 by the DavisVP2. It aligns with the technical specifications and protocols of the manufacturer's  [Serial Communication Reference Manual](https://support.davisinstruments.com/article/rbzgl0rh6k-vantage-pro-pro-2-and-vue-communications-reference-2-6-1-any-os).
