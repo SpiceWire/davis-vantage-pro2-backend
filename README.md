@@ -1,4 +1,4 @@
-# Davis Backend
+# Davis Vantage Pro2 Backend
 
 Backend interface for Davis Vantage Pro 2 weather station.
 
